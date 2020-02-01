@@ -1,7 +1,76 @@
-<ul>
-  <% @players.each do |play| %>
-    <li><%= play["temporaryDisplayName"] %></li>
-  <% end %>
-</ul>
+<main role="main" class="container">
+  <div class="col custom-table-width">
+    <table class="table table-hover table-sm">
+      <thead>
+        <tr class="pd-1">
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Team</th>
+          <th scope="col">Pos</th>
+          <th scope="col">g</th>
+          <th scope="col">m/g</th>
+          <th scope="col">p/g</th>
+          <th scope="col">3/g</th>
+          <th scope="col">a/g</th>
+          <th scope="col">s/g</th>
+          <th scope="col">b/g</th>
+          <th scope="col">fg%</th>
+          <th scope="col">ft%</th>
+          <th scope="col">dr/g</th>
+          <th scope="col">or/g</th>
+          <th scope="col">pf/g</th>
+          <th scope="col">to/g</th>
+          <th scope="col">pV</th>
+          <th scope="col">3V</th>
+          <th scope="col">aV</th>
+          <th scope="col">sV</th>
+          <th scope="col">bV</th>
+          <th scope="col">fg%V</th>
+          <th scope="col">ft%V</th>
+          <th scope="col">drV</th>
+          <th scope="col">orV</th>
+          <th scope="col">pfV</th>
+          <th scope="col">toV</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @players.each do |play| %>
+          <% if play.stat.points >= 0 && play.stat.gamesPlayed >0 %>
+          <tr class="pd-1">
+            <th scope="row">1</th>
+            <td><%= play.name %></td>
+            <td><%= play.team.tricode %></td>
+            <td><%= play.pos %></td>
+            <td><%= play.stat.gamesPlayed %></td>
+            <td><%= per_game(play.stat.min, play.stat.gamesPlayed) %></td>
+            <td><%= per_game(play.stat.points, play.stat.gamesPlayed) %></td>
+            <td><%= per_game(play.stat.tpm, play.stat.gamesPlayed) %></td>
+            <td><%= per_game(play.stat.assists, play.stat.gamesPlayed) %></td>
+            <td><%= per_game(play.stat.steals, play.stat.gamesPlayed) %></td>
+            <td><%= per_game(play.stat.blocks, play.stat.gamesPlayed) %></td>
+            <td><%= per_game(play.stat.fgm, play.stat.fga) %></td>
+            <td><%= per_game(play.stat.ftm, play.stat.fta) %></td>
+            <td><%= per_game(play.stat.defReb, play.stat.gamesPlayed) %></td>
+            <td><%= per_game(play.stat.offReb, play.stat.gamesPlayed) %></td>
+            <td><%= per_game(play.stat.pFouls, play.stat.gamesPlayed) %></td>
+            <td><%= per_game(play.stat.turnovers, play.stat.gamesPlayed) %></td>
+            <td><%= for_value(play.stat.points, @point_sum) %></td>
+            <td><%= for_value(play.stat.tpm, @tpm_sum) %></td>
+            <td><%= for_value(play.stat.assists, @assists_sum) %></td>
+            <td><%= for_value(play.stat.steals, @steals_sum) %></td>
+            <td><%= for_value(play.stat.blocks, @blocks_sum) %></td>
+            <td>0</td>
+            <td>0</td>
+            <td><%= for_value(play.stat.offReb, @offReb_sum) %></td>
+            <td><%= for_value(play.stat.defReb, @defReb_sum) %></td>
+            <td><%= for_value(play.stat.pFouls, @pFouls_sum) %></td>
+            <td><%= for_value(play.stat.turnovers, @turnovers_sum) %></td>
+          </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</main>
 
 

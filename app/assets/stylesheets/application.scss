@@ -15,4 +15,51 @@
  */
 
 
-@import "bootstrap/scss/bootstrap"
+@import "bootstrap/scss/bootstrap";
+
+$grid-gutter-width: 30px;
+
+.custom-table-width {
+  overflow-x: auto;
+  margin-right: $grid-gutter-width / 2;     // 利用 margin 推回去原本 padding 的空間
+  margin-left: $grid-gutter-width / 2;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.table {
+  table-layout: fixed;   // 表格和欄寬將根據所給定的寬度來顯示
+  min-width: 1440px;     // 避免因寬度不足而字疊在一起（根據表格內容設定寬度）
+}
+
+table {
+  th, tr {
+    font-size: 14px;
+  }
+}
+
+// 流水號 #
+thead th:first-child,
+tbody td:first-child {
+  width: 2em;
+}
+
+// name
+thead th:nth-child(2),
+tbody td:nth-child(2) {
+  width: 13em;
+}
+
+// team pos
+thead th:nth-child(3),
+tbody td:nth-child(3),
+thead th:nth-child(5),
+tbody td:nth-child(5),
+thead th:nth-child(4),
+tbody td:nth-child(4) {
+  width: 3em;
+}
+
+body {
+  min-height: 75rem;
+}
