@@ -9,6 +9,28 @@ module ApplicationHelper
   end
 
   def for_value(value, total)
-    value.fdiv(total).round(4)
+    v = (value.fdiv(total) *100).round(2)
+    for_rank_value(v)
+    return v
+  end
+
+  def for_free_throw(value, total, t_value, t_total)
+    v = for_free_field(value, total).fdiv(for_free_field(t_value, t_total)).round(2)
+    for_rank_value(v)
+    return v
+  end
+
+  def for_field_goal(value, total, t_value, t_total)
+    v = for_free_field(value, total).fdiv(for_free_field(t_value, t_total)).round(2)
+    for_rank_value(v)
+    return v
+  end
+
+  def for_free_field(value, total)
+    (value.fdiv(total) *100).round(2)
+  end
+
+  def for_rank_value(value)
+    @rank_value += value
   end
 end

@@ -11,5 +11,14 @@ class PlayersController < ApplicationController
     @defReb_sum = @stats.where('"defReb" >= 0').sum("defReb")
     @turnovers_sum = @stats.where('turnovers >= 0').sum("turnovers")
     @pFouls_sum = @stats.where('"pFouls" >= 0').sum("pFouls")
+
+    #出手數
+    @fga_sum = @stats.where('fga >= 0').sum("fga")
+    @fgm_sum = @stats.where('fgm >= 0').sum("fgm")
+
+    #總罰球數
+    @fta_sum = @stats.where('fta >= 0').sum("fta")
+    @ftm_sum = @stats.where('ftm >= 0').sum("ftm")
+
   end
 end
