@@ -16,8 +16,8 @@
           <th scope="col">b/g</th>
           <th scope="col">fg%</th>
           <th scope="col">ft%</th>
-          <th scope="col">dr/g</th>
           <th scope="col">or/g</th>
+          <th scope="col">dr/g</th>
           <th scope="col">pf/g</th>
           <th scope="col">to/g</th>
           <th scope="col">pV</th>
@@ -27,47 +27,46 @@
           <th scope="col">bV</th>
           <th scope="col">fg%V</th>
           <th scope="col">ft%V</th>
-          <th scope="col">drV</th>
           <th scope="col">orV</th>
+          <th scope="col">drV</th>
           <th scope="col">pfV</th>
           <th scope="col">toV</th>
           <th scope="col">rank</th>
         </tr>
       </thead>
       <tbody>
-        <% @players.each do |play| %>
-          <% @rank_value = 0 %>
-          <% if play.stat.points >= 0 && play.stat.gamesPlayed >0 %>
+        <% @players.to_a.sort_by{|p| p.rank_value}.reverse.each.with_index do |player, index| %>
+          <% if player.stat.points >= 0 && player.stat.games_played >0 %>
             <tr class="pd-1">
-              <th scope="row">1</th>
-              <td><%= play.name %></td>
-              <td><%= play.team.tricode %></td>
-              <td><%= play.pos %></td>
-              <td><%= play.stat.gamesPlayed %></td>
-              <td><%= per_game(play.stat.min, play.stat.gamesPlayed) %></td>
-              <td><%= per_game(play.stat.points, play.stat.gamesPlayed) %></td>
-              <td><%= per_game(play.stat.tpm, play.stat.gamesPlayed) %></td>
-              <td><%= per_game(play.stat.assists, play.stat.gamesPlayed) %></td>
-              <td><%= per_game(play.stat.steals, play.stat.gamesPlayed) %></td>
-              <td><%= per_game(play.stat.blocks, play.stat.gamesPlayed) %></td>
-              <td><%= per_game(play.stat.fgm, play.stat.fga) %></td>
-              <td><%= per_game(play.stat.ftm, play.stat.fta) %></td>
-              <td><%= per_game(play.stat.defReb, play.stat.gamesPlayed) %></td>
-              <td><%= per_game(play.stat.offReb, play.stat.gamesPlayed) %></td>
-              <td><%= per_game(play.stat.pFouls, play.stat.gamesPlayed) %></td>
-              <td><%= per_game(play.stat.turnovers, play.stat.gamesPlayed) %></td>
-              <td><%= for_value(play.stat.points, @point_sum) %></td>
-              <td><%= for_value(play.stat.tpm, @tpm_sum) %></td>
-              <td><%= for_value(play.stat.assists, @assists_sum) %></td>
-              <td><%= for_value(play.stat.steals, @steals_sum) %></td>
-              <td><%= for_value(play.stat.blocks, @blocks_sum) %></td>
-              <td><%= for_field_goal(play.stat.fgm, play.stat.fga, @fgm_sum, @fga_sum) %></td>
-              <td><%= for_free_throw(play.stat.ftm, play.stat.fta, @ftm_sum, @fta_sum) %></td>
-              <td><%= for_value(play.stat.offReb, @offReb_sum) %></td>
-              <td><%= for_value(play.stat.defReb, @defReb_sum) %></td>
-              <td><%= for_value(play.stat.pFouls, @pFouls_sum) %></td>
-              <td><%= for_value(play.stat.turnovers, @turnovers_sum) %></td>
-              <td><%= @rank_value.round(2) %></td>
+              <th scope="row"><%= index + 1  %></th>
+              <td><%= player.name %></td>
+              <td><%= player.team.tricode %></td>
+              <td><%= player.pos %></td>
+              <td><%= player.stat.games_played %></td>
+              <td><%= player.stat.min_per_game %></td>
+              <td><%= player.stat.points_per_game %></td>
+              <td><%= player.stat.three_per_game %></td>
+              <td><%= player.stat.assists_per_game %></td>
+              <td><%= player.stat.steals_per_game %></td>
+              <td><%= player.stat.blocks_per_game %></td>
+              <td><%= player.stat.field_goal_percentage %></td>
+              <td><%= player.stat.free_throw_percentage %></td>
+              <td><%= player.stat.off_reb_per_game %></td>
+              <td><%= player.stat.def_reb_per_game %></td>
+              <td><%= player.stat.p_fouls_per_game %></td>
+              <td><%= player.stat.turnovers_per_game %></td>
+              <td><%= player.value.points_value %></td>
+              <td><%= player.value.three_point_value %></td>
+              <td><%= player.value.assists_value %></td>
+              <td><%= player.value.steals_value %></td>
+              <td><%= player.value.blocks_value %></td>
+              <td><%= player.value.field_goal_value %></td>
+              <td><%= player.value.free_throw_value %></td>
+              <td><%= player.value.off_reb_value %></td>
+              <td><%= player.value.def_reb_value %></td>
+              <td><%= player.value.turnovers_value %></td>
+              <td><%= player.value.p_fouls_value %></td>
+              <td><%= player.rank_value.round(2)  %></td>
             </tr>
           <% end %>
         <% end %>

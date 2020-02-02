@@ -1,6 +1,6 @@
 desc "新增球員，不重複新增"
 namespace :nba do
-  task :update_player => :environment do
+  task :player => :environment do
     api_players = Nba.all_players
     players = Player.all
 
@@ -13,8 +13,12 @@ namespace :nba do
 
         if player["isActive"] && has_player.nil?
           Player.create(name: name, personId: player["personId"], team_id: team.id, pos: player["pos"], inj: false)
+
+          puts "create player name: " + name
         elsif player["isActive"]
           has_player.update(name: name, personId: player["personId"], team_id: team.id, pos: player["pos"], inj: false)
+
+          puts "update player name: " + name
         end
 
       end
