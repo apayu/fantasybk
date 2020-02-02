@@ -35,7 +35,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @players.take(150).to_a.sort_by{|p| p.rank_value}.reverse.each.with_index do |player, index| %>
+        <% @players.to_a.sort_by{|p| p.rank_value}.reverse.take(150).each.with_index do |player, index| %>
           <tr class="pd-1">
             <th scope="row"><%= index + 1  %></th>
             <td><%= player.name %></td>
