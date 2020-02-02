@@ -35,40 +35,38 @@
         </tr>
       </thead>
       <tbody>
-        <% @players.to_a.sort_by{|p| p.rank_value}.reverse.each.with_index do |player, index| %>
-          <% if player.stat.points >= 0 && player.stat.games_played >0 %>
-            <tr class="pd-1">
-              <th scope="row"><%= index + 1  %></th>
-              <td><%= player.name %></td>
-              <td><%= player.team.tricode %></td>
-              <td><%= player.pos %></td>
-              <td><%= player.stat.games_played %></td>
-              <td><%= player.stat.min_per_game %></td>
-              <td><%= player.stat.points_per_game %></td>
-              <td><%= player.stat.three_per_game %></td>
-              <td><%= player.stat.assists_per_game %></td>
-              <td><%= player.stat.steals_per_game %></td>
-              <td><%= player.stat.blocks_per_game %></td>
-              <td><%= player.stat.field_goal_percentage %></td>
-              <td><%= player.stat.free_throw_percentage %></td>
-              <td><%= player.stat.off_reb_per_game %></td>
-              <td><%= player.stat.def_reb_per_game %></td>
-              <td><%= player.stat.p_fouls_per_game %></td>
-              <td><%= player.stat.turnovers_per_game %></td>
-              <td><%= player.value.points_value %></td>
-              <td><%= player.value.three_point_value %></td>
-              <td><%= player.value.assists_value %></td>
-              <td><%= player.value.steals_value %></td>
-              <td><%= player.value.blocks_value %></td>
-              <td><%= player.value.field_goal_value %></td>
-              <td><%= player.value.free_throw_value %></td>
-              <td><%= player.value.off_reb_value %></td>
-              <td><%= player.value.def_reb_value %></td>
-              <td><%= player.value.turnovers_value %></td>
-              <td><%= player.value.p_fouls_value %></td>
-              <td><%= player.rank_value.round(2)  %></td>
-            </tr>
-          <% end %>
+        <% @players.take(150).to_a.sort_by{|p| p.rank_value}.reverse.each.with_index do |player, index| %>
+          <tr class="pd-1">
+            <th scope="row"><%= index + 1  %></th>
+            <td><%= player.name %></td>
+            <td><%= player.team.tricode %></td>
+            <td><%= player.pos %></td>
+            <td><%= player.stat.games_played %></td>
+            <td><%= player.stat.min_per_game %></td>
+            <td><%= player.stat.points_per_game %></td>
+            <td><%= player.stat.three_per_game %></td>
+            <td><%= player.stat.assists_per_game %></td>
+            <td><%= player.stat.steals_per_game %></td>
+            <td><%= player.stat.blocks_per_game %></td>
+            <td><%= player.stat.field_goal_percentage %></td>
+            <td><%= player.stat.free_throw_percentage %></td>
+            <td><%= player.stat.off_reb_per_game %></td>
+            <td><%= player.stat.def_reb_per_game %></td>
+            <td><%= player.stat.p_fouls_per_game %></td>
+            <td><%= player.stat.turnovers_per_game %></td>
+            <td><%= player.value.points_value %></td>
+            <td><%= player.value.three_point_value %></td>
+            <td><%= player.value.assists_value %></td>
+            <td><%= player.value.steals_value %></td>
+            <td><%= player.value.blocks_value %></td>
+            <td><%= player.value.field_goal_value %></td>
+            <td><%= player.value.free_throw_value %></td>
+            <td><%= player.value.off_reb_value %></td>
+            <td><%= player.value.def_reb_value %></td>
+            <td><%= player.value.turnovers_value %></td>
+            <td><%= player.value.p_fouls_value %></td>
+            <td><%= player.rank_value.round(2)  %></td>
+          </tr>
         <% end %>
       </tbody>
     </table>

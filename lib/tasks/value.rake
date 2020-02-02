@@ -1,36 +1,62 @@
+require './lib/z_score'
 desc "更新球員價值"
 namespace :nba do
   task :value => :environment do
-    players = Player.all
+    condition = "games_played > 40"
 
-    point_total = League.first.point_total
-    three_point_total = League.first.three_point_total
-    assists_total = League.first.assists_total
-    steals_total = League.first.steals_total
-    blocks_total = League.first.blocks_total
-    field_goal_avg = League.first.field_goal_avg
-    free_throw_avg = League.first.free_throw_avg
-    off_reb_total = League.first.off_reb_total
-    def_reb_total = League.first.def_reb_total
-    turnovers_total = League.first.turnovers_total
-    p_fouls_total = League.first.p_fouls_total
+    points_avg = ZScore.league_avg(:points, condition)
+    points_standard_deviation = ZScore.standard_deviation("points", condition)
+
+    three_point_avg = ZScore.league_avg(:tpa, condition)
+    three_point_standard_deviation = ZScore.standard_deviation("tpa", condition)
+
+    assists_avg = ZScore.league_avg(:assists, condition)
+    assists_standard_deviation = ZScore.standard_deviation("assists", condition)
+
+    steals_avg = ZScore.league_avg(:steals, condition)
+    steals_standard_deviation = ZScore.standard_deviation("steals", condition)
+
+    steals_avg = ZScore.league_avg(:steals, condition)
+    steals_standard_deviation = ZScore.standard_deviation("steals", condition)
+
+    blocks_avg = ZScore.league_avg(:blocks, condition)
+    blocks_standard_deviation = ZScore.standard_deviation("blocks", condition)
+
+    field_goal_percentage_avg = ZScore.league_avg(:field_goal_percentage, condition)
+    field_goal_percentage_standard_deviation = ZScore.standard_deviation("field_goal_percentage", condition)
+
+    free_throw_percentage_avg = ZScore.league_avg(:free_throw_percentage, condition)
+    free_throw_percentage_standard_deviation = ZScore.standard_deviation("free_throw_percentage", condition)
+
+    off_reb_avg = ZScore.league_avg(:off_reb, condition)
+    off_reb_standard_deviation = ZScore.standard_deviation("off_reb", condition)
+
+    def_reb_avg = ZScore.league_avg(:def_reb, condition)
+    def_reb_standard_deviation = ZScore.standard_deviation("def_reb", condition)
+
+    turnovers_avg = ZScore.league_avg(:turnovers, condition)
+    turnovers_standard_deviation = ZScore.standard_deviation("turnovers", condition)
+
+    p_fouls_avg = ZScore.league_avg(:p_fouls, condition)
+    p_fouls_standard_deviation = ZScore.standard_deviation("p_fouls", condition)
+
+    players = Player.all
 
     Value.transaction do
       players.each do |player|
         player_old_value = Value.find_by(player_id: player.id)
 
-        points_value = (player.stat.points.fdiv(point_total) *100).round(2)
-        three_point_value = (player.stat.tpa.fdiv(three_point_total) *100).round(2)
-        assists_value = (player.stat.assists.fdiv(assists_total) *100).round(2)
-        steals_value = (player.stat.steals.fdiv(steals_total) *100).round(2)
-        blocks_value = (player.stat.blocks.fdiv(blocks_total) *100).round(2)
-        field_goal_value = player.stat.field_goal_percentage.fdiv(field_goal_avg).round(2)
-        free_throw_value = player.stat.free_throw_percentage.fdiv(free_throw_avg).round(2)
-        off_reb_value = (player.stat.off_reb.fdiv(off_reb_total) *100).round(2)
-        def_reb_value = (player.stat.def_reb.fdiv(def_reb_total) *100).round(2)
-        turnovers_value = (player.stat.turnovers.fdiv(turnovers_total) *100).round(2)
-        p_fouls_value = (player.stat.p_fouls.fdiv(p_fouls_total) *100).round(2)
-
+        points_value = ZScore.get_zscore(player.stat.points, points_avg, points_standard_deviation)
+        three_point_value = ZScore.get_zscore(player.stat.tpa, three_point_avg, three_point_standard_deviation)
+        assists_value = ZScore.get_zscore(player.stat.assists, assists_avg, assists_standard_deviation)
+        steals_value = ZScore.get_zscore(player.stat.steals, steals_avg, steals_standard_deviation)
+        blocks_value = ZScore.get_zscore(player.stat.blocks, blocks_avg, blocks_standard_deviation)
+        field_goal_value = ZScore.get_zscore(player.stat.field_goal_percentage, field_goal_percentage_avg, field_goal_percentage_standard_deviation)
+        free_throw_value = ZScore.get_zscore(player.stat.free_throw_percentage, free_throw_percentage_avg, free_throw_percentage_standard_deviation)
+        off_reb_value = ZScore.get_zscore(player.stat.off_reb, off_reb_avg, off_reb_standard_deviation)
+        def_reb_value = ZScore.get_zscore(player.stat.def_reb, def_reb_avg, def_reb_standard_deviation)
+        turnovers_value = ZScore.get_zscore(player.stat.turnovers, turnovers_avg, turnovers_standard_deviation)
+        p_fouls_value = ZScore.get_zscore(player.stat.p_fouls, p_fouls_avg, p_fouls_standard_deviation)
 
         if player_old_value
           player_old_value.update(
