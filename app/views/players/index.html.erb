@@ -1,7 +1,7 @@
 <main role="main" class="container">
   <div class="col custom-table-width">
     <table class="table table-hover table-sm">
-      <thead>
+      <thead class="thead-dark">
         <tr class="pd-1">
           <th scope="col">#</th>
           <th scope="col">Name</th>
@@ -31,7 +31,6 @@
           <th scope="col">drV</th>
           <th scope="col">pfV</th>
           <th scope="col">toV</th>
-          <th scope="col">rank</th>
         </tr>
       </thead>
       <tbody>
@@ -54,18 +53,17 @@
             <td><%= player.stat.def_reb_per_game %></td>
             <td><%= player.stat.p_fouls_per_game %></td>
             <td><%= player.stat.turnovers_per_game %></td>
-            <td><%= player.value.points_value %></td>
-            <td><%= player.value.three_point_value %></td>
-            <td><%= player.value.assists_value %></td>
-            <td><%= player.value.steals_value %></td>
-            <td><%= player.value.blocks_value %></td>
-            <td><%= player.value.field_goal_value %></td>
-            <td><%= player.value.free_throw_value %></td>
-            <td><%= player.value.off_reb_value %></td>
-            <td><%= player.value.def_reb_value %></td>
-            <td><%= player.value.turnovers_value %></td>
-            <td><%= player.value.p_fouls_value %></td>
-            <td><%= player.rank_value.round(2)  %></td>
+            <td class="pa-value"><%= player.value.points_value %></td>
+            <td class="pa-value"><%= player.value.three_point_value %></td>
+            <td class="pa-value"><%= player.value.assists_value %></td>
+            <td class="pa-value"><%= player.value.steals_value %></td>
+            <td class="pa-value"><%= player.value.blocks_value %></td>
+            <td class="pa-value"><%= player.value.field_goal_value %></td>
+            <td class="pa-value"><%= player.value.free_throw_value %></td>
+            <td class="pa-value"><%= player.value.off_reb_value %></td>
+            <td class="pa-value"><%= player.value.def_reb_value %></td>
+            <td class="pa-value"><%= player.value.turnovers_value %></td>
+            <td class="pa-value"><%= player.value.p_fouls_value %></td>
           </tr>
         <% end %>
       </tbody>
