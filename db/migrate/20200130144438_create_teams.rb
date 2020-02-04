@@ -1,12 +1,12 @@
 class CreateTeams < ActiveRecord::Migration[6.0]
   def change
     create_table :teams do |t|
-      t.integer :teamId
+      t.integer :api_team_id
       t.string :city
-      t.string :fullName
+      t.string :full_name
       t.string :tricode
-      t.string :confName
-      t.string :divName
+      t.string :conf_name
+      t.string :div_name
 
       t.timestamps
     end

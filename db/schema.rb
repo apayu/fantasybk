@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2020_02_01_143423) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.integer "personId"
+    t.integer "api_person_id"
     t.bigint "team_id", null: false
     t.string "name"
     t.string "pos"
@@ -85,12 +85,12 @@ ActiveRecord::Schema.define(version: 2020_02_01_143423) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.integer "teamId"
+    t.integer "api_team_id"
     t.string "city"
-    t.string "fullName"
+    t.string "full_name"
     t.string "tricode"
-    t.string "confName"
-    t.string "divName"
+    t.string "conf_name"
+    t.string "div_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

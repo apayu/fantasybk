@@ -1,3 +1,28 @@
+<%= form_tag(conditions_players_path, method: "post") do %>
+  <%= check_box_tag("conditions[]", "points", @value_item.include?("points") ) %>
+  <%= label_tag("points", "得分") %>
+  <%= check_box_tag("conditions[]", "three_point", @value_item.include?("three_point") ) %>
+  <%= label_tag("three_point", "三分") %>
+  <%= check_box_tag("conditions[]", "assists", @value_item.include?("assists") ) %>
+  <%= label_tag("assists", "助攻") %>
+  <%= check_box_tag("conditions[]", "steals", @value_item.include?("steals") ) %>
+  <%= label_tag("steals", "抄截") %>
+  <%= check_box_tag("conditions[]", "blocks", @value_item.include?("blocks") ) %>
+  <%= label_tag("blocks", "火鍋") %>
+  <%= check_box_tag("conditions[]", "field_goal", @value_item.include?("field_goal") ) %>
+  <%= label_tag("field_goal", "命中率") %>
+  <%= check_box_tag("conditions[]", "free_throw", @value_item.include?("free_throw") ) %>
+  <%= label_tag("free_throw", "罰球率") %>
+  <%= check_box_tag("conditions[]", "off_reb", @value_item.include?("off_reb") ) %>
+  <%= label_tag("off_reb", "進攻籃板") %>
+  <%= check_box_tag("conditions[]", "def_reb", @value_item.include?("def_reb") ) %>
+  <%= label_tag("def_reb", "防守籃板") %>
+  <%= check_box_tag("conditions[]", "turnovers", @value_item.include?("turnovers") ) %>
+  <%= label_tag("turnovers", "失誤") %>
+  <%= check_box_tag("conditions[]", "p_fouls", @value_item.include?("p_fouls") ) %>
+  <%= label_tag("p_fouls", "犯規") %>
+  <%= submit_tag "確定" %>
+<% end  %>
 <main role="main" class="container">
   <div class="col custom-table-width">
     <table class="table table-hover table-sm">
@@ -9,17 +34,6 @@
           <th scope="col">Pos</th>
           <th scope="col">g</th>
           <th scope="col">m/g</th>
-          <th scope="col">p/g</th>
-          <th scope="col">3/g</th>
-          <th scope="col">a/g</th>
-          <th scope="col">s/g</th>
-          <th scope="col">b/g</th>
-          <th scope="col">fg%</th>
-          <th scope="col">ft%</th>
-          <th scope="col">or/g</th>
-          <th scope="col">dr/g</th>
-          <th scope="col">pf/g</th>
-          <th scope="col">to/g</th>
           <th scope="col">pV</th>
           <th scope="col">3V</th>
           <th scope="col">aV</th>
@@ -31,28 +45,29 @@
           <th scope="col">drV</th>
           <th scope="col">pfV</th>
           <th scope="col">toV</th>
+          <th scope="col">p/g</th>
+          <th scope="col">3/g</th>
+          <th scope="col">a/g</th>
+          <th scope="col">s/g</th>
+          <th scope="col">b/g</th>
+          <th scope="col">fg%</th>
+          <th scope="col">ft%</th>
+          <th scope="col">or/g</th>
+          <th scope="col">dr/g</th>
+          <th scope="col">pf/g</th>
+          <th scope="col">to/g</th>
+          <th scope="col">v</th>
         </tr>
       </thead>
       <tbody>
-        <% @players.to_a.sort_by{|p| p.rank_value}.reverse.take(150).each.with_index do |player, index| %>
+        <% @players.sort_by{|p| p.rank_value}.reverse.take(150).each.with_index do |player, index| %>
           <tr class="pd-1">
             <th scope="row"><%= index + 1  %></th>
-            <td><%= player.name %></td>
+            <td><%= link_to player.name, player_path(player.api_person_id) %></td>
             <td><%= player.team.tricode %></td>
             <td><%= player.pos %></td>
             <td><%= player.stat.games_played %></td>
             <td><%= player.stat.min_per_game %></td>
-            <td><%= player.stat.points_per_game %></td>
-            <td><%= player.stat.three_per_game %></td>
-            <td><%= player.stat.assists_per_game %></td>
-            <td><%= player.stat.steals_per_game %></td>
-            <td><%= player.stat.blocks_per_game %></td>
-            <td><%= player.stat.field_goal_percentage %></td>
-            <td><%= player.stat.free_throw_percentage %></td>
-            <td><%= player.stat.off_reb_per_game %></td>
-            <td><%= player.stat.def_reb_per_game %></td>
-            <td><%= player.stat.p_fouls_per_game %></td>
-            <td><%= player.stat.turnovers_per_game %></td>
             <td class="pa-value"><%= player.value.points_value %></td>
             <td class="pa-value"><%= player.value.three_point_value %></td>
             <td class="pa-value"><%= player.value.assists_value %></td>
@@ -64,6 +79,18 @@
             <td class="pa-value"><%= player.value.def_reb_value %></td>
             <td class="pa-value"><%= player.value.turnovers_value %></td>
             <td class="pa-value"><%= player.value.p_fouls_value %></td>
+            <td><%= player.stat.points_per_game %></td>
+            <td><%= player.stat.three_per_game %></td>
+            <td><%= player.stat.assists_per_game %></td>
+            <td><%= player.stat.steals_per_game %></td>
+            <td><%= player.stat.blocks_per_game %></td>
+            <td><%= player.stat.field_goal_percentage %></td>
+            <td><%= player.stat.free_throw_percentage %></td>
+            <td><%= player.stat.off_reb_per_game %></td>
+            <td><%= player.stat.def_reb_per_game %></td>
+            <td><%= player.stat.p_fouls_per_game %></td>
+            <td><%= player.stat.turnovers_per_game %></td>
+            <td><%= player.rank_value.round(2) %></td>
           </tr>
         <% end %>
       </tbody>

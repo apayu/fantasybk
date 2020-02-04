@@ -5,10 +5,10 @@ namespace :nba do
 
     Team.transaction do
       api_teams.each do |team|
-        old_team = Team.find_by(teamId: team["teamId"])
+        old_team = Team.find_by(api_team_id: team["teamId"])
 
         if team["isNBAFranchise"] && old_team.nil?
-          Team.create(teamId: team["teamId"], city: team["city"], fullName: team["fullName"], tricode: team["tricode"], confName: team["confName"], divName: team["divName"])
+          Team.create(api_team_id: team["teamId"], city: team["city"], full_name: team["fullName"], tricode: team["tricode"], conf_name: team["confName"], div_name: team["divName"])
 
           puts "create team: " + team["fullName"]
         end

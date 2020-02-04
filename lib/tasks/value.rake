@@ -69,8 +69,8 @@ namespace :nba do
             free_throw_value: free_throw_value,
             off_reb_value: off_reb_value,
             def_reb_value: def_reb_value,
-            turnovers_value: turnovers_value,
-            p_fouls_value: p_fouls_value
+            turnovers_value: (turnovers_value * -1),
+            p_fouls_value: (p_fouls_value * -1)
           )
           puts "update player name: " + player.name
         else
@@ -85,8 +85,8 @@ namespace :nba do
             free_throw_value: free_throw_value,
             off_reb_value: off_reb_value,
             def_reb_value: def_reb_value,
-            turnovers_value: turnovers_value,
-            p_fouls_value: p_fouls_value
+            turnovers_value: (turnovers_value * -1),
+            p_fouls_value: (p_fouls_value * -1)
           )
 
           puts "create player name: " + player.name

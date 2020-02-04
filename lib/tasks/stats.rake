@@ -23,7 +23,7 @@ namespace :nba do
     Stat.transaction do
       players.each do |player|
 
-        player_stats = Nba.player_stats("2019",player.personId.to_s)
+        player_stats = Nba.player_stats("2019",player.api_person_id.to_s)
         player_old_stats = Stat.find_by(player_id: player.id)
 
         #處理負數問題

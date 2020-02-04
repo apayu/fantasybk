@@ -1,3 +1,8 @@
 Rails.application.routes.draw do
-  resources :players
+  root "players#index"
+  resources :players, param: :api_person_id do
+    collection do
+      post :conditions
+    end
+  end
 end
