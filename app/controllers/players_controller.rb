@@ -3,6 +3,7 @@ class PlayersController < ApplicationController
   def index
     @value_item = ["points", "three_point", "assists", "steals", "blocks", "field_goal", "free_throw", "off_reb", "def_reb", "turnovers", "p_fouls"]
 
+    # rank value 條件
     if session[:search_conditions].nil?
       session[:search_conditions] = @value_item
     else
@@ -11,6 +12,7 @@ class PlayersController < ApplicationController
 
     @players = Player.includes(:value, :team, :stat).where("stats.games_played > 0").references(:stats)
 
+    # 計算 rank value
     @players.to_a.each do |p|
       p.rank_value = get_rank_value(p.value, @value_item)
     end
@@ -25,6 +27,15 @@ class PlayersController < ApplicationController
 
   def show
     @player = Player.find_by(api_person_id:params[:api_person_id])
+  end
+
+  def search
+    if params[:search].blank?
+      redirect_to root_path
+    else
+      player = Player.find_by(name: params[:search])
+      redirect_to player_path(player.api_person_id)
+    end
   end
 
   private

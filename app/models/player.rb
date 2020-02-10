@@ -7,6 +7,7 @@ class Player < ApplicationRecord
   attr_accessor :rank_value
 
   def initialize
-    @rank_value
+    @rank_value = 0
   end
+
 end

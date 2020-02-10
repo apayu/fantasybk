@@ -17,11 +17,11 @@ namespace :nba do
 
         #有球員資料就更新，沒有就新增
         if player["isActive"] && has_player.nil?
-          Player.create(name: name, api_person_id: player["personId"], team_id: team.id, pos: player["pos"], inj: false)
+          Player.create(name: name, first_name: player["firstName"], last_name: player["lastName"], api2_team_id: team.api2_team_id, api_person_id: player["personId"], team_id: team.id, pos: player["pos"], inj: false)
 
           puts "create player name: " + name
         elsif player["isActive"]
-          has_player.update(name: name, api_person_id: player["personId"], team_id: team.id, pos: player["pos"], inj: false)
+          has_player.update(name: name, first_name: player["firstName"], last_name: player["lastName"], api2_team_id:team.api2_team_id, api_person_id: player["personId"], team_id: team.id, pos: player["pos"], inj: false)
 
           puts "update player name: " + name
         end
