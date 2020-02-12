@@ -18,5 +18,8 @@ module Fantasybk
 
     config.generators.assets = false
     config.generators.helper = false
+
+    # auto load lib
+    config.autoload_paths << "#{Rails.root}/lib"
   end
 end

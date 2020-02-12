@@ -10,10 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_10_124419) do
+ActiveRecord::Schema.define(version: 2020_02_10_153917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "game_logs", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.integer "api2_person_id"
+    t.integer "api2_game_id"
+    t.integer "points"
+    t.string "min"
+    t.integer "fgm"
+    t.integer "fga"
+    t.float "fgp"
+    t.integer "ftm"
+    t.integer "fta"
+    t.float "ftp"
+    t.integer "tpm"
+    t.integer "tpa"
+    t.float "tpp"
+    t.integer "off_reb"
+    t.integer "def_reb"
+    t.integer "tot_reb"
+    t.integer "assists"
+    t.integer "steals"
+    t.integer "blocks"
+    t.integer "turnovers"
+    t.integer "p_fouls"
+    t.string "h_team"
+    t.string "v_team"
+    t.datetime "game_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_game_logs_on_player_id"
+  end
 
   create_table "leagues", force: :cascade do |t|
     t.integer "point_total"
@@ -118,6 +149,7 @@ ActiveRecord::Schema.define(version: 2020_02_10_124419) do
     t.index ["player_id"], name: "index_values_on_player_id"
   end
 
+  add_foreign_key "game_logs", "players"
   add_foreign_key "players", "teams"
   add_foreign_key "stats", "players"
   add_foreign_key "values", "players"

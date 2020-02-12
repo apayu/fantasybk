@@ -21,8 +21,9 @@
   <%= label_tag("turnovers", "失誤") %>
   <%= check_box_tag("conditions[]", "p_fouls", @value_item.include?("p_fouls") ) %>
   <%= label_tag("p_fouls", "犯規") %>
+  <%= select_tag("time[]", options_for_select([["過去7場","game_for_7"], ["過去14場","game_for_14"]])) %>
   <%= submit_tag "確定" %>
-<% end  %>
+<% end %>
 <main role="main" class="container">
   <div class="col custom-table-width">
     <table class="table table-hover table-sm">
@@ -60,37 +61,37 @@
         </tr>
       </thead>
       <tbody>
-        <% @players.sort_by{|p| p.rank_value}.reverse.take(150).each.with_index do |player, index| %>
+        <% @players.sort_by{|p| p["rank_value"]}.reverse.take(350).each.with_index do |player, index| %>
           <tr class="pd-1">
             <th scope="row"><%= index + 1  %></th>
-            <td><%= link_to player.name, player_path(player.api_person_id) %></td>
-            <td><%= player.team.tricode %></td>
-            <td><%= player.pos %></td>
-            <td><%= player.stat.games_played %></td>
-            <td><%= player.stat.min_per_game %></td>
-            <td class="pa-value"><%= player.value.points_value %></td>
-            <td class="pa-value"><%= player.value.three_point_value %></td>
-            <td class="pa-value"><%= player.value.assists_value %></td>
-            <td class="pa-value"><%= player.value.steals_value %></td>
-            <td class="pa-value"><%= player.value.blocks_value %></td>
-            <td class="pa-value"><%= player.value.field_goal_value %></td>
-            <td class="pa-value"><%= player.value.free_throw_value %></td>
-            <td class="pa-value"><%= player.value.off_reb_value %></td>
-            <td class="pa-value"><%= player.value.def_reb_value %></td>
-            <td class="pa-value"><%= player.value.turnovers_value %></td>
-            <td class="pa-value"><%= player.value.p_fouls_value %></td>
-            <td><%= player.stat.points_per_game %></td>
-            <td><%= player.stat.three_per_game %></td>
-            <td><%= player.stat.assists_per_game %></td>
-            <td><%= player.stat.steals_per_game %></td>
-            <td><%= player.stat.blocks_per_game %></td>
-            <td><%= player.stat.field_goal_percentage %></td>
-            <td><%= player.stat.free_throw_percentage %></td>
-            <td><%= player.stat.off_reb_per_game %></td>
-            <td><%= player.stat.def_reb_per_game %></td>
-            <td><%= player.stat.p_fouls_per_game %></td>
-            <td><%= player.stat.turnovers_per_game %></td>
-            <td><%= player.rank_value.round(2) %></td>
+            <td><%= link_to player["name"], player_path(player["player_id"]) %></td>
+            <td><%= player["tricode"] %></td>
+            <td><%= player["pos"] %></td>
+            <td><%= player["g"] %></td>
+            <td><%= Time.parse(player["min"]).min %>:<%= Time.parse(player["min"]).sec %></td>
+            <td class="pa-value"><%= player["points_value"] %></td>
+            <td class="pa-value"><%= player["three_point_value"] %></td>
+            <td class="pa-value"><%= player["assists_value"] %></td>
+            <td class="pa-value"><%= player["steals_value"] %></td>
+            <td class="pa-value"><%= player["blocks_value"] %></td>
+            <td class="pa-value"><%= player["field_goal_value"] %></td>
+            <td class="pa-value"><%= player["free_throw_value"] %></td>
+            <td class="pa-value"><%= player["off_reb_value"] %></td>
+            <td class="pa-value"><%= player["def_reb_value"] %></td>
+            <td class="pa-value"><%= player["p_fouls_value"] %></td>
+            <td class="pa-value"><%= player["turnovers_value"] %></td>
+            <td><%= player["points_per_game"].to_f.round(1) %></td>
+            <td><%= player["tpm"].to_f.round(1) %></td>
+            <td><%= player["assists_per_game"].to_f.round(1) %></td>
+            <td><%= player["steals_per_game"].to_f.round(1) %></td>
+            <td><%= player["blocks_per_game"].to_f.round(1) %></td>
+            <td><%= player["fgp"].to_f.round(2) %></td>
+            <td><%= player["ftp"].to_f.round(2) %></td>
+            <td><%= player["off_reb_per_game"].to_f.round(1) %></td>
+            <td><%= player["def_reb_per_game"].to_f.round(1) %></td>
+            <td><%= player["p_fouls_per_game"].to_f.round(1) %></td>
+            <td><%= player["turnovers_per_game"].to_f.round(1) %></td>
+            <td><%= player["rank_value"].round(2) %></td>
           </tr>
         <% end %>
       </tbody>
