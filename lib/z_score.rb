@@ -1,5 +1,4 @@
-module ZScore
-
+class ZScore
   # 過去x場 球員數值 & 每場平均 condition:場次
   def self.player_value_by_game(condition)
     sql_query = "WITH
@@ -100,8 +99,8 @@ SELECT
   ((off_reb - (SELECT off_reb_avg FROM league_avg))/(SELECT off_reb_std FROM league_std)) AS off_reb_value,
   ((def_reb - (SELECT def_reb_avg FROM league_avg))/(SELECT def_reb_std FROM league_std)) AS def_reb_value,
   ((tot_reb - (SELECT tot_reb_avg FROM league_avg))/(SELECT tot_reb_std FROM league_std)) AS tot_reb_value,
-  ((turnovers - (SELECT turnovers_avg FROM league_avg))/(SELECT turnovers_std FROM league_std)) AS turnovers_value,
-  ((p_fouls - (SELECT p_fouls_avg FROM league_avg))/(SELECT p_fouls_std FROM league_std)) AS p_fouls_value,
+  ((turnovers - (SELECT turnovers_avg FROM league_avg))/(SELECT turnovers_std FROM league_std)) *-1 AS turnovers_value,
+  ((p_fouls - (SELECT p_fouls_avg FROM league_avg))/(SELECT p_fouls_std FROM league_std)) * -1 AS p_fouls_value,
   0 AS rank_value
 FROM player_info"
     result = ActiveRecord::Base.connection.execute(sql_query)

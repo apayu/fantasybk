@@ -36,6 +36,9 @@ table {
   th, tr {
     font-size: 14px;
   }
+  th, td {
+    width: 2em;
+  }
 }
 
 // 流水號 #
@@ -47,7 +50,7 @@ tbody td:first-child {
 // name
 thead th:nth-child(2),
 tbody td:nth-child(2) {
-  width: 13em;
+  width: 7em;
 }
 
 // team pos
@@ -57,7 +60,7 @@ thead th:nth-child(5),
 tbody td:nth-child(5),
 thead th:nth-child(4),
 tbody td:nth-child(4) {
-  width: 3em;
+  width: 2em;
 }
 
 body {

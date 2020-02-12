@@ -5,10 +5,11 @@ namespace :nba do
     # 依據日期尋找比賽
     # api_game_log = NbaApi.get_day_game_log(DateTime.yesterday.strftime("%F"))
 
+    # 2019-2020 game id start from 6390
     GameLog.transaction do
-      (6801 - 6501).times do |index|
+      (6901 - 6801).times do |index|
 
-        game = NbaApi.get_single_game_log(6501 + index)
+        game = NbaApi.get_single_game_log(6801 + index)
 
         # 依據比賽尋找當天出賽球員
         players_stats = NbaApi.get_player_game_log(game["gameId"])

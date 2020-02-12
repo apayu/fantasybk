@@ -1,28 +1,26 @@
 class PlayersController < ApplicationController
 
   def index
-    @value_item = ["points", "three_point", "assists", "steals", "blocks", "field_goal", "free_throw", "off_reb", "def_reb", "turnovers", "p_fouls"]
+    @user_filter = {"conditions" => ["points", "three_point", "assists", "steals", "blocks", "field_goal", "free_throw", "off_reb", "def_reb", "turnovers", "p_fouls"], "game" => 82}
 
     # rank value 條件
     if session[:search_conditions].nil?
-      session[:search_conditions] = @value_item
+      session[:search_conditions] = @user_filter
     else
-      @value_item = session[:search_conditions]
+      @user_filter = session[:search_conditions]
     end
 
-    condition = 20
-
-    @players = ZScore.player_value_by_game(condition).to_a
+    @players = ZScore.player_value_by_game(@user_filter["game"]).to_a
 
     # # 計算player value
     @players.each do |p|
-      p["rank_value"] = get_rank_value(p, @value_item)
+      p["rank_value"] = get_rank_value(p, @user_filter["conditions"])
     end
   end
 
   def conditions
     session[:search_conditions] = nil
-    session[:search_conditions] = params[:conditions]
+    session[:search_conditions] = {"conditions" => params[:conditions], "game" => params[:game]}
 
     redirect_to root_path
   end
