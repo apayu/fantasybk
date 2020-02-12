@@ -1,6 +1,6 @@
 require './lib/nba_api'
 desc "新增NBA game log"
-namespace :nba_api do
+namespace :nba do
   task :game_log => :environment do
     # 依據日期尋找比賽
     # api_game_log = NbaApi.get_day_game_log(DateTime.yesterday.strftime("%F"))

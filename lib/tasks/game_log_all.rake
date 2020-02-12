@@ -1,19 +1,21 @@
 require './lib/nba_api'
 desc "新增NBA game log 從第一場"
-namespace :nba_api do
+namespace :nba do
   task :game_log_all => :environment do
     # 依據日期尋找比賽
     # api_game_log = NbaApi.get_day_game_log(DateTime.yesterday.strftime("%F"))
 
     GameLog.transaction do
-      (6501 - 6391).times do |index|
+      (6801 - 6501).times do |index|
 
-        game = NbaApi.get_single_game_log(6391 + index)
+        game = NbaApi.get_single_game_log(6501 + index)
 
         # 依據比賽尋找當天出賽球員
         players_stats = NbaApi.get_player_game_log(game["gameId"])
 
+        puts "----------------------"
         puts "比賽: #{game["gameId"]}"
+        puts "----------------------"
 
         players_stats.each do |player|
           puts "球員: #{player["playerId"]}"

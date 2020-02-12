@@ -69,17 +69,17 @@
             <td><%= player["pos"] %></td>
             <td><%= player["g"] %></td>
             <td><%= Time.parse(player["min"]).min %>:<%= Time.parse(player["min"]).sec %></td>
-            <td class="pa-value"><%= player["points_value"] %></td>
-            <td class="pa-value"><%= player["three_point_value"] %></td>
-            <td class="pa-value"><%= player["assists_value"] %></td>
-            <td class="pa-value"><%= player["steals_value"] %></td>
-            <td class="pa-value"><%= player["blocks_value"] %></td>
-            <td class="pa-value"><%= player["field_goal_value"] %></td>
-            <td class="pa-value"><%= player["free_throw_value"] %></td>
-            <td class="pa-value"><%= player["off_reb_value"] %></td>
-            <td class="pa-value"><%= player["def_reb_value"] %></td>
-            <td class="pa-value"><%= player["p_fouls_value"] %></td>
-            <td class="pa-value"><%= player["turnovers_value"] %></td>
+            <td class="pa-value"><%= player["points_value"].to_f.round(1) %></td>
+            <td class="pa-value"><%= player["three_point_value"].to_f.round(1) %></td>
+            <td class="pa-value"><%= player["assists_value"].to_f.round(1) %></td>
+            <td class="pa-value"><%= player["steals_value"].to_f.round(1) %></td>
+            <td class="pa-value"><%= player["blocks_value"].to_f.round(1) %></td>
+            <td class="pa-value"><%= player["field_goal_value"].to_f.round(1) %></td>
+            <td class="pa-value"><%= player["free_throw_value"].to_f.round(1) %></td>
+            <td class="pa-value"><%= player["off_reb_value"].to_f.round(1) %></td>
+            <td class="pa-value"><%= player["def_reb_value"].to_f.round(1) %></td>
+            <td class="pa-value"><%= player["p_fouls_value"].to_f.round(1) %></td>
+            <td class="pa-value"><%= player["turnovers_value"].to_f.round(1) %></td>
             <td><%= player["points_per_game"].to_f.round(1) %></td>
             <td><%= player["tpm"].to_f.round(1) %></td>
             <td><%= player["assists_per_game"].to_f.round(1) %></td>
