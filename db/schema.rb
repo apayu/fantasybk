@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_112428) do
+ActiveRecord::Schema.define(version: 2020_02_13_120356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,20 @@ ActiveRecord::Schema.define(version: 2020_02_13_112428) do
     t.index ["team_id"], name: "index_players_on_team_id"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "type_type"
+    t.bigint "type_id"
+    t.string "title"
+    t.text "content"
+    t.integer "total_comment"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["type_type", "type_id"], name: "index_posts_on_type_type_and_type_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
   create_table "stats", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.integer "season_year"
@@ -131,7 +145,15 @@ ActiveRecord::Schema.define(version: 2020_02_13_112428) do
     t.integer "api2_team_id"
   end
 
+  create_table "types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
+    t.string "user_name", default: "", null: false
+    t.string "bio", default: "", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -163,6 +185,7 @@ ActiveRecord::Schema.define(version: 2020_02_13_112428) do
 
   add_foreign_key "game_logs", "players"
   add_foreign_key "players", "teams"
+  add_foreign_key "posts", "users"
   add_foreign_key "stats", "players"
   add_foreign_key "values", "players"
 end
