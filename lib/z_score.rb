@@ -1,6 +1,6 @@
 class ZScore
-  # 過去x場 球員數值 & 每場平均 condition:場次
-  def self.player_value_by_game(condition)
+  # 過去x場 球員數值 & 每場平均 game:場次
+  def self.player_value_by_game(game, player_id = 0)
     sql_query = "WITH
 league_avg_percentage AS(
   WITH game_log_by_player AS(
@@ -13,7 +13,7 @@ league_avg_percentage AS(
   SELECT
     CAST(SUM(fgm) AS FLOAT)/NULLIF(CAST(SUM(fga) AS FLOAT), 0) AS league_fgp, CAST(SUM(ftm) AS FLOAT)/NULLIF(CAST(SUM(fta) AS FLOAT), 0) AS league_ftp,       CAST(SUM(tpm) AS FLOAT)/NULLIF(CAST(SUM(tpa) AS FLOAT), 0) AS league_tpp
   FROM game_log_by_player
-  WHERE row_num <= #{condition} ),
+  WHERE row_num <=  #{ActiveRecord::Base::connection.quote(game)} ),
 league_avg AS(
   WITH player_sum AS (
     WITH each_player AS (
@@ -28,7 +28,7 @@ league_avg AS(
     SELECT
       SUM(points) AS points, SUM(tpm) AS tpm, SUM(assists) AS assists, SUM(steals) AS steals, SUM(blocks) AS blocks, SUM(off_reb) AS off_reb, SUM(def_reb) AS def_reb,  SUM(tot_reb) AS tot_reb, SUM(p_fouls) AS p_fouls, SUM(turnovers) AS turnovers
     FROM each_player
-    WHERE row_num <= #{condition}
+    WHERE row_num <= #{ActiveRecord::Base::connection.quote(game)}
     GROUP BY api2_person_id)
   SELECT
     AVG(points) AS points_avg, AVG(tpm) AS tpm_avg, AVG(assists) AS assists_avg, AVG(steals) AS steals_avg, AVG(blocks) AS blocks_avg, AVG(off_reb) AS        off_reb_avg, AVG(def_reb) AS def_reb_avg, AVG(tot_reb) AS tot_reb_avg, AVG(p_fouls) AS p_fouls_avg, AVG(turnovers) AS turnovers_avg
@@ -47,7 +47,7 @@ league_std AS (
     SELECT
       SUM(points) AS points, SUM(tpm) AS tpm, SUM(assists) AS assists, SUM(steals) AS steals, SUM(blocks) AS blocks, SUM(off_reb) AS off_reb, SUM(def_reb) AS def_reb,  SUM(tot_reb) AS tot_reb, SUM(p_fouls) AS p_fouls, SUM(turnovers) AS turnovers
     FROM each_player
-    WHERE row_num <= #{condition}
+    WHERE row_num <= #{ActiveRecord::Base::connection.quote(game)}
     GROUP BY api2_person_id)
   SELECT
     STDDEV_POP(points) AS points_std, STDDEV_POP(tpm) AS tpm_std, STDDEV_POP(assists) AS assists_std, STDDEV_POP(steals) AS steals_std, STDDEV_POP(blocks) AS blocks_std, STDDEV_POP(off_reb) AS off_reb_std, STDDEV_POP(def_reb) AS def_reb_std, STDDEV_POP(tot_reb) AS tot_reb_std, STDDEV_POP(p_fouls) AS p_fouls_std, STDDEV_POP(turnovers) AS turnovers_std
@@ -68,7 +68,7 @@ player_info AS (
         AVG(points) AS points_per_game, AVG(tpm) AS tpm_per_game, AVG(fga) AS fga_per_game, AVG(fta) AS fta_per_game, AVG(tpa) AS tpa_per_game, AVG(assists) AS assists_per_game, AVG(steals) AS steals_per_game, AVG(blocks) AS blocks_per_game, AVG(turnovers) AS turnovers_per_game, AVG(p_fouls) AS p_fouls_per_game, AVG(off_reb) AS off_reb_per_game, AVG(def_reb) AS def_reb_per_game, AVG(tot_reb) AS tot_reb_per_game,
 	    0 AS points_value, 0 AS three_point_value, 0 AS assists_value, 0 AS steals_value, 0 AS blocks_value, 0 AS field_goal_value, 0 AS free_throw_value, 0 AS off_reb_value, 0 AS def_reb_value, 0 AS turnovers_value, 0 AS p_fouls_value, 0 AS rank_value
       FROM each_player
-      WHERE row_num <= #{condition}
+      WHERE row_num <= #{ActiveRecord::Base::connection.quote(game)}
       GROUP BY player_id, api2_person_id, name, pos, inj, tricode),
 league_impact AS(
   WITH player_percentage AS(
@@ -83,7 +83,7 @@ league_impact AS(
 	(CAST(SUM(ftm) AS FLOAT)/NULLIF(CAST(SUM(fta) AS FLOAT), 0) - (SELECT league_ftp FROM league_avg_percentage)) * AVG(fta) AS ft_impact,
 	(CAST(SUM(tpm) AS FLOAT)/NULLIF(CAST(SUM(tpa) AS FLOAT), 0) - (SELECT league_tpp FROM league_avg_percentage)) * AVG(tpa) AS tp_impact
   FROM player_percentage
-  WHERE row_num <= #{condition}
+  WHERE row_num <= #{ActiveRecord::Base::connection.quote(game)}
   GROUP BY api2_person_id)
 SELECT
   player_id, api2_person_id, name, pos, inj, tricode, g, min,
@@ -102,7 +102,10 @@ SELECT
   ((turnovers - (SELECT turnovers_avg FROM league_avg))/(SELECT turnovers_std FROM league_std)) *-1 AS turnovers_value,
   ((p_fouls - (SELECT p_fouls_avg FROM league_avg))/(SELECT p_fouls_std FROM league_std)) * -1 AS p_fouls_value,
   0 AS rank_value
-FROM player_info"
+FROM player_info "
+    if player_id != 0
+      sql_query += " WHERE player_id = #{ActiveRecord::Base::connection.quote(player_id)}"
+    end
     result = ActiveRecord::Base.connection.execute(sql_query)
   end
 end

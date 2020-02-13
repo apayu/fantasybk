@@ -5,9 +5,13 @@ namespace :nba do
     # 依據日期尋找比賽
     # api_game_log = NbaApi.get_day_game_log(DateTime.yesterday.strftime("%F"))
 
-    # 查詢過去xx天
-    d = Date.today
-    30.times do |day|
+    # # 查詢過去xx天
+    # d = Date.today
+
+    # 從幾月機號 - 幾月號號
+    d = Date.new(2020, 01, 13)
+
+    13.times do |day|
       api_game_log = NbaApi.get_day_game_log((d - (day + 1)).strftime("%F"))
 
       GameLog.transaction do
@@ -15,10 +19,13 @@ namespace :nba do
           # 依據比賽尋找當天出賽球員
           players_stats = NbaApi.get_player_game_log(game["gameId"])
 
+          puts "----------------------"
+          puts (d - (day + 1)).strftime("%F")
+          puts "----------------------"
           puts "比賽: #{game["gameId"]}"
+          puts "----------------------"
 
           players_stats.each do |player|
-            puts "球員: #{player["playerId"]}"
 
             has_player = Player.find_by(api2_person_id: player["playerId"])
 
@@ -27,6 +34,7 @@ namespace :nba do
               has_game_log = GameLog.where("api2_person_id = ? AND api2_game_id = ?", player["playerId"], player["gameId"])
 
               if has_game_log.first.nil?
+
                 GameLog.create(
                   player_id: has_player.id,
                   api2_person_id: player["playerId"].to_i,
@@ -54,6 +62,7 @@ namespace :nba do
                   h_team: game["hTeam"]["shortName"],
                   v_team: game["vTeam"]["shortName"]
                 )
+                puts "新增紀錄 球員: #{player["playerId"]}"
               else
                 has_game_log.update(
                   points: player["points"].to_i,
@@ -79,6 +88,7 @@ namespace :nba do
                   h_team: game["hTeam"]["shortName"],
                   v_team: game["vTeam"]["shortName"]
                 )
+                puts "更新紀錄 球員: #{player["playerId"]}"
               end
             end
           end

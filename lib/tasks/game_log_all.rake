@@ -7,9 +7,9 @@ namespace :nba do
 
     # 2019-2020 game id start from 6390
     GameLog.transaction do
-      (6901 - 6801).times do |index|
+      (7201 - 6901).times do |index|
 
-        game = NbaApi.get_single_game_log(6801 + index)
+        game = NbaApi.get_single_game_log(6901 + index)
 
         # 依據比賽尋找當天出賽球員
         players_stats = NbaApi.get_player_game_log(game["gameId"])

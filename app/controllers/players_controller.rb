@@ -1,7 +1,7 @@
 class PlayersController < ApplicationController
 
   def index
-    @user_filter = {"conditions" => ["points", "three_point", "assists", "steals", "blocks", "field_goal", "free_throw", "off_reb", "def_reb", "turnovers", "p_fouls"], "game" => 82}
+    @user_filter = { "conditions" => ["points", "three_point", "assists", "steals", "blocks", "field_goal", "free_throw", "off_reb", "def_reb", "turnovers", "p_fouls"], "game" => 82 }
 
     # rank value 條件
     if session[:search_conditions].nil?
@@ -26,7 +26,9 @@ class PlayersController < ApplicationController
   end
 
   def show
-    @player = Player.find_by(id: params[:player_id])
+    @player = []
+    game = [7, 14, 30]
+    3.times { |index| @player << ZScore.player_value_by_game(game[index], params[:player_id]).to_a[0] }
   end
 
   def search
@@ -40,10 +42,10 @@ class PlayersController < ApplicationController
 
   private
   def get_rank_value(value, conditions)
-
     rank_value = 0
 
     conditions.each do |condition|
+
       case condition
       when "points"
         rank_value += value["points_value"].to_f
