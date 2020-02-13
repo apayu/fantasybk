@@ -24,5 +24,10 @@
     <!--   <input class="form&#45;control mr&#45;sm&#45;2" type="text" placeholder="Search" aria&#45;label="Search"> -->
     <!--   <button class="btn btn&#45;outline&#45;success my&#45;2 my&#45;sm&#45;0" type="submit">Search</button> -->
     <!-- </form> -->
+    <% if user_signed_in?  %>
+      <%= link_to "登出", destroy_user_session_path, method: "delete" %>
+    <% else %>
+      <%= link_to "登入/註冊", new_user_session_path %>
+    <% end %>
   </div>
 </nav>
