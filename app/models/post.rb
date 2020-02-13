@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :user
-  belongs_to :type
+  # belongs_to :type
 
   default_scope { where(deleted_at: nil) }
 

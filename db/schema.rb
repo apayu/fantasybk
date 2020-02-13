@@ -79,15 +79,12 @@ ActiveRecord::Schema.define(version: 2020_02_13_120356) do
 
   create_table "posts", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "type_type"
-    t.bigint "type_id"
-    t.string "title"
-    t.text "content"
-    t.integer "total_comment"
+    t.string "title", default: "", null: false
+    t.text "content", default: "", null: false
+    t.integer "total_comment", default: 0, null: false
     t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["type_type", "type_id"], name: "index_posts_on_type_type_and_type_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -143,12 +140,6 @@ ActiveRecord::Schema.define(version: 2020_02_13_120356) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "api2_team_id"
-  end
-
-  create_table "types", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
