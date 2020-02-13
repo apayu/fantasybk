@@ -21,7 +21,7 @@
   <%= label_tag("turnovers", "失誤") %>
   <%= check_box_tag("conditions[]", "p_fouls", @user_filter["conditions"].include?("p_fouls") ) %>
   <%= label_tag("p_fouls", "犯規") %>
-  <%= select_tag("game", options_for_select([["過去7場",7], ["過去14場",14], ["過去30場",30]])) %>
+  <%= select_tag("game", options_for_select([["2020球季", 82], ["過去7場",7], ["過去14場",14], ["過去30場",30]])) %>
   <%= submit_tag "確定" %>
 <% end %>
 <main role="main" class="container">

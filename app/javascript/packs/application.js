@@ -4,7 +4,6 @@
 // that code so it'll be compiled.
 
 require("@rails/ujs").start()
-require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 
@@ -19,7 +18,6 @@ require("bootstrap")
 // const imagePath = (name) => images(name, true)
 
 window.onload = function () {
-
   var player_value = document.getElementsByClassName("pa-value");
   var max;
   var min = 3
