@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'auth/:provider/callback', to: 'sessions#custom'
+
   devise_for :users
   root "players#index"
 
