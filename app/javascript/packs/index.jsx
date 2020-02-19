@@ -26,7 +26,10 @@ class Table extends React.Component {
         return response.json();
       }
     })
-    .then(response =>  this.setState({ scoreboard: response}))
+    .then(response =>
+      // this.setState({ scoreboard: response})
+      {console.log(response);}
+    )
   }
 
   renderTableHeader() {

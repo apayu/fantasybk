@@ -1,17 +1,35 @@
 class Api::V1::LeaguesController < ApplicationController
   def index
     unless  current_user.token.nil?
-      scoreboard = get_fantasy_current_matchup(current_user.token)
-      render json: scoreboard
+      league = get_fantasy_league_setting(current_user.token)
+      league_name = league["fantasy_content"]["league"]["name"]
+      league_num_teams = league["fantasy_content"]["league"]["num_teams"]
+      league_scoring_type = league["fantasy_content"]["league"]["scoring_type"]
+      league_current_week = league["fantasy_content"]["league"]["current_week"]
+      league_start_week = league["fantasy_content"]["league"]["start_week"]
+
+      scoreboard = get_fantasy_all_matchup(current_user.token, league_start_week, league_current_week)
+      render json: {
+                     league_name: league_name,
+                     league_num_teams: league_num_teams,
+                     league_start_week: league_start_week,
+                     league_current_week: league_current_week,
+                     scoreboard: scoreboard
+      }
     else
       render json: []
     end
   end
 
   private
-  def get_fantasy_current_matchup(token)
 
-    scoreboard_hash = Hash.from_xml(YahooApi.get_league_scoreboard(token, 5448).gsub("\n", ""))
+  def get_fantasy_league_setting(token)
+    Hash.from_xml(YahooApi.get_league_setting(token, 5448).gsub("\n", ""))
+  end
+
+  def get_fantasy_all_matchup(token, start_week, current_week)
+
+    scoreboard_hash = Hash.from_xml(YahooApi.get_league_scoreboard(token, 5448, start_week.to_i, current_week.to_i).gsub("\n", ""))
     league = Hash.from_xml(YahooApi.get_league_setting(token, 5448).gsub("\n", ""))
 
     stats = []
@@ -27,6 +45,7 @@ class Api::V1::LeaguesController < ApplicationController
       # 聯盟的隊伍
       m["teams"]["team"].each do |t|
         team = FantasyTeam.new
+        team.week = m["week"]
         team.name = t["name"]
         team.id = t["team_id"]
 

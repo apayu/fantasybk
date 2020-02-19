@@ -15,13 +15,13 @@ class YahooApi
       http_get_req(url, token)
     end
 
-    def get_league_scoreboard(token, league_id)
-      url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/league/395.l.#{league_id}/scoreboard")
+    def get_league_scoreboard(token, league_id, start_week, current_week)
+      url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/league/395.l.#{league_id}/scoreboard;week=#{(start_week..current_week).to_a.join(",")}")
       http_get_req(url, token)
     end
 
-    def get_team_matchups(token, league_id, team_id, week)
-      url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/team/395.l.#{league_id}.t.#{team_id}/matchups;weeks=#{week}")
+    def get_team_matchups(token, league_id, team_id)
+      url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/team/395.l.#{league_id}.t.#{team_id}/matchups")
       http_get_req(url, token)
     end
 

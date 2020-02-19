@@ -2,6 +2,15 @@
   <%= javascript_pack_tag 'index' %>
 <% end %>
 <%= @oauth["credentials"]["token"] %>
+<div>
+refresh_token
+<%= @oauth["credentials"]["refresh_token"] %>
+</div>
+<div>
+expires_at
+<%= @oauth["credentials"]["expires_at"] %>
+</div>
+<%= @oauth %>
 <br/>
 <br/>
 <br/>
@@ -41,4 +50,4 @@
 
 <% end %>
 </div>
-<p><%= @standings.to_json %></p>
+<p><%= @scoreboard.to_json %></p>
