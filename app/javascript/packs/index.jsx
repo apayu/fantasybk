@@ -60,11 +60,13 @@ class Table extends React.Component {
   }
 
   render() {
-    return (
+    const scoreboard = this.state.scoreboard;
+
+    const show_scoreboard = (
       <div>
         <h1>week 17 戰力表</h1>
-        <table class="table">
-          <tbody class="thead-dark">
+        <table className="table">
+          <tbody className="thead-dark">
             <tr>
               <th>隊伍名稱</th>
               <th>出場數(GP)</th>
@@ -83,6 +85,18 @@ class Table extends React.Component {
             {this.renderTableData()}
           </tbody>
         </table>
+      </div>
+    );
+
+    const noToken = (
+      <div>
+        取得Yahoo Fantasy 授權
+      </div>
+    );
+
+    return (
+      <div>
+        {scoreboard.length > 0 ? show_scoreboard : noToken}
       </div>
     )
   }
