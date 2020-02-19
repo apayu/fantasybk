@@ -1,15 +1,44 @@
-<%= @fuck %>
+<% content_for :head do %>
+  <%= javascript_pack_tag 'index' %>
+<% end %>
+<%= @oauth["credentials"]["token"] %>
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
-<%= @auth %>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<%= @you %>
+<p><%= @league["fantasy_content"]["league"]["name"] %></p>
+<p><%= @league["fantasy_content"]["league"]["num_teams"] %></p>
+<p><%= @league["fantasy_content"]["league"]["scoring_type"] %></p>
 
+<% @league["fantasy_content"]["league"]["settings"]["stat_categories"]["stats"]["stat"].each do |s| %>
+  <p><%= "#{s["stat_id"]} : #{s["display_name"]}" unless s.key?("is_only_display_stat") %></p>
+<% end %>
+<br/>
+<% @standings["fantasy_content"]["league"]["standings"]["teams"]["team"].each do |s| %>
+  <div>
+    name: <%= s["name"] %> id:<%= s["team_id"] %>
+    <% s["team_stats"]["stats"]["stat"].each do |ts| %>
+      <span><%= ts["stat_id"] %></span>
+      <span><%= ts["value"] %></span>
+    <% end %>
+  </div>
+
+<% end %>
+<div>
+  <div>
+   week: <%= @scoreboard["fantasy_content"]["league"]["scoreboard"]["week"] %>
+  </div>
+<% @scoreboard["fantasy_content"]["league"]["scoreboard"]["matchups"]["matchup"].each do |s| %>
+  <div>
+    <% s["teams"]["team"].each do |t| %>
+      <span><%= t["team_id"] %></span>
+      <span><%= t["name"] %></span>
+      <% t["team_stats"]["stats"]["stat"].each do |a| %>
+        <span><%= a["stat_id"] %></span>
+        <span><%= a["value"] %></span>
+      <% end %>
+    <% end %>
+  </div>
+
+<% end %>
+</div>
+<p><%= @standings.to_json %></p>

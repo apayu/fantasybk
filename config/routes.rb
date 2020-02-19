@@ -13,4 +13,12 @@ Rails.application.routes.draw do
   end
 
   resources :posts
+
+  namespace :api do
+    namespace :v1 do
+      get "leagues/index", to: "leagues#index"
+    end
+  end
+
+  resources :leagues
 end
