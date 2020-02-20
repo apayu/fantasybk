@@ -9,21 +9,33 @@ class LineChart extends React.Component {
     super(props);
     this.canvasRef = React.createRef();
     this.state = {
-      weeklyTotalValue: [
-        { week: 1, teamId: 1, teamName: "", value: 86},
-        { week: 2, teamId: 1, teamName: "", value: 61},
-        { week: 3, teamId: 1, teamName: "", value: 82},
-        { week: 4, teamId: 1, teamName: "", value: 78},
-        { week: 5, teamid: 1, teamname: "", value: 79}
+      "weeklyTotalValue": [
+      {
+        "teamId": 1,
+        "data": [
+          { "week": 1, "value": 86},
+          { "week": 2, "value": 61},
+          { "week": 3, "value": 82},
+          { "week": 4, "value": 78},
+          { "week": 5, "value": 79}
+      ]},{
+        "teamId": 2,
+        "data": [
+          { "week": 1, "value": 78},
+          { "week": 2, "value": 66},
+          { "week": 3, "value": 98},
+          { "week": 4, "value": 77},
+          { "week": 5, "value": 69}
+        ]}
       ]
     }
   }
 
-  componentDidUpdate() {
-    this.myChart.data.labels = this.props.data.map(d => d.time);
-    this.myChart.data.datasets[0].data = this.props.data.map(d => d.value);
-    this.myChart.update();
-  }
+  // componentDidUpdate() {
+  //   this.myChart.data.labels = this.props.data.map(d => d.time);
+  //   this.myChart.data.datasets[0].data = this.props.data.map(d => d.value);
+  //   this.myChart.update();
+  // }
 
   componentDidMount() {
     this.myChart = new Chart(this.canvasRef.current, {
@@ -31,14 +43,6 @@ class LineChart extends React.Component {
       options: {
 			  maintainAspectRatio: false,
         scales: {
-          xAxes: [
-            {
-              type: 'time',
-              time: {
-                unit: 'week'
-              }
-            }
-          ],
           yAxes: [
             {
               ticks: {
@@ -49,17 +53,17 @@ class LineChart extends React.Component {
         }
       },
       data: {
-        labels: this.state.weeklyTotalValue.map(d => d.week),
+        labels: this.state.weeklyTotalValue[0].data.map(d => d.week),
         datasets: [{
-          label: this.props.title,
-          data: this.state.weeklyTotalValue.map(d => d.value),
-          fill: 'none',
-          backgroundColor: this.props.color,
-          pointRadius: 2,
-          borderColor: this.props.color,
-          borderWidth: 1,
-          lineTension: 0
-        }]
+          label: "A team",
+          data: this.state.weeklyTotalValue[0].data.map(d => d.value),
+          fill: 'none'
+        },{
+          label: "B team",
+          data: this.state.weeklyTotalValue[1].data.map(d => d.value),
+          fill: 'none'
+        }
+        ]
       }
     });
   }
@@ -68,90 +72,5 @@ class LineChart extends React.Component {
     return <canvas ref={this.canvasRef} />;
   }
 }
-// class LineChart extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.chartRef = React.createRef();
-//
-//     this.state = {
-//       weeklyTotalValue: [
-//         { week: 1, teamId: 1, teamName: "", value: 86},
-//         { week: 2, teamId: 1, teamName: "", value: 61},
-//         { week: 3, teamId: 1, teamName: "", value: 82},
-//         { week: 4, teamId: 1, teamName: "", value: 78},
-//         { week: 5, teamid: 1, teamname: "", value: 79}
-//       ]
-//     }
-//   }
-//
-//   // componentdidupdate() {
-//   //   this.mychart.data.labels = this.props.data.map(d => d.time);
-//   //   this.mychart.data.datasets[0].data = this.props.data.map(d => d.value);
-//   //   this.mychart.update();
-//   // }
-//
-//   // componentdidmount() {
-//   //   this.mychart = new chart(this.chartref.current, {
-//   //     type: 'line',
-//   //     data: {
-//   //       labels: this.state.weeklyTotalValue.map(d => d.week),
-//   //       datasets: [{
-//   //         label: "2019-2020 每週戰力表",
-//   //         data: this.state.weeklyTotalValue.map(d => d.value)
-//   //       }]
-//   //     }
-//   //   })
-//   // }
-//   componentDidMount() {
-//     this.myChart = new Chart(this.canvasRef.current, {
-//       type: 'line',
-//       options: {
-// 			  maintainAspectRatio: false,
-//         scales: {
-//           xAxes: [
-//             {
-//               type: 'time',
-//               time: {
-//                 unit: 'week'
-//               }
-//             }
-//           ],
-//           yAxes: [
-//             {
-//               ticks: {
-//                 min: 0
-//               }
-//             }
-//           ]
-//         }
-//       },
-//       data: {
-//         labels: this.props.data.map(d => d.time),
-//         datasets: [{
-//           label: this.props.title,
-//           data: this.props.data.map(d => d.value),
-//           fill: 'none',
-//           backgroundColor: this.props.color,
-//           pointRadius: 2,
-//           borderColor: this.props.color,
-//           borderWidth: 1,
-//           lineTension: 0
-//         }]
-//       }
-//     });
-//   }
-//
-//   getTotalWeekValue() {
-//     console.log(this.state.weeklyTotalValue.map(d=> d.week))
-//     console.log(this.state.weeklyTotalValue.map(d=> d.value))
-//   }
-//
-//
-//   render() {
-//     this.getTotalWeekValue()
-//
-//     return <canvas ref={this.chartRef} />;
-//   }
-// }
 
 export default LineChart;
