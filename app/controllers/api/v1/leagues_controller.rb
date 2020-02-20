@@ -1,5 +1,6 @@
 class Api::V1::LeaguesController < ApplicationController
   def index
+    # 是否登入
     unless  current_user.token.nil?
       league = get_fantasy_league_setting(current_user.token)
       league_name = league["fantasy_content"]["league"]["name"]
