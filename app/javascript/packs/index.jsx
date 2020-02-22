@@ -7,6 +7,8 @@ import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
 import Table from 'components/table'
 import LineChart from 'components/lineChart'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
 
 // App
 class App extends React.Component {
@@ -49,30 +51,28 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <a className="nav-link active" href="#">戰力表</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">全年戰力</a>
-          </li>
-        </ul>
-        <Table
-          league_name = {this.state.league_name}
-          league_num_teams = {this.state.league_num_teams}
-          league_start_week = {this.state.league_start_week}
-          league_current_week = {this.state.league_current_week}
-          scoreboard = {this.state.scoreboard}
-          fetchInProgress = {this.state.fetchInProgress}
-        />
-        <div className="chart-wrapper">
-          <LineChart
-            scoreboard = {this.state.scoreboard}
-            league_start_week = {this.state.league_start_week}
-            league_current_week = {this.state.league_current_week}
-            fetchInProgress = {this.state.fetchInProgress}
-          />
-        </div>
+        <Tabs defaultActiveKey="currentWeek" id="leagueTabs">
+          <Tab eventKey="currentWeek" title="當週戰力">
+            <Table
+              league_name = {this.state.league_name}
+              league_num_teams = {this.state.league_num_teams}
+              league_start_week = {this.state.league_start_week}
+              league_current_week = {this.state.league_current_week}
+              scoreboard = {this.state.scoreboard}
+              fetchInProgress = {this.state.fetchInProgress}
+            />
+          </Tab>
+          <Tab eventKey="totalValue" title="全年戰力">
+            <div className="chart-wrapper">
+              <LineChart
+                scoreboard = {this.state.scoreboard}
+                league_start_week = {this.state.league_start_week}
+                league_current_week = {this.state.league_current_week}
+                fetchInProgress = {this.state.fetchInProgress}
+              />
+            </div>
+          </Tab>
+        </Tabs>
       </div>
     );
   }
