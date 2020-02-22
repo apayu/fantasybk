@@ -25,17 +25,7 @@ class App extends React.Component {
       // 數據板
       scoreboard: [],
       // 正在取得資料
-      fetchInProgress: true,
-      "title": "Visits",
-      "data": [
-        {
-          "time": "2019/01/01",
-          "value": 39
-        },
-        {
-          "time": "2019/01/02/",
-          "value": 60
-        }]
+      fetchInProgress: true
     }
   }
 
@@ -75,12 +65,12 @@ class App extends React.Component {
           scoreboard = {this.state.scoreboard}
           fetchInProgress = {this.state.fetchInProgress}
         />
-        <div className="main chart-wrapper">
+        <div className="chart-wrapper">
           <LineChart
-            data={this.state.data}
-            title={this.state.title}
             scoreboard = {this.state.scoreboard}
-            color="#3E517A"
+            league_start_week = {this.state.league_start_week}
+            league_current_week = {this.state.league_current_week}
+            fetchInProgress = {this.state.fetchInProgress}
           />
         </div>
       </div>

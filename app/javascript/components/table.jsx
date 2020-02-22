@@ -20,7 +20,7 @@ class Table extends React.Component {
   }
 
   renderTableData() {
-    // 選擇要秀出的 week 成績
+    // 選擇要計算的 week 成績
     let select_week_scoreboard = this.props.scoreboard.filter(x => x.week === this.props.league_current_week)
     // 建立計分板
     let scoreboard_value = JSON.parse(JSON.stringify(select_week_scoreboard))

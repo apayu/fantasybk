@@ -8,40 +8,13 @@ class LineChart extends React.Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
-    this.state = {
-      "weeklyTotalValue": [
-      {
-        "teamId": 1,
-        "data": [
-          { "week": 1, "value": 86},
-          { "week": 2, "value": 61},
-          { "week": 3, "value": 82},
-          { "week": 4, "value": 78},
-          { "week": 5, "value": 79}
-      ]},{
-        "teamId": 2,
-        "data": [
-          { "week": 1, "value": 78},
-          { "week": 2, "value": 66},
-          { "week": 3, "value": 98},
-          { "week": 4, "value": 77},
-          { "week": 5, "value": 69}
-        ]}
-      ]
-    }
   }
 
-  // componentDidUpdate() {
-  //   this.myChart.data.labels = this.props.data.map(d => d.time);
-  //   this.myChart.data.datasets[0].data = this.props.data.map(d => d.value);
-  //   this.myChart.update();
-  // }
-
-  componentDidMount() {
+  renderChart(labels, dataSets) {
     this.myChart = new Chart(this.canvasRef.current, {
       type: 'line',
       options: {
-			  maintainAspectRatio: false,
+        maintainAspectRatio: false,
         scales: {
           yAxes: [
             {
@@ -53,22 +26,96 @@ class LineChart extends React.Component {
         }
       },
       data: {
-        labels: this.state.weeklyTotalValue[0].data.map(d => d.week),
-        datasets: [{
-          label: "A team",
-          data: this.state.weeklyTotalValue[0].data.map(d => d.value),
-          fill: 'none'
-        },{
-          label: "B team",
-          data: this.state.weeklyTotalValue[1].data.map(d => d.value),
+        labels: labels,
+        datasets: dataSets
+      }
+    })
+  }
+
+  // 數值越大，分數越高
+  sortScoreboard(arr, num, to_sort) {
+    let newArray = arr.concat(num)
+
+    if(to_sort == "asc")
+      newArray.sort((a,b) => parseFloat(a)-parseFloat(b))
+    else
+      newArray.sort((a,b) => parseFloat(b)-parseFloat(a))
+
+    return newArray.indexOf(num) + 1
+  }
+
+  calculateValue() {
+    let fetchInProgress = this.props.fetchInProgress
+    let league_start_week = parseInt(this.props.league_start_week)
+    let league_current_week = parseInt(this.props.league_current_week)
+
+    if(!fetchInProgress){
+      // 建立計分板
+      let scoreboard_value = JSON.parse(JSON.stringify(this.props.scoreboard))
+
+      for(var week = league_start_week; week <= league_current_week; week++) {
+        // 選擇要計算的 week 成績
+        let select_week_scoreboard = this.props.scoreboard.filter(x => x.week == week)
+        let single_value = 0
+
+        // 算出各個項目的成績
+        // 從每一隊的第一個比項開始算
+        for(let i = 3; i <= 13; i++) {
+          let total_array = select_week_scoreboard.map(x => Object.values(x)[i])
+          let total_value = 0
+
+          // x等於各隊數據
+          select_week_scoreboard.map(x=> {
+            let value_item  = Object.keys(x)[i]
+            let c = scoreboard_value.filter( y => y.id == x.id && y.week == week)
+            //取得分數
+            if(value_item.toLowerCase() == "to" || value_item.toLowerCase() == "pf")
+              single_value = this.sortScoreboard(total_array, Object.values(x)[i], "desc")
+            else
+              single_value = this.sortScoreboard(total_array, Object.values(x)[i], "asc")
+
+            // 尋找對應的隊伍計分板
+            c[0][value_item] = single_value
+
+            // 加總到total_value
+            if (c && c[0]["total_value"]) {
+              c[0]["total_value"] = c[0]["total_value"] + single_value
+            }
+            else{
+              c[0]["total_value"] = single_value
+            }
+          })
+        }
+      }
+
+      // 餵資料
+      let totalTeamId = Object.values(scoreboard_value).map(item => item.id)
+      let totalWeek = Object.values(scoreboard_value).map(item => item.week)
+
+      // 設定週數
+      let labels = Array.from(Array(league_current_week-(league_start_week-1)),(e,i)=>i+league_start_week)
+      // 設定資料
+      let dataSets = []
+
+      let teamId = Array.from(new Set(totalTeamId))
+      teamId.map(x => {
+        let totalTeamValue = scoreboard_value.filter( y => y.id == x)
+        let dataSet = {
+          label: totalTeamValue[0].name,
+          data: totalTeamValue.map(d => d.total_value),
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgb(255, 99, 132)',
           fill: 'none'
         }
-        ]
-      }
-    });
+        dataSets.push(dataSet)
+      })
+
+      this.renderChart(labels, dataSets)
+    }
   }
 
   render() {
+    this.calculateValue()
     return <canvas ref={this.canvasRef} />;
   }
 }
