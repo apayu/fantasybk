@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
 import Chart from 'chart.js'
+import "chartjs-plugin-colorschemes"
 
 // LineChart
 class LineChart extends React.Component {
@@ -14,6 +15,11 @@ class LineChart extends React.Component {
     this.myChart = new Chart(this.canvasRef.current, {
       type: 'line',
       options: {
+        plugins: {
+          colorschemes: {
+            scheme: 'tableau.Classic20'
+          }
+        },
         maintainAspectRatio: false,
         scales: {
           yAxes: [
@@ -103,8 +109,6 @@ class LineChart extends React.Component {
         let dataSet = {
           label: totalTeamValue[0].name,
           data: totalTeamValue.map(d => d.total_value),
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
           fill: 'none'
         }
         dataSets.push(dataSet)
