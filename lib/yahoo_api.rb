@@ -25,10 +25,29 @@ class YahooApi
       http_get_req(url, token)
     end
 
+    def get_new_token(refresh_token)
+      url = URI.parse("https://api.login.yahoo.com/oauth2/get_token")
+      http_post_req(url, refresh_token)
+    end
+
     private
     def http_get_req(url, token)
       req = Net::HTTP::Get.new(url.request_uri)
       req['authorization'] = "Bearer #{token}"
+
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = (url.scheme == "https")
+
+      http.request(req).read_body
+    end
+
+    def http_post_req(url, refresh_token)
+      str = "#{Rails.application.credentials.yahoo[:client_id]}:#{Rails.application.credentials.yahoo[:client_secret]}"
+      encode_str = Base64.encode64(str).gsub("\n", "")
+
+      req = Net::HTTP::Post.new(url.request_uri)
+      req["authorization"] = "Basic #{encode_str}"
+      req.set_form_data("grant_type" => "refresh_token", "refresh_token" => refresh_token)
 
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = (url.scheme == "https")

@@ -6,6 +6,8 @@ class SessionsController < ApplicationController
     user = User.find(current_user.id)
     user.token = @oauth["credentials"]["token"]
     user.refresh_token = @oauth["credentials"]["refresh_token"]
+    user.expires_at = DateTime.strptime(@oauth["credentials"]["expires_at"].to_s,'%s')
+    byebug
 
     # 跳轉到聯盟頁
     if user.save
