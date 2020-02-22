@@ -62,26 +62,30 @@ class LineChart extends React.Component {
       for(var week = league_start_week; week <= league_current_week; week++) {
         // 選擇要計算的 week 成績
         let select_week_scoreboard = this.props.scoreboard.filter(x => x.week == week)
+        // 比項
+        let league_stats = this.props.league_stats
         let single_value = 0
 
         // 算出各個項目的成績
         // 從每一隊的第一個比項開始算
-        for(let i = 3; i <= 13; i++) {
-          let total_array = select_week_scoreboard.map(x => Object.values(x)[i])
+        for(let i = 0; i< league_stats.length; i++) {
+          let stat_name = league_stats[i].name
+          let sort_order  = league_stats[i].sort_order
+          let total_array = select_week_scoreboard.map(x => x[stat_name])
           let total_value = 0
 
           // x等於各隊數據
-          select_week_scoreboard.map(x=> {
-            let value_item  = Object.keys(x)[i]
+          select_week_scoreboard.map(x => {
             let c = scoreboard_value.filter( y => y.id == x.id && y.week == week)
+
             //取得分數
-            if(value_item.toLowerCase() == "to" || value_item.toLowerCase() == "pf")
-              single_value = this.sortScoreboard(total_array, Object.values(x)[i], "desc")
+            if(sort_order == 1)
+              single_value = this.sortScoreboard(total_array, x[stat_name], "asc")
             else
-              single_value = this.sortScoreboard(total_array, Object.values(x)[i], "asc")
+              single_value = this.sortScoreboard(total_array, x[stat_name], "desc")
 
             // 尋找對應的隊伍計分板
-            c[0][value_item] = single_value
+            c[0][stat_name] = single_value
 
             // 加總到total_value
             if (c && c[0]["total_value"]) {

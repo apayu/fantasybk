@@ -24,6 +24,8 @@ class App extends React.Component {
       league_start_week: "1",
       // 聯盟目前週數
       league_current_week: "1",
+      // 聯盟比項
+      league_stats: [],
       // 數據板
       scoreboard: [],
       // 正在取得資料
@@ -44,6 +46,7 @@ class App extends React.Component {
         league_num_teams: response.league_num_teams,
         league_start_week: response.league_start_week,
         league_current_week: response.league_current_week,
+        league_stats: response.league_stats,
         scoreboard: response.scoreboard,
         fetchInProgress: false}))
   }
@@ -58,6 +61,7 @@ class App extends React.Component {
               league_num_teams = {this.state.league_num_teams}
               league_start_week = {this.state.league_start_week}
               league_current_week = {this.state.league_current_week}
+              league_stats = {this.state.league_stats}
               scoreboard = {this.state.scoreboard}
               fetchInProgress = {this.state.fetchInProgress}
             />
@@ -65,9 +69,12 @@ class App extends React.Component {
           <Tab eventKey="totalValue" title="全年戰力">
             <div className="chart-wrapper">
               <LineChart
-                scoreboard = {this.state.scoreboard}
+                league_name = {this.state.league_name}
+                league_num_teams = {this.state.league_num_teams}
                 league_start_week = {this.state.league_start_week}
                 league_current_week = {this.state.league_current_week}
+                league_stats = {this.state.league_stats}
+                scoreboard = {this.state.scoreboard}
                 fetchInProgress = {this.state.fetchInProgress}
               />
             </div>
