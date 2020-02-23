@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
     user.token = @oauth["credentials"]["token"]
     user.refresh_token = @oauth["credentials"]["refresh_token"]
     user.expires_at = DateTime.strptime(@oauth["credentials"]["expires_at"].to_s,'%s')
-    byebug
 
     # 跳轉到聯盟頁
     if user.save
@@ -24,5 +23,7 @@ class SessionsController < ApplicationController
     # @standings = Hash.from_xml(YahooApi.get_league_standings(@oauth["credentials"]["token"], 5448).gsub("\n", ""))
     # @scoreboard = Hash.from_xml(YahooApi.get_league_scoreboard(@oauth["credentials"]["token"], 5448, s.to_i, e.to_i).gsub("\n", ""))
     # @matchups = Hash.from_xml(YahooApi.get_team_matchups(@oauth["credentials"]["token"], 5448, 1).gsub("\n", ""))
+    #
+    # @player =  Hash.from_xml(YahooApi.get_player(@oauth["credentials"]["token"], 5448).gsub("\n", ""))
   end
 end

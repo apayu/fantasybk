@@ -12,7 +12,7 @@ namespace :nba do
     # d = Date.new(2020, 01, 13)
 
     2.times do |day|
-      api_game_log = NbaApi.get_day_game_log((d - (day + 1)).strftime("%F"))
+      api_game_log = NbaApi.get_day_game_log((d - day).strftime("%F"))
 
       GameLog.transaction do
         api_game_log.each do |game|

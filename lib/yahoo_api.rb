@@ -25,6 +25,12 @@ class YahooApi
       http_get_req(url, token)
     end
 
+    def get_player(token, league_id)
+      # url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/team/395.l.#{league_id}.t.1/players")
+      url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/league/395.l.#{league_id}/players;status=A")
+      http_get_req(url, token)
+    end
+
     def get_new_token(refresh_token)
       url = URI.parse("https://api.login.yahoo.com/oauth2/get_token")
       http_post_req(url, refresh_token)

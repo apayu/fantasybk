@@ -1,102 +1,135 @@
-<%= form_tag(conditions_players_path, method: "post") do %>
-  <%= check_box_tag("conditions[]", "points", @user_filter["conditions"].include?("points") ) %>
-  <%= label_tag("points", "得分") %>
-  <%= check_box_tag("conditions[]", "three_point", @user_filter["conditions"].include?("three_point") ) %>
-  <%= label_tag("three_point", "三分") %>
-  <%= check_box_tag("conditions[]", "assists", @user_filter["conditions"].include?("assists") ) %>
-  <%= label_tag("assists", "助攻") %>
-  <%= check_box_tag("conditions[]", "steals", @user_filter["conditions"].include?("steals") ) %>
-  <%= label_tag("steals", "抄截") %>
-  <%= check_box_tag("conditions[]", "blocks", @user_filter["conditions"].include?("blocks") ) %>
-  <%= label_tag("blocks", "火鍋") %>
-  <%= check_box_tag("conditions[]", "field_goal", @user_filter["conditions"].include?("field_goal") ) %>
-  <%= label_tag("field_goal", "命中率") %>
-  <%= check_box_tag("conditions[]", "free_throw", @user_filter["conditions"].include?("free_throw") ) %>
-  <%= label_tag("free_throw", "罰球率") %>
-  <%= check_box_tag("conditions[]", "off_reb", @user_filter["conditions"].include?("off_reb") ) %>
-  <%= label_tag("off_reb", "進攻籃板") %>
-  <%= check_box_tag("conditions[]", "def_reb", @user_filter["conditions"].include?("def_reb") ) %>
-  <%= label_tag("def_reb", "防守籃板") %>
-  <%= check_box_tag("conditions[]", "turnovers", @user_filter["conditions"].include?("turnovers") ) %>
-  <%= label_tag("turnovers", "失誤") %>
-  <%= check_box_tag("conditions[]", "p_fouls", @user_filter["conditions"].include?("p_fouls") ) %>
-  <%= label_tag("p_fouls", "犯規") %>
-  <%= select_tag("game", options_for_select([["2020球季", 82], ["過去7場",7], ["過去14場",14], ["過去30場",30]])) %>
-  <%= submit_tag "確定" %>
-<% end %>
-<main role="main" class="container">
-  <div class="col custom-table-width">
-    <table class="table table-hover table-sm">
-      <thead class="thead-dark">
-        <tr class="pd-1">
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Team</th>
-          <th scope="col">Pos</th>
-          <th scope="col">g</th>
-          <th scope="col">m/g</th>
-          <th scope="col">pV</th>
-          <th scope="col">3V</th>
-          <th scope="col">aV</th>
-          <th scope="col">sV</th>
-          <th scope="col">bV</th>
-          <th scope="col">fg%V</th>
-          <th scope="col">ft%V</th>
-          <th scope="col">orV</th>
-          <th scope="col">drV</th>
-          <th scope="col">pfV</th>
-          <th scope="col">toV</th>
-          <th scope="col">p/g</th>
-          <th scope="col">3/g</th>
-          <th scope="col">a/g</th>
-          <th scope="col">s/g</th>
-          <th scope="col">b/g</th>
-          <th scope="col">fg%</th>
-          <th scope="col">ft%</th>
-          <th scope="col">or/g</th>
-          <th scope="col">dr/g</th>
-          <th scope="col">pf/g</th>
-          <th scope="col">to/g</th>
-          <th scope="col">v</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @players.sort_by{|p| p["rank_value"]}.reverse.take(350).each.with_index do |player, index| %>
+<div class="container">
+  <%= form_tag(conditions_players_path, method: "post") do %>
+    <div class="form-row">
+      比項
+    </div>
+    <div class="form-row">
+      <div class="form-check form-check-inline">
+      <%= check_box_tag("conditions[]", "points", @user_filter["conditions"].include?("points"), class: "form-check-input") %>
+      <%= label_tag("points", "得分", class: "form-check-label") %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= check_box_tag("conditions[]", "three_point", @user_filter["conditions"].include?("three_point"), class: "form-check-input") %>
+        <%= label_tag("three_point", "三分", class: "form-check-label") %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= check_box_tag("conditions[]", "assists", @user_filter["conditions"].include?("assists"), class: "form-check-input") %>
+        <%= label_tag("assists", "助攻", class: "form-check-label") %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= check_box_tag("conditions[]", "steals", @user_filter["conditions"].include?("steals"), class: "form-check-input") %>
+        <%= label_tag("steals", "抄截", class: "form-check-label") %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= check_box_tag("conditions[]", "blocks", @user_filter["conditions"].include?("blocks"), class: "form-check-input") %>
+        <%= label_tag("blocks", "火鍋", class: "form-check-label") %>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-check form-check-inline">
+        <%= check_box_tag("conditions[]", "field_goal", @user_filter["conditions"].include?("field_goal"), class: "form-check-input") %>
+        <%= label_tag("field_goal", "命中率", class: "form-check-label") %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= check_box_tag("conditions[]", "free_throw", @user_filter["conditions"].include?("free_throw"), class: "form-check-input") %>
+        <%= label_tag("free_throw", "罰球率", class: "form-check-label") %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= check_box_tag("conditions[]", "off_reb", @user_filter["conditions"].include?("off_reb"), class: "form-check-input") %>
+        <%= label_tag("off_reb", "進攻籃板", class: "form-check-label") %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= check_box_tag("conditions[]", "def_reb", @user_filter["conditions"].include?("def_reb"), class: "form-check-input") %>
+        <%= label_tag("def_reb", "防守籃板", class: "form-check-label") %>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-check form-check-inline">
+        <%= check_box_tag("conditions[]", "turnovers", @user_filter["conditions"].include?("turnovers"), class: "form-check-input") %>
+        <%= label_tag("turnovers", "失誤", class: "form-check-label") %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= check_box_tag("conditions[]", "p_fouls", @user_filter["conditions"].include?("p_fouls"), class: "form-check-input") %>
+        <%= label_tag("p_fouls", "犯規", class: "form-check-label") %>
+      </div>
+    </div>
+    <div class="form-row">
+      <%= select_tag("game", options_for_select([["2020球季", 82], ["過去7場",7], ["過去14場",14], ["過去30場",30]])) %>
+      <%= submit_tag "確定" %>
+    </div>
+  <% end %>
+  <main role="main" class="container">
+    <div class="col custom-table-width">
+      <table class="table table-hover table-sm">
+        <thead class="thead-dark">
           <tr class="pd-1">
-            <th scope="row"><%= index + 1  %></th>
-            <td><%= link_to player["name"], player_path(player["player_id"]) %></td>
-            <td><%= player["tricode"] %></td>
-            <td><%= player["pos"] %></td>
-            <td><%= player["g"] %></td>
-            <td><%= Time.parse(player["min"]).min %>:<%= Time.parse(player["min"]).sec %></td>
-            <td class="pa-value"><%= player["points_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["three_point_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["assists_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["steals_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["blocks_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["field_goal_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["free_throw_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["off_reb_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["def_reb_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["p_fouls_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["turnovers_value"].to_f.round(1) %></td>
-            <td><%= player["points_per_game"].to_f.round(1) %></td>
-            <td><%= player["tpm"].to_f.round(1) %></td>
-            <td><%= player["assists_per_game"].to_f.round(1) %></td>
-            <td><%= player["steals_per_game"].to_f.round(1) %></td>
-            <td><%= player["blocks_per_game"].to_f.round(1) %></td>
-            <td><%= player["fgp"].to_f.round(2) %></td>
-            <td><%= player["ftp"].to_f.round(2) %></td>
-            <td><%= player["off_reb_per_game"].to_f.round(1) %></td>
-            <td><%= player["def_reb_per_game"].to_f.round(1) %></td>
-            <td><%= player["p_fouls_per_game"].to_f.round(1) %></td>
-            <td><%= player["turnovers_per_game"].to_f.round(1) %></td>
-            <td><%= player["rank_value"].round(2) %></td>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Team</th>
+            <th scope="col">Pos</th>
+            <th scope="col">g</th>
+            <th scope="col">m/g</th>
+            <th scope="col">pV</th>
+            <th scope="col">3V</th>
+            <th scope="col">aV</th>
+            <th scope="col">sV</th>
+            <th scope="col">bV</th>
+            <th scope="col">fg%V</th>
+            <th scope="col">ft%V</th>
+            <th scope="col">orV</th>
+            <th scope="col">drV</th>
+            <th scope="col">pfV</th>
+            <th scope="col">toV</th>
+            <th scope="col">p/g</th>
+            <th scope="col">3/g</th>
+            <th scope="col">a/g</th>
+            <th scope="col">s/g</th>
+            <th scope="col">b/g</th>
+            <th scope="col">fg%</th>
+            <th scope="col">ft%</th>
+            <th scope="col">or/g</th>
+            <th scope="col">dr/g</th>
+            <th scope="col">pf/g</th>
+            <th scope="col">to/g</th>
+            <th scope="col">v</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-</main>
-
-
+        </thead>
+        <tbody>
+          <% @players.sort_by{|p| p["rank_value"]}.reverse.take(350).each.with_index do |player, index| %>
+            <tr class="pd-1">
+              <th scope="row"><%= index + 1  %></th>
+              <td><%= link_to player["name"], player_path(player["player_id"]) %></td>
+              <td><%= player["tricode"] %></td>
+              <td><%= player["pos"] %></td>
+              <td><%= player["g"] %></td>
+              <td><%= Time.parse(player["min"]).min %>:<%= Time.parse(player["min"]).sec %></td>
+              <td class="pa-value"><%= player["points_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["three_point_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["assists_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["steals_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["blocks_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["field_goal_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["free_throw_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["off_reb_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["def_reb_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["p_fouls_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["turnovers_value"].to_f.round(1) %></td>
+              <td><%= player["points_per_game"].to_f.round(1) %></td>
+              <td><%= player["tpm"].to_f.round(1) %></td>
+              <td><%= player["assists_per_game"].to_f.round(1) %></td>
+              <td><%= player["steals_per_game"].to_f.round(1) %></td>
+              <td><%= player["blocks_per_game"].to_f.round(1) %></td>
+              <td><%= player["fgp"].to_f.round(2) %></td>
+              <td><%= player["ftp"].to_f.round(2) %></td>
+              <td><%= player["off_reb_per_game"].to_f.round(1) %></td>
+              <td><%= player["def_reb_per_game"].to_f.round(1) %></td>
+              <td><%= player["p_fouls_per_game"].to_f.round(1) %></td>
+              <td><%= player["turnovers_per_game"].to_f.round(1) %></td>
+              <td><%= player["rank_value"].round(2) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>

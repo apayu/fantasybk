@@ -1,6 +1,3 @@
-<% content_for :head do %>
-  <%= javascript_pack_tag 'index' %>
-<% end %>
 <%= @oauth["credentials"]["token"] %>
 <div>
 refresh_token
@@ -50,4 +47,4 @@ expires_at
 
 <% end %>
 </div>
-<p><%= @league.to_json %></p>
+<p><%= @player.to_json %></p>
