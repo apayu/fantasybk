@@ -3,14 +3,16 @@
 <% end %>
 <div class="container">
   <div class="row">
-    <div class="col-sm-8">
-      <h3 class="mb-3"><%= @player[0]["name"] %></h3>
+    <div class="col-4">
+      <h3><%= @player[0]["name"] %> </h3>
+      <h5><%= @player[0]["tricode"] %></h5>
     </div>
-    <div class="col-sm-4"></div>
   </div>
   <div class="row">
-    <div class="col-sm">球隊:<%= @player[0]["tricode"] %></div>
-    <div class="col-sm">位置:<%= @player[0]["pos"] %></div>
+    <div class="col-1">位置:<%= @player[0]["pos"] %></div>
+    <div class="col-1">得分:56</div>
+    <div class="col-1">籃板:23</div>
+    <div class="col-1">助攻:20</div>
   </div>
   <div id="player_app">
   </div>
