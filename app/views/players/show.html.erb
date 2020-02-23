@@ -2,122 +2,84 @@
   <%= javascript_pack_tag 'player' %>
 <% end %>
 <div class="container">
-    <div class="row my-2">
-        <div class="col-lg-8 order-lg-2">
-            <div class="tab-content py-4">
-                <div class="tab-pane active" id="profile">
-                    <h3 class="mb-3"><%= @player[0]["name"] %></h3>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>球隊</h6>
-                            <p><%= @player[0]["tricode"] %></p>
-                            <h6>位置</h6>
-                            <p><%= @player[0]["pos"] %></p>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Recent badges</h6>
-                            <a href="#" class="badge badge-dark badge-pill">html5</a>
-                            <a href="#" class="badge badge-dark badge-pill">react</a>
-                            <a href="#" class="badge badge-dark badge-pill">codeply</a>
-                            <a href="#" class="badge badge-dark badge-pill">angularjs</a>
-                            <a href="#" class="badge badge-dark badge-pill">css3</a>
-                            <a href="#" class="badge badge-dark badge-pill">jquery</a>
-                            <a href="#" class="badge badge-dark badge-pill">bootstrap</a>
-                            <a href="#" class="badge badge-dark badge-pill">responsive-design</a>
-                            <hr>
-                            <span class="badge badge-primary"><i class="fa fa-user"></i> 900 Followers</span>
-                            <span class="badge badge-success"><i class="fa fa-cog"></i> 43 Forks</span>
-                            <span class="badge badge-danger"><i class="fa fa-eye"></i> 245 Views</span>
-                        </div>
-                        <div class="col-md-12">
-                            <h5 class="mt-2"><span class="fa fa-clock-o ion-clock float-right"></span> Recent Activity</h5>
-                            <table class="table table-sm table-hover table-striped">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <strong>Abby</strong> joined ACME Project Team in <strong>`Collaboration`</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Gary</strong> deleted My Board1 in <strong>`Discussions`</strong>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!--/row-->
-                </div>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <h3 class="mb-3"><%= @player[0]["name"] %></h3>
     </div>
-</div>
-<main role="main" class="container">
-  <div class="col custom-table-width">
-    <table class="table table-hover table-sm">
-      <thead class="thead-dark">
-        <tr class="pd-1">
-          <th scope="col">#</th>
-          <th scope="col">g</th>
-          <th scope="col">m/g</th>
-          <th scope="col">pV</th>
-          <th scope="col">3V</th>
-          <th scope="col">aV</th>
-          <th scope="col">sV</th>
-          <th scope="col">bV</th>
-          <th scope="col">fg%V</th>
-          <th scope="col">ft%V</th>
-          <th scope="col">orV</th>
-          <th scope="col">drV</th>
-          <th scope="col">pfV</th>
-          <th scope="col">toV</th>
-          <th scope="col">p/g</th>
-          <th scope="col">3/g</th>
-          <th scope="col">a/g</th>
-          <th scope="col">s/g</th>
-          <th scope="col">b/g</th>
-          <th scope="col">fg%</th>
-          <th scope="col">ft%</th>
-          <th scope="col">or/g</th>
-          <th scope="col">dr/g</th>
-          <th scope="col">pf/g</th>
-          <th scope="col">to/g</th>
-          <th scope="col">v</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @player.each do |player| %>
-          <tr class="pd-1">
-            <th scope="row"><%=  1  %></th>
-            <td><%= player["g"] %></td>
-            <td><%= Time.parse(player["min"]).min %>:<%= Time.parse(player["min"]).sec %></td>
-            <td class="pa-value"><%= player["points_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["three_point_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["assists_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["steals_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["blocks_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["field_goal_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["free_throw_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["off_reb_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["def_reb_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["p_fouls_value"].to_f.round(1) %></td>
-            <td class="pa-value"><%= player["turnovers_value"].to_f.round(1) %></td>
-            <td><%= player["points_per_game"].to_f.round(1) %></td>
-            <td><%= player["tpm"].to_f.round(1) %></td>
-            <td><%= player["assists_per_game"].to_f.round(1) %></td>
-            <td><%= player["steals_per_game"].to_f.round(1) %></td>
-            <td><%= player["blocks_per_game"].to_f.round(1) %></td>
-            <td><%= player["fgp"].to_f.round(2) %></td>
-            <td><%= player["ftp"].to_f.round(2) %></td>
-            <td><%= player["off_reb_per_game"].to_f.round(1) %></td>
-            <td><%= player["def_reb_per_game"].to_f.round(1) %></td>
-            <td><%= player["p_fouls_per_game"].to_f.round(1) %></td>
-            <td><%= player["turnovers_per_game"].to_f.round(1) %></td>
-            <td><%= player["rank_value"].round(2) %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <div class="col-sm-4"></div>
   </div>
-</main>
+  <div class="row">
+    <div class="col-sm">球隊:<%= @player[0]["tricode"] %></div>
+    <div class="col-sm">位置:<%= @player[0]["pos"] %></div>
+  </div>
+  <div id="player_app">
+  </div>
+</div>
+<!-- <main role="main" class="container"> -->
+<!--   <div class="col custom&#45;table&#45;width"> -->
+<!--     <table class="table table&#45;hover table&#45;sm"> -->
+<!--       <thead class="thead&#45;dark"> -->
+<!--         <tr class="pd&#45;1"> -->
+<!--           <th scope="col">#</th> -->
+<!--           <th scope="col">g</th> -->
+<!--           <th scope="col">m/g</th> -->
+<!--           <th scope="col">pV</th> -->
+<!--           <th scope="col">3V</th> -->
+<!--           <th scope="col">aV</th> -->
+<!--           <th scope="col">sV</th> -->
+<!--           <th scope="col">bV</th> -->
+<!--           <th scope="col">fg%V</th> -->
+<!--           <th scope="col">ft%V</th> -->
+<!--           <th scope="col">orV</th> -->
+<!--           <th scope="col">drV</th> -->
+<!--           <th scope="col">pfV</th> -->
+<!--           <th scope="col">toV</th> -->
+<!--           <th scope="col">p/g</th> -->
+<!--           <th scope="col">3/g</th> -->
+<!--           <th scope="col">a/g</th> -->
+<!--           <th scope="col">s/g</th> -->
+<!--           <th scope="col">b/g</th> -->
+<!--           <th scope="col">fg%</th> -->
+<!--           <th scope="col">ft%</th> -->
+<!--           <th scope="col">or/g</th> -->
+<!--           <th scope="col">dr/g</th> -->
+<!--           <th scope="col">pf/g</th> -->
+<!--           <th scope="col">to/g</th> -->
+<!--           <th scope="col">v</th> -->
+<!--         </tr> -->
+<!--       </thead> -->
+<!--       <tbody> -->
+<!--         <% @player.each do |player| %> -->
+<!--           <tr class="pd&#45;1"> -->
+<!--             <th scope="row"><%=  1  %></th> -->
+<!--             <td><%= player["g"] %></td> -->
+<!--             <td><%= Time.parse(player["min"]).min %>:<%= Time.parse(player["min"]).sec %></td> -->
+<!--             <td class="pa&#45;value"><%= player["points_value"].to_f.round(1) %></td> -->
+<!--             <td class="pa&#45;value"><%= player["three_point_value"].to_f.round(1) %></td> -->
+<!--             <td class="pa&#45;value"><%= player["assists_value"].to_f.round(1) %></td> -->
+<!--             <td class="pa&#45;value"><%= player["steals_value"].to_f.round(1) %></td> -->
+<!--             <td class="pa&#45;value"><%= player["blocks_value"].to_f.round(1) %></td> -->
+<!--             <td class="pa&#45;value"><%= player["field_goal_value"].to_f.round(1) %></td> -->
+<!--             <td class="pa&#45;value"><%= player["free_throw_value"].to_f.round(1) %></td> -->
+<!--             <td class="pa&#45;value"><%= player["off_reb_value"].to_f.round(1) %></td> -->
+<!--             <td class="pa&#45;value"><%= player["def_reb_value"].to_f.round(1) %></td> -->
+<!--             <td class="pa&#45;value"><%= player["p_fouls_value"].to_f.round(1) %></td> -->
+<!--             <td class="pa&#45;value"><%= player["turnovers_value"].to_f.round(1) %></td> -->
+<!--             <td><%= player["points_per_game"].to_f.round(1) %></td> -->
+<!--             <td><%= player["tpm"].to_f.round(1) %></td> -->
+<!--             <td><%= player["assists_per_game"].to_f.round(1) %></td> -->
+<!--             <td><%= player["steals_per_game"].to_f.round(1) %></td> -->
+<!--             <td><%= player["blocks_per_game"].to_f.round(1) %></td> -->
+<!--             <td><%= player["fgp"].to_f.round(2) %></td> -->
+<!--             <td><%= player["ftp"].to_f.round(2) %></td> -->
+<!--             <td><%= player["off_reb_per_game"].to_f.round(1) %></td> -->
+<!--             <td><%= player["def_reb_per_game"].to_f.round(1) %></td> -->
+<!--             <td><%= player["p_fouls_per_game"].to_f.round(1) %></td> -->
+<!--             <td><%= player["turnovers_per_game"].to_f.round(1) %></td> -->
+<!--             <td><%= player["rank_value"].round(2) %></td> -->
+<!--           </tr> -->
+<!--         <% end %> -->
+<!--       </tbody> -->
+<!--     </table> -->
+<!--   </div> -->
+<!-- </main> -->
