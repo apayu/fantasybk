@@ -32,6 +32,7 @@ class PlayerLineChart extends React.Component {
   calculateValue() {
     let fetchInProgress = this.props.fetchInProgress
     let playerWeekValue = this.props.playerWeekValue
+    let name = Array.from(new Set(Object.values(playerWeekValue).map(item => item.name)))
 
     if(!fetchInProgress){
       // 設定週數
@@ -39,11 +40,17 @@ class PlayerLineChart extends React.Component {
       // 設定資料
       let dataSets = []
       let dataSet = {
-        label: "player",
+        label: name,
         data: Object.values(playerWeekValue).map(item => item.value),
         fill: 'none'
       }
+      let dataSet2 = {
+        label: "聯盟平均",
+        data: Object.values(playerWeekValue).map(item => item.league_value),
+        fill: 'none'
+      }
       dataSets.push(dataSet)
+      dataSets.push(dataSet2)
 
       this.renderChart(labels, dataSets)
     }
