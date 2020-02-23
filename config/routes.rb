@@ -14,9 +14,11 @@ Rails.application.routes.draw do
 
   resources :posts
 
+  # API routes
   namespace :api do
     namespace :v1 do
       get "leagues/index", to: "leagues#index"
+      get "players/show/:player_id", to: "players#show"
     end
   end
 

@@ -2,17 +2,20 @@ class Api::V1::LeaguesController < ApplicationController
   def index
     # 是否登入
     unless  current_user.token.nil?
+      token = current_user.token
+
       # 過期要更新toke
       if current_user.expires_at - Time.now.utc < 0
         new_token = JSON.parse(YahooApi.get_new_token(current_user.refresh_token))
         user = User.find(current_user.id)
         user.token = new_token["access_token"]
-        user.expires_at = current_user.expires_at + new_token["expires_in"].to_i
+        user.expires_at = Time.now.utc + new_token["expires_in"].to_i
         user.refresh_token = new_token["refresh_token"]
         user.save
+        token = new_token["access_token"]
       end
 
-      league = get_fantasy_league_setting(current_user.token)
+      league = get_fantasy_league_setting(token)
       league_name = league["fantasy_content"]["league"]["name"]
       league_num_teams = league["fantasy_content"]["league"]["num_teams"]
       league_scoring_type = league["fantasy_content"]["league"]["scoring_type"]
@@ -26,7 +29,7 @@ class Api::V1::LeaguesController < ApplicationController
         end
       end
 
-      scoreboard = get_fantasy_all_matchup(current_user.token, league_stats, league_start_week, league_current_week)
+      scoreboard = get_fantasy_all_matchup(token, league_stats, league_start_week, league_current_week)
       render json: {
                      league_name: league_name,
                      league_num_teams: league_num_teams,

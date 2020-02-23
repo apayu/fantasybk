@@ -5,13 +5,13 @@ namespace :nba do
     # 依據日期尋找比賽
     # api_game_log = NbaApi.get_day_game_log(DateTime.yesterday.strftime("%F"))
 
-    # # 查詢過去xx天
-    # d = Date.today
+    # 查詢過去xx天
+    d = Date.today
 
-    # 從幾月機號 - 幾月號號
-    d = Date.new(2020, 01, 13)
+    # # 從幾月機號 - 幾月號號
+    # d = Date.new(2020, 01, 13)
 
-    13.times do |day|
+    2.times do |day|
       api_game_log = NbaApi.get_day_game_log((d - (day + 1)).strftime("%F"))
 
       GameLog.transaction do

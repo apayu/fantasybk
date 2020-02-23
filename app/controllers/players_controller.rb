@@ -27,8 +27,22 @@ class PlayersController < ApplicationController
 
   def show
     @player = []
+    # by 場次
     game = [7, 14, 30]
     3.times { |index| @player << ZScore.player_value_by_game(game[index], params[:player_id]).to_a[0] }
+
+    # # by week
+    # week_date = [
+    #   {week_start: "2019-10-22", week_end: "2019-10-28"}
+    # ]
+    # 16.times {
+    #   last_week = week_date.last
+    #   week_date << {
+    #     week_start: last_week[:week_end],
+    #     week_end: (Date.parse(last_week[:week_end])+7).strftime("%F")
+    #   }
+    # }
+    # 15.times { |index| @player << ZScore.player_value_by_week(82, week_date[index][:week_start], week_date[index][:week_end], params[:player_id]).to_a[0] }
   end
 
   def search
