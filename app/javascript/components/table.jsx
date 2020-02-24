@@ -19,9 +19,9 @@ class Table extends React.Component {
     return newArray.indexOf(num) + 1
   }
 
-  renderTableData() {
+  renderTableData(week) {
     // 選擇要計算的 week 成績
-    let select_week_scoreboard = this.props.scoreboard.filter(x => x.week === this.props.league_current_week)
+    let select_week_scoreboard = this.props.scoreboard.filter(x => x.week == week)
     // 比項
     let league_stats = this.props.league_stats
     // 複製成計分板
@@ -81,13 +81,22 @@ class Table extends React.Component {
     })
   }
 
-  renderScoreboard() {
-    const league_name = this.props.league_name
-    const league_current_week = this.props.league_current_week
+  renderWeekBtn(weekArray) {
+    let btn = weekArray.map( week =>
+      <input key={week} className="btn btn-primary" type="button" value={week} onClick={this.props.handleChangeWeek.bind(this)} />
+    )
+    return(<div>{btn}</div>)
+  }
 
-    return (
-      <div>
-        <h3>{league_name} week {league_current_week} 戰力表</h3>
+  renderScoreboard(weekArray) {
+    const league_name = this.props.league_name
+    const selectWeek = this.props.selectWeek
+
+    const hidden = { "display": "none" }
+
+    const totalTable = weekArray.map( week =>
+      <div key={week} style={ week == selectWeek ? null : hidden }>
+        <h3>{league_name} week {week} 戰力表</h3>
         <table className="table table-sm">
           <tbody className="thead-dark">
             <tr>
@@ -106,9 +115,14 @@ class Table extends React.Component {
               <th>TO</th>
               <th>PF</th>
             </tr>
-            {this.renderTableData()}
+            {this.renderTableData(week)}
           </tbody>
         </table>
+      </div>
+    )
+    return (
+      <div>
+        {totalTable}
       </div>
     )
   }
@@ -120,10 +134,20 @@ class Table extends React.Component {
   }
 
   render() {
+    // 過去三週的對戰表印出
+    let thisWeek = this.props.league_current_week
+    let minWeek = thisWeek - 2
+    let weekArray = []
+    while(thisWeek >= minWeek && thisWeek > 0) {
+      weekArray.push(thisWeek)
+      thisWeek -= 1
+    }
+
     if(!this.props.fetchInProgress){
       return (
         <div>
-          {this.props.scoreboard.length > 0 ? this.renderScoreboard() : this.renderNoToken()}
+          {this.renderWeekBtn(weekArray)}
+          {this.renderScoreboard(weekArray)}
         </div>
       )
     }

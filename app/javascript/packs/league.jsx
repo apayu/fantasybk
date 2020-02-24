@@ -29,8 +29,12 @@ class App extends React.Component {
       // 數據板
       scoreboard: [],
       // 正在取得資料
-      fetchInProgress: true
+      fetchInProgress: true,
+      // 選擇目前秀出的week成績
+      selectWeek: "1"
     }
+
+    this.handleChangeWeek = this.handleChangeWeek.bind(this)
   }
 
   componentDidMount() {
@@ -48,10 +52,23 @@ class App extends React.Component {
         league_current_week: response.league_current_week,
         league_stats: response.league_stats,
         scoreboard: response.scoreboard,
-        fetchInProgress: false}))
+        fetchInProgress: false,
+        selectWeek: response.league_current_week}))
+  }
+
+  // 切換顯示week
+  handleChangeWeek(event) {
+    this.setState({selectWeek:event.target.value})
   }
 
   render() {
+    const chartStyle = {
+      position: "relative",
+      margin: "auto",
+      height: "80vh",
+      width: "80vw"
+    }
+
     return (
       <div className="App">
         <Tabs defaultActiveKey="currentWeek" id="leagueTabs">
@@ -64,10 +81,12 @@ class App extends React.Component {
               league_stats = {this.state.league_stats}
               scoreboard = {this.state.scoreboard}
               fetchInProgress = {this.state.fetchInProgress}
+              handleChangeWeek = {this.handleChangeWeek}
+              selectWeek = {this.state.selectWeek}
             />
           </Tab>
           <Tab eventKey="totalValue" title="全年戰力">
-            <div className="chart-wrapper">
+            <div style={chartStyle}>
               <LineChart
                 league_name = {this.state.league_name}
                 league_num_teams = {this.state.league_num_teams}
