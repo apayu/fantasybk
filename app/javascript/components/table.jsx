@@ -83,9 +83,9 @@ class Table extends React.Component {
 
   renderWeekBtn(weekArray) {
     let btn = weekArray.map( week =>
-      <input key={week} className="btn btn-primary" type="button" value={week} onClick={this.props.handleChangeWeek.bind(this)} />
+      <input key={week} className="btn btn-dark mr-3" type="button" value={week} onClick={this.props.handleChangeWeek.bind(this)} />
     )
-    return(<div>{btn}</div>)
+    return(<div className="mt-3">{btn}</div>)
   }
 
   renderScoreboard(weekArray) {
@@ -97,27 +97,29 @@ class Table extends React.Component {
     const totalTable = weekArray.map( week =>
       <div key={week} style={ week == selectWeek ? null : hidden }>
         <h3>{league_name} week {week} 戰力表</h3>
-        <table className="table table-sm">
-          <tbody className="thead-dark">
-            <tr>
-              <th>隊伍名稱</th>
-              <th>戰力值</th>
-              <th>出場數(GP)</th>
-              <th>FG%</th>
-              <th>FT%</th>
-              <th>3PTM</th>
-              <th>PTS</th>
-              <th>OREB</th>
-              <th>DREB</th>
-              <th>AST</th>
-              <th>ST</th>
-              <th>BLK</th>
-              <th>TO</th>
-              <th>PF</th>
-            </tr>
-            {this.renderTableData(week)}
-          </tbody>
-        </table>
+        <div className="custom-table-width">
+          <table className="table table-sm">
+            <tbody className="thead-dark">
+              <tr>
+                <th>隊伍名稱</th>
+                <th>戰力值</th>
+                <th>出場數(GP)</th>
+                <th>FG%</th>
+                <th>FT%</th>
+                <th>3PTM</th>
+                <th>PTS</th>
+                <th>OREB</th>
+                <th>DREB</th>
+                <th>AST</th>
+                <th>ST</th>
+                <th>BLK</th>
+                <th>TO</th>
+                <th>PF</th>
+              </tr>
+              {this.renderTableData(week)}
+            </tbody>
+          </table>
+        </div>
       </div>
     )
     return (

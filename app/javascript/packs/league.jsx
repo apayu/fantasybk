@@ -70,7 +70,7 @@ class App extends React.Component {
     }
 
     return (
-      <div className="App">
+      <div>
         <Tabs defaultActiveKey="currentWeek" id="leagueTabs">
           <Tab eventKey="currentWeek" title="當週戰力">
             <Table
@@ -107,7 +107,6 @@ class App extends React.Component {
 document.addEventListener("DOMContentLoaded", () => {
   ReactDom.render(
     <App />,
-    document.body.appendChild(document.createElement("div"))
-  )
+    document.getElementById("league_app"))
 })
 

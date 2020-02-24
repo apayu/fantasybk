@@ -53,13 +53,15 @@ class GameLogTable extends React.Component {
     let fetchInProgressByLog = this.props.fetchInProgressByLog
     if(!fetchInProgressByLog){
       return(
-        <div>
-          <table className="table table-sm">
-            <tbody className="thead-dark">
-              {this.renderTableHeader()}
-              {this.renderTableDate()}
-            </tbody>
-          </table>
+        <div className="mt-3">
+          <div className="custom-table-width">
+            <table className="table table-sm">
+              <tbody className="thead-dark">
+                {this.renderTableHeader()}
+                {this.renderTableDate()}
+              </tbody>
+            </table>
+          </div>
         </div>
       )
     }else{

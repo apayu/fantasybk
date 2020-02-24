@@ -55,7 +55,7 @@ class App extends React.Component {
     }
 
     return(
-      <div>
+      <div className="mt-3">
         <Tabs defaultActiveKey="gameLog" id="leagueTabs">
           <Tab eventKey="gameLog" title="逐場表現">
             <GameLogTable
