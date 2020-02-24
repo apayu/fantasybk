@@ -4,13 +4,16 @@ import PropTypes from 'prop-types'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import PlayerLineChart from 'components/playerLineChart'
+import GameLogTable from 'components/gameLogTable'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       playerWeekValue: [],
-      fetchInProgress: true
+      gameLog: [],
+      fetchInProgressByLog: true,
+      fetchInProgressByShow: true
     }
   }
 
@@ -20,8 +23,19 @@ class App extends React.Component {
     let url_pathname = String(window.location).split("/")
     let player_id = url_pathname[url_pathname.length - 1]
 
-    const url = "/api/v1/players/show/" + player_id
-    fetch(url).then(response => {
+    const urlForLog = "/api/v1/players/log/" + player_id
+    fetch(urlForLog).then(response => {
+      if(response.ok) {
+        return response.json()
+      }
+    })
+    .then(response =>
+      this.setState({
+        gameLog: response.game_log,
+        fetchInProgressByLog: false}))
+
+    const urlForShow = "/api/v1/players/show/" + player_id
+    fetch(urlForShow).then(response => {
       if(response.ok) {
         return response.json()
       }
@@ -29,7 +43,7 @@ class App extends React.Component {
     .then(response =>
       this.setState({
         playerWeekValue: response.playerWeekValue,
-        fetchInProgress: false}))
+        fetchInProgressByShow: false}))
   }
 
   render() {
@@ -42,15 +56,18 @@ class App extends React.Component {
 
     return(
       <div>
-        <Tabs defaultActiveKey="currentWeek" id="leagueTabs">
-          <Tab eventKey="currentWeek" title="近期表現">
-            <div>近期表現</div>
+        <Tabs defaultActiveKey="gameLog" id="leagueTabs">
+          <Tab eventKey="gameLog" title="逐場表現">
+            <GameLogTable
+              gameLog = {this.state.gameLog}
+              fetchInProgressByLog = {this.state.fetchInProgressByLog}
+            />
           </Tab>
           <Tab eventKey="totalValue" title="數據走勢">
             <div style={chartStyle}>
               <PlayerLineChart
                 playerWeekValue = {this.state.playerWeekValue}
-                fetchInProgress = {this.state.fetchInProgress}
+                fetchInProgressByShow = {this.state.fetchInProgressByShow}
               />
             </div>
           </Tab>

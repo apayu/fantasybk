@@ -38,6 +38,15 @@ class Api::V1::PlayersController < ApplicationController
     end
   end
 
+  def log
+    player_game_log = GameLog.where("player_id = ?", params[:player_id]).order(game_time: :desc).limit(10)
+    if player_game_log
+      render json: { game_log: player_game_log }
+    else
+      render json: player_game_log.errors
+    end
+  end
+
   private
   def get_rank_value(value, conditions)
     rank_value = 0

@@ -26,10 +26,11 @@ class PlayersController < ApplicationController
   end
 
   def show
-    @player = []
-    # by 場次
-    game = [7, 14, 30]
-    3.times { |index| @player << ZScore.player_value_by_game(game[index], params[:player_id]).to_a[0] }
+    @player = GameLog.where("player_id = ?", params[:player_id])
+    # @player = []
+    # # by 場次
+    # game = [7, 14, 30]
+    # 3.times { |index| @player << ZScore.player_value_by_game(game[index], params[:player_id]).to_a[0] }
   end
 
   def search
