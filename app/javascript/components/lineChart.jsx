@@ -80,9 +80,9 @@ class LineChart extends React.Component {
 
             //取得分數
             if(sort_order == 1)
-              single_value = this.sortScoreboard(total_array, x[stat_name], "asc")
+              single_value = x[stat_name] ? this.sortScoreboard(total_array, x[stat_name], "asc") : 0
             else
-              single_value = this.sortScoreboard(total_array, x[stat_name], "desc")
+              single_value = x[stat_name] ? this.sortScoreboard(total_array, x[stat_name], "desc") : 0
 
             // 尋找對應的隊伍計分板
             c[0][stat_name] = single_value

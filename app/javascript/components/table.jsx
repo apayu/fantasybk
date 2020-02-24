@@ -43,9 +43,9 @@ class Table extends React.Component {
 
         //取得分數
         if(sort_order == 1)
-          single_value = this.sortScoreboard(total_array, x[stat_name], "asc")
+          single_value = x[stat_name] ? this.sortScoreboard(total_array, x[stat_name], "asc") : 0
         else
-          single_value = this.sortScoreboard(total_array, x[stat_name], "desc")
+          single_value = x[stat_name] ? this.sortScoreboard(total_array, x[stat_name], "desc") : 0
 
         // 尋找對應的隊伍計分板
         c[0][stat_name] = single_value
@@ -70,7 +70,7 @@ class Table extends React.Component {
       cell.push(<td key="2" scope="col" >{team.g}</td>)
 
       for(let i = 4; i < Object.keys(team).length; i++){
-          cell.push(<td key={i} scope="col" >{Object.values(team)[i]}</td>)
+          cell.push(<td key={i} scope="col" >{ Object.values(team)[i] ? Object.values(team)[i] : "-" }</td>)
       }
 
       return(
