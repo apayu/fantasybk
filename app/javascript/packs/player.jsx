@@ -27,42 +27,48 @@ class App extends React.Component {
     let url_pathname = String(window.location).split("/")
     let player_id = url_pathname[url_pathname.length - 1]
 
+    // 利用Promise 一次處理 ajax 初始化
+    Promise.all([this.getPlayerInfo(player_id), this.getPlayerShow(player_id), this.getPlayerLog(player_id)])
+                .then(([playerInfo, playerShow, playerLog])  => {
+                  this.setState({
+                    playerInfo: playerInfo.playerInfo,
+                    leagueInfo: playerInfo.leagueInfo,
+                    gameLog: playerLog.game_log,
+                    playerWeekValue: playerShow.playerWeekValue,
+                    fetchInProgressByShow:false,
+                    fetchInProgressByLog: false,
+                    fetchInProgressByInfo: false})
+                })
+  }
+
+  getPlayerInfo(player_id) {
     // 取得球員info
     const urlForInfo = "/api/v1/players/info/" + player_id
-    fetch(urlForInfo).then(response => {
+    return fetch(urlForInfo).then(response => {
       if(response.ok) {
         return response.json()
       }
     })
-    .then(response =>
-      this.setState({
-        playerInfo: response.playerInfo,
-        leagueInfo: response.leagueInfo,
-        fetchInProgressByInfo: false}))
+  }
 
+  getPlayerLog(player_id) {
     // 取得球員game log
-    const urlForLog = "/api/v1/players/log/" + player_id
-    fetch(urlForLog).then(response => {
+    const url = "/api/v1/players/log/" + player_id
+    return fetch(url).then(response => {
       if(response.ok) {
         return response.json()
       }
     })
-    .then(response =>
-      this.setState({
-        gameLog: response.game_log,
-        fetchInProgressByLog: false}))
+  }
 
+  getPlayerShow(player_id) {
     // 取得球員數據走勢
-    const urlForShow = "/api/v1/players/show/" + player_id
-    fetch(urlForShow).then(response => {
+    const url = "/api/v1/players/show/" + player_id
+    return fetch(url).then(response => {
       if(response.ok) {
         return response.json()
       }
     })
-    .then(response =>
-      this.setState({
-        playerWeekValue: response.playerWeekValue,
-        fetchInProgressByShow: false}))
   }
 
   render() {
