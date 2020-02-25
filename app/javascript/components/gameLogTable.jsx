@@ -22,7 +22,7 @@ class GameLogTable extends React.Component {
 
       let d = new Date(log["game_time"])
       cell.push(<td key="game_time">{d.getMonth()+1}/{d.getDate()}</td>)
-      cell.push(<td key="min">{log["min"]}</td>)
+      cell.push(<td key="min">{log["min"] == "" ? "00:00" : log["min"]}</td>)
       cell.push(<td key="fgm">{log["fgm"]}</td>)
       cell.push(<td key="fga">{log["fga"]}</td>)
       cell.push(<td key="fgp">{log["fgp"]}%</td>)
