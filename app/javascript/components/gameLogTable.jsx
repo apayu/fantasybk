@@ -8,7 +8,7 @@ class GameLogTable extends React.Component {
   }
 
   renderTableHeader() {
-    let tableHeader = ["Date", "Min", "FGM", "FGA", "FG%",
+    let tableHeader = ["Date", "Min", "EFF", "FGM", "FGA", "FG%",
       "3PM", "3PA", "3P%", "FTM", "FTA", "FT%", "OR", "DR", "Reb", "Ast", "Stl", "Blk", "TO", "PF", "Pts"]
     return(
       <tr>{tableHeader.map(title => <th key={title}>{title}</th>)}</tr>
@@ -20,9 +20,12 @@ class GameLogTable extends React.Component {
     return gameLog.map((log, index) => {
       const cell = []
 
+      let eff = (parseInt(log["points"]) + parseInt(log["tot_reb"]) + parseInt(log["assists"]) + parseInt(log["steals"]) + parseInt(log["blocks"])) - (parseInt(log["fga"]) - parseInt(log["fgm"])) - (parseInt(log["fta"]) - parseInt(log["ftm"])) - parseInt(log["turnovers"])
+
       let d = new Date(log["game_time"])
       cell.push(<td key="game_time">{d.getMonth()+1}/{d.getDate()}</td>)
       cell.push(<td key="min">{log["min"] == "" ? "00:00" : log["min"]}</td>)
+      cell.push(<td key="eff">{eff}</td>)
       cell.push(<td key="fgm">{log["fgm"]}</td>)
       cell.push(<td key="fga">{log["fga"]}</td>)
       cell.push(<td key="fgp">{log["fgp"]}%</td>)
