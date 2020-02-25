@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       get "leagues/index", to: "leagues#index"
       get "players/show/:player_id", to: "players#show"
       get "players/log/:player_id", to: "players#log"
+      get "players/info/:player_id", to: "players#info"
     end
   end
 

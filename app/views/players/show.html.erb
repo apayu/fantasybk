@@ -1,19 +1,5 @@
 <% content_for :head do %>
   <%= javascript_pack_tag 'player' %>
 <% end %>
-<div class="container">
-  <div class="row">
-    <div class="col-4">
-      <h3><%= @player[0].player.name %> </h3>
-      <h5><%= @player[0].player.team.full_name %></h5>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-1">位置:<%= @player[0].player.pos %></div>
-    <div class="col-2">得分:<%= @player.average(:points).round(1)  %></div>
-    <div class="col-2">籃板:<%= @player.average(:tot_reb).round(1) %></div>
-    <div class="col-2">助攻:<%= @player.average(:assists).round(1) %></div>
-  </div>
-  <div id="player_app">
-  </div>
+<div id="player_app" class="container">
 </div>

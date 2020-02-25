@@ -17,6 +17,11 @@
 
 @import "bootstrap/scss/bootstrap";
 
+// for fixed navbar
+body > .container {
+  padding-top: 20px;
+}
+
 $grid-gutter-width: 30px;
 
 .custom-table-width {

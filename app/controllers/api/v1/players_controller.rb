@@ -1,4 +1,57 @@
 class Api::V1::PlayersController < ApplicationController
+
+  def info
+    player = GameLog.where("player_id = ?", params[:player_id])
+    league = GameLog.all
+    name = player[0].player.name
+    team_name = player[0].player.team.full_name
+    pos = player[0].player.pos
+
+    points = player.average(:points).round(1)
+    league_points = league.average(:points).round(1)
+
+    tpm = player.average(:tpm).round(1)
+    league_tpm = league.average(:tpm).round(1)
+
+    tot_reb = player.average(:tot_reb).round(1)
+    league_tot_reb = league.average(:tot_reb).round(1)
+
+    assists = player.average(:assists).round(1)
+    league_assists = league.average(:assists).round(1)
+
+    steals = player.average(:steals).round(1)
+    league_steals = league.average(:steals).round(1)
+
+    blocks = player.average(:blocks).round(1)
+    league_blocks = league.average(:blocks).round(1)
+
+    if player
+      render json: {
+        playerInfo: {
+          name: name,
+          team_name: team_name,
+          pos: pos,
+          points: points,
+          tpm: tpm,
+          tot_reb: tot_reb,
+          assists: assists,
+          steals: steals,
+          blocks: blocks
+        },
+        leagueInfo: {
+          points: league_points,
+          tpm: league_tpm,
+          tot_reb: league_tot_reb,
+          assists: league_assists,
+          steals: league_steals,
+          blocks: league_blocks
+        }
+      }
+    else
+      render json: player.errors
+    end
+  end
+
   def show
     player = Player.find(params[:player_id])
 

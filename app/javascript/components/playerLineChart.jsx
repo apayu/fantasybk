@@ -7,8 +7,8 @@ import "chartjs-plugin-colorschemes"
 // LineChart
 class PlayerLineChart extends React.Component {
   constructor(props) {
-    super(props);
-    this.canvasRef = React.createRef();
+    super(props)
+    this.canvasRef = React.createRef()
   }
 
   renderChart(labels, dataSets) {
@@ -58,8 +58,8 @@ class PlayerLineChart extends React.Component {
 
   render() {
     this.calculateValue()
-    return <canvas ref={this.canvasRef} />;
+    return <canvas ref={this.canvasRef} />
   }
 }
 
-export default PlayerLineChart;
+export default PlayerLineChart
