@@ -5,6 +5,7 @@ class Api::V1::PlayersController < ApplicationController
     league = GameLog.all
     name = player[0].player.name
     team_name = player[0].player.team.full_name
+    team_tricode = player[0].player.team.tricode
     pos = player[0].player.pos
 
     points = player.average(:points).round(1)
@@ -30,6 +31,7 @@ class Api::V1::PlayersController < ApplicationController
         playerInfo: {
           name: name,
           team_name: team_name,
+          team_tricode: team_tricode,
           pos: pos,
           points: points,
           tpm: tpm,
