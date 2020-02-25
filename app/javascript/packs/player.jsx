@@ -27,15 +27,15 @@ class App extends React.Component {
     let url_pathname = String(window.location).split("/")
     let player_id = url_pathname[url_pathname.length - 1]
 
+    this.getPlayerValue(player_id)
+
     // 利用Promise 一次處理 ajax 初始化
-    Promise.all([this.getPlayerInfo(player_id), this.getPlayerValue(player_id), this.getPlayerLog(player_id)])
-                .then(([playerInfo, playerValue, playerLog])  => {
+    Promise.all([this.getPlayerInfo(player_id), this.getPlayerLog(player_id)])
+                .then(([playerInfo, playerLog])  => {
                   this.setState({
                     playerInfo: playerInfo.playerInfo,
                     leagueInfo: playerInfo.leagueInfo,
                     gameLog: playerLog.game_log,
-                    playerWeekValue: playerValue.playerWeekValue,
-                    fetchInProgressByValue:false,
                     fetchInProgressByLog: false,
                     fetchInProgressByInfo: false})
                 })
@@ -64,11 +64,15 @@ class App extends React.Component {
   getPlayerValue(player_id) {
     // 取得球員數據走勢
     const url = "/api/v1/players/value/" + player_id
-    return fetch(url).then(response => {
+    fetch(url).then(response => {
       if(response.ok) {
         return response.json()
       }
     })
+    .then(response =>
+      this.setState({
+        playerWeekValue: response.playerWeekValue,
+        fetchInProgressByValue: false}))
   }
 
   render() {
@@ -92,7 +96,7 @@ class App extends React.Component {
       <div>
         <div className="row pb-3 border-bottom border-dark">
           <div className="col-4">
-            <div className="row h-75">
+            <div className="row h-75 align-items-center">
               <div className="col-12">
                 <h3>{playerInfo.hasOwnProperty("name") ? playerInfo.name : ""}</h3>
                 <h5>{playerInfo.hasOwnProperty("team_name") ? playerInfo.team_name : ""}</h5>
