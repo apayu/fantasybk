@@ -92,14 +92,12 @@ class GameLogTable extends React.Component {
 
       let eff = (parseInt(log["points"]) + parseInt(log["tot_reb"]) + parseInt(log["assists"]) + parseInt(log["steals"]) + parseInt(log["blocks"])) - (parseInt(log["fga"]) - parseInt(log["fgm"])) - (parseInt(log["fta"]) - parseInt(log["ftm"])) - parseInt(log["turnovers"])
 
-      let c = this.getColorByNumber(eff,max,min)
-      console.log(c)
-    // player_value[v_index].style.backgroundColor = c;
+      let color = this.getColorByNumber(eff,max,min)
 
       let d = new Date(log["game_time"])
       cell.push(<td key="game_time">{d.getMonth()+1}/{d.getDate()}</td>)
       cell.push(<td key="min">{log["min"] == "" ? "00:00" : log["min"]}</td>)
-      cell.push(<td style={{backgroundColor: c}} key="eff">{eff}</td>)
+      cell.push(<td style={{backgroundColor: color}} key="eff">{eff}</td>)
       cell.push(<td key="fgm">{log["fgm"]}</td>)
       cell.push(<td key="fga">{log["fga"]}</td>)
       cell.push(<td key="fgp">{log["fgp"]}%</td>)

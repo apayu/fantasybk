@@ -22,13 +22,21 @@ class LineChart extends React.Component {
         },
         maintainAspectRatio: false,
         scales: {
-          yAxes: [
-            {
-              ticks: {
-                min: 0
-              }
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: '戰力'
+            },
+            ticks: {
+              min: 0
             }
-          ]
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: '週次 week'
+            }
+          }]
         }
       },
       data: {

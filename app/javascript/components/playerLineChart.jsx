@@ -21,6 +21,20 @@ class PlayerLineChart extends React.Component {
           }
         },
         maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'z-score'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: '週次 week'
+            }
+          }]
+        }
       },
       data: {
         labels: labels,
