@@ -52,7 +52,7 @@ class Api::V1::PlayersController < ApplicationController
     end
   end
 
-  def show
+  def value
     player = Player.find(params[:player_id])
 
     if player

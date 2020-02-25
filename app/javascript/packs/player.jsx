@@ -17,7 +17,7 @@ class App extends React.Component {
       gameLog: [],
       fetchInProgressByInfo: true,
       fetchInProgressByLog: true,
-      fetchInProgressByShow: true
+      fetchInProgressByValue: true
     }
   }
 
@@ -28,14 +28,14 @@ class App extends React.Component {
     let player_id = url_pathname[url_pathname.length - 1]
 
     // 利用Promise 一次處理 ajax 初始化
-    Promise.all([this.getPlayerInfo(player_id), this.getPlayerShow(player_id), this.getPlayerLog(player_id)])
-                .then(([playerInfo, playerShow, playerLog])  => {
+    Promise.all([this.getPlayerInfo(player_id), this.getPlayerValue(player_id), this.getPlayerLog(player_id)])
+                .then(([playerInfo, playerValue, playerLog])  => {
                   this.setState({
                     playerInfo: playerInfo.playerInfo,
                     leagueInfo: playerInfo.leagueInfo,
                     gameLog: playerLog.game_log,
-                    playerWeekValue: playerShow.playerWeekValue,
-                    fetchInProgressByShow:false,
+                    playerWeekValue: playerValue.playerWeekValue,
+                    fetchInProgressByValue:false,
                     fetchInProgressByLog: false,
                     fetchInProgressByInfo: false})
                 })
@@ -61,9 +61,9 @@ class App extends React.Component {
     })
   }
 
-  getPlayerShow(player_id) {
+  getPlayerValue(player_id) {
     // 取得球員數據走勢
-    const url = "/api/v1/players/show/" + player_id
+    const url = "/api/v1/players/value/" + player_id
     return fetch(url).then(response => {
       if(response.ok) {
         return response.json()
@@ -133,7 +133,7 @@ class App extends React.Component {
               <div style={chartStyle}>
                 <PlayerLineChart
                   playerWeekValue = {this.state.playerWeekValue}
-                  fetchInProgressByShow = {this.state.fetchInProgressByShow}
+                  fetchInProgressByValue = {this.state.fetchInProgressByValue}
                 />
               </div>
             </Tab>

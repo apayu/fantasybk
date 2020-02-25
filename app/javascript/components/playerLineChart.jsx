@@ -30,11 +30,11 @@ class PlayerLineChart extends React.Component {
   }
 
   calculateValue() {
-    let fetchInProgressByShow = this.props.fetchInProgressByShow
+    let fetchInProgressByValue = this.props.fetchInProgressByValue
     let playerWeekValue = this.props.playerWeekValue
     let name = Array.from(new Set(Object.values(playerWeekValue).map(item => item.name)))
 
-    if(!fetchInProgressByShow){
+    if(!fetchInProgressByValue){
       // 設定週數
       let labels = Object.values(playerWeekValue).map(item => item.week)
       // 設定資料
