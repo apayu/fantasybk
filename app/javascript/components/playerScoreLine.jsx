@@ -44,25 +44,25 @@ class PlayerScoreLine extends React.Component {
   }
 
   calculateValue() {
-    let fetchInProgressByValue = this.props.fetchInProgressByValue
-    let playerWeekValue = this.props.playerWeekValue
-    let name = Array.from(new Set(Object.values(playerWeekValue).map(item => item.name)))
+    const fetchInProgressByValue = this.props.fetchInProgressByValue
+    const playerWeekValue = this.props.playerWeekValue
+    const name = Array.from(new Set(Object.values(playerWeekValue).map(item => item.name)))
 
     if(!fetchInProgressByValue){
       // 設定週數
-      let labels = Object.values(playerWeekValue).map(item => item.week)
+      const labels = Object.values(playerWeekValue).map(item => item.week)
       // 設定資料
-      let dataSets = []
-      let dataSet = {
+      const dataSet = {
         label: name,
         data: Object.values(playerWeekValue).map(item => item.value),
         fill: 'none'
       }
-      let dataSet2 = {
+      const dataSet2 = {
         label: "聯盟平均",
         data: Object.values(playerWeekValue).map(item => item.league_value),
         fill: 'none'
       }
+      let dataSets = []
       dataSets.push(dataSet)
       dataSets.push(dataSet2)
 

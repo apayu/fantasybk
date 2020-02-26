@@ -10,8 +10,8 @@ class PlayerRadar extends React.Component {
   }
 
   componentDidMount() {
-    let labels = ["得分", "三分", "籃板", "助攻", "抄截", "火鍋"]
-    let options = {
+    const labels = ['得分', '三分', '籃板', '助攻', '抄截', '火鍋']
+    const options = {
         scale: {
             ticks: {
                 max: 5,
@@ -28,8 +28,8 @@ class PlayerRadar extends React.Component {
         data: {
             labels: labels,
             datasets: [{
-                label: "",
-                backgroundColor: "rgba(200,0,0,0.2)",
+                label: '',
+                backgroundColor: 'rgba(200,0,0,0.2)',
                 data: [0, 0, 0, 0, 0, 0]
             }]
         }
@@ -37,16 +37,16 @@ class PlayerRadar extends React.Component {
   }
 
   renderRadar() {
-    let fetchInProgressByInfo = this.props.fetchInProgressByInfo
-    let playerInfo = this.props.playerInfo
-    let leagueInfo = this.props.leagueInfo
+    const fetchInProgressByInfo = this.props.fetchInProgressByInfo
+    const playerInfo = this.props.playerInfo
+    const leagueInfo = this.props.leagueInfo
 
-    let points = playerInfo.points/leagueInfo.points
-    let tpm = playerInfo.tpm/leagueInfo.tpm
-    let tot_reb = playerInfo.tot_reb/leagueInfo.tot_reb
-    let assists = playerInfo.assists/leagueInfo.assists
-    let steals = playerInfo.steals/leagueInfo.steals
-    let blocks = playerInfo.blocks/leagueInfo.blocks
+    const points = playerInfo.points/leagueInfo.points
+    const tpm = playerInfo.tpm/leagueInfo.tpm
+    const tot_reb = playerInfo.tot_reb/leagueInfo.tot_reb
+    const assists = playerInfo.assists/leagueInfo.assists
+    const steals = playerInfo.steals/leagueInfo.steals
+    const blocks = playerInfo.blocks/leagueInfo.blocks
 
     if(!fetchInProgressByInfo){
       this.myRadarChart.data.datasets[0].data = [points, tpm, tot_reb, assists, steals, blocks]

@@ -58,9 +58,9 @@ class SeasonScoreLine extends React.Component {
   }
 
   calculateValue() {
-    let fetchInProgress = this.props.fetchInProgress
-    let leagueStartWeek = parseInt(this.props.leagueStartWeek)
-    let leagueCurrentWeek = parseInt(this.props.leagueCurrentWeek)
+    const fetchInProgress = this.props.fetchInProgress
+    const leagueStartWeek = parseInt(this.props.leagueStartWeek)
+    const leagueCurrentWeek = parseInt(this.props.leagueCurrentWeek)
 
     if(!fetchInProgress){
       // 建立計分板
