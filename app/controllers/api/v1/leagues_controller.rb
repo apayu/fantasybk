@@ -29,14 +29,38 @@ class Api::V1::LeaguesController < ApplicationController
         end
       end
 
-      scoreboard = get_fantasy_all_matchup(token, league_stats, league_start_week, league_current_week)
+      user_scoreboard = Scoreboard.find_by(user_id: current_user.id)
+
+      if user_scoreboard
+        # user 目前取得的week
+        user_current_week = user_scoreboard.current_week
+        # user 目前有的socreboard
+        post_scoreboard = user_scoreboard.post_scoreboard
+        # 新的 socreboard
+        new_scoreboard = get_fantasy_all_matchup(token, league_stats, user_current_week, league_current_week)
+        # 新舊合併
+        scoreboards = post_scoreboard + new_scoreboard
+
+        # post_scoreboard 有新的 scoreboard 就更新
+        if user_current_week != league_current_week
+          post_scoreboard = scoreboards.select { |s| s[:week] != league_current_week }
+          user_scoreboard.update(post_scoreboard: post_scoreboard, current_week: league_current_week)
+        end
+      else
+        scoreboards = get_fantasy_all_matchup(token, league_stats, league_start_week, league_current_week)
+        # 將非當週的scoreboard取出
+        post_scoreboard = scoreboards.select { |s| s[:week] != league_current_week }
+        Scoreboard.create(user_id: current_user.id, post_scoreboard: post_scoreboard, current_week: league_current_week)
+      end
+
       render json: {
+
                      league_name: league_name,
                      league_num_teams: league_num_teams,
                      league_start_week: league_start_week,
                      league_current_week: league_current_week,
                      league_stats: league_stats,
-                     scoreboard: scoreboard
+                     scoreboard: scoreboards
       }
     else
       render json: []
