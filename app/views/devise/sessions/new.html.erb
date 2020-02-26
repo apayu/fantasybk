@@ -15,7 +15,6 @@
               <!-- </p> -->
               <!-- <hr> -->
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
         <div class="form-group">
           <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: "form-control" %>
         </div>
@@ -34,6 +33,7 @@
           </div>
         </div> <!-- .row// -->
       <% end %>
+      <%= render 'layouts/messages' %>
       </article>
       </div> <!-- card.// -->
     </div>

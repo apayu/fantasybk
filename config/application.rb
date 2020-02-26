@@ -19,6 +19,9 @@ module Fantasybk
     config.generators.assets = false
     config.generators.helper = false
 
+    # 預設中文語系
+    config.i18n.default_locale = "zh-TW"
+
     # auto load lib
     config.autoload_paths << "#{Rails.root}/lib"
   end
