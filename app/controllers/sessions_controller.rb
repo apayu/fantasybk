@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
   def custom
     @oauth = request.env['omniauth.auth']
 
+    # 將toke資訊存起來
     user = User.find(current_user.id)
     user.token = @oauth["credentials"]["token"]
     user.refresh_token = @oauth["credentials"]["refresh_token"]

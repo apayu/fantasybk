@@ -1,43 +1,58 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+    </div>
+    <div class="col-4">
+      <div class="card">
+      <article class="card-body">
+        <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+          <%= link_to "Sign up", new_registration_path(resource_name), class: "float-right btn btn-outline-primary" %><br />
+        <% end %>
+        <h4 class="card-title mb-4 mt-1">修改設定</h4>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <div class="form-group">
+          <%= current_user.email %>
+        </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+        <div class="form-group">
+          <%= f.text_field :league_id, autofocus: true, placeholder: "Yahoo Fantasy 聯盟ID", class: "form-control" %>
+        </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        <div class="form-group">
+          <%= f.text_area :bio, autofocus: true, autocomplete: "bio", placeholder: "Fantasy自介", class: "form-control" %>
+        </div>
+
+        <div class="form-group">
+          <% if @minimum_password_length %>
+          <em>(密碼長度最少<%= @minimum_password_length %>位)</em>
+          <% end %><br />
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "輸入新密碼", class: "form-control" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "確認新密碼", class: "form-control" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.password_field :current_password, autocomplete: "current-password", placeholder: "輸入密碼", class: "form-control" %>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+              <div class="form-group">
+                    <%= f.submit "修改", class: "btn btn-primary btn-block" %>
+              </div> <!-- form-group// -->
+          </div>
+          <div class="col-md-6 text-right">
+            <%= link_to "返回", root_path %><br />
+          </div>
+        </div> <!-- .row// -->
+        <%= render "devise/shared/error_messages", resource: resource %>
+      <% end %>
+      </article>
+      </div> <!-- card.// -->
+    </div>
+    <div class="col-4">
+    </div>
   </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+</div>

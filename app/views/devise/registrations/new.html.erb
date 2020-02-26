@@ -20,8 +20,13 @@
         </div>
 
         <div class="form-group">
+          <%= f.text_field :league_id, autofocus: true, placeholder: "Yahoo Fantasy 聯盟ID", class: "form-control" %>
+        </div>
+
+        <div class="form-group">
           <%= f.text_area :bio, autofocus: true, autocomplete: "bio", placeholder: "Fantasy自介", class: "form-control" %>
         </div>
+
 
         <div class="form-group">
           <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: "form-control" %>

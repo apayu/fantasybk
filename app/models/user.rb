@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   validates :user_name, uniqueness: true
   validates :user_name, presence: true
+  validates :league_id, numericality: { only_integer: true }
 
   has_one :scoreboard
 end

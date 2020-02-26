@@ -4,6 +4,9 @@
       <% resource.errors.full_messages.each do |message| %>
         <% message.sub! 'Password', '密碼' %>
         <% message.sub! 'User name', '暱稱' %>
+        <% message.sub! 'Current password ', '密碼' %>
+        <% message.sub! '密碼 confirmation 與 Password', '密碼' %>
+        <% message.sub! 'League', '聯盟ID' %>
         <li><%= message %></li>
       <% end %>
     </ul>
