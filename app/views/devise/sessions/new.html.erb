@@ -5,32 +5,35 @@
     <div class="col-4">
       <div class="card">
       <article class="card-body">
-              <a href="" class="float-right btn btn-outline-primary">Sign up</a>
-              <h4 class="card-title mb-4 mt-1">登入</h4>
-              <p>
-                      <a href="" class="btn btn-block btn-outline-info"> <i class="fab fa-twitter"></i>   Login via Twitter</a>
-                      <a href="" class="btn btn-block btn-outline-primary"> <i class="fab fa-facebook-f"></i>   Login via facebook</a>
-              </p>
-              <hr>
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="form-group">
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: "form-control" %>
-      </div>
+        <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+          <%= link_to "註冊", new_registration_path(resource_name), class: "float-right btn btn-outline-primary" %><br />
+        <% end %>
+        <h4 class="card-title mb-4 mt-1">登入</h4>
+              <!-- <p> -->
+              <!--   <a href="#" class="btn btn&#45;block btn&#45;outline&#45;info"> <i class="fab fa&#45;twitter"></i>   Login via Twitter</a> -->
+              <!--   <a href="#" class="btn btn&#45;block btn&#45;outline&#45;primary"> <i class="fab fa&#45;facebook&#45;f"></i>   Login via facebook</a> -->
+              <!-- </p> -->
+              <!-- <hr> -->
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <div class="form-group">
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: "form-control" %>
+        </div>
 
-      <div class="form-group">
-        <%= f.password_field :password, autocomplete: "current-password", placeholder: "*******", class: "form-control" %>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                  <%= f.submit "Log in", class: "btn btn-primary btn-block" %>
-            </div> <!-- form-group// -->
+        <div class="form-group">
+          <%= f.password_field :password, autocomplete: "current-password", placeholder: "密碼", class: "form-control" %>
         </div>
-        <div class="col-md-6 text-right">
-            <a class="small" href="#">Forgot password?</a>
-        </div>
-      </div> <!-- .row// -->
-    <% end %>
+        <div class="row">
+          <div class="col-md-6">
+              <div class="form-group">
+                    <%= f.submit "登入", class: "btn btn-primary btn-block" %>
+              </div> <!-- form-group// -->
+          </div>
+          <div class="col-md-6 text-right">
+            <%= link_to "忘記密碼?", new_password_path(resource_name), class: "small" %><br />
+          </div>
+        </div> <!-- .row// -->
+      <% end %>
       </article>
       </div> <!-- card.// -->
     </div>
@@ -38,4 +41,3 @@
     </div>
   </div>
 </div>
-<%= render "devise/shared/links" %>
