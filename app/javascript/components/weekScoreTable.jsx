@@ -83,7 +83,7 @@ class WeekScoreTable extends React.Component {
 
   renderWeekBtn(weekArray) {
     let btn = weekArray.map( week =>
-      <input key={week} className="btn btn-dark mr-3" type="button" value={week} onClick={this.props.handleChangeWeek.bind(this)} />
+      <input key={week} className="btn btn-info btn-sm mr-3" type="button" value={week} onClick={this.props.handleChangeWeek.bind(this)} />
     )
     return(<div className="mt-3">{btn}</div>)
   }
@@ -96,7 +96,7 @@ class WeekScoreTable extends React.Component {
 
     const totalTable = weekArray.map( week =>
       <div key={week} style={ week == selectWeek ? null : hidden }>
-        <h3>{leagueName} week {week} 戰力表</h3>
+        <h4>{leagueName} week {week} 戰力表</h4>
         <div className="custom-table-width">
           <table className="table table-sm">
             <tbody className="thead-dark">
@@ -136,9 +136,9 @@ class WeekScoreTable extends React.Component {
   }
 
   render() {
-    // 過去三週的對戰表印出
+    // 過去4週的對戰表印出
     let thisWeek = this.props.leagueCurrentWeek
-    let minWeek = thisWeek - 2
+    let minWeek = thisWeek - 4
     let weekArray = []
     while(thisWeek >= minWeek && thisWeek > 0) {
       weekArray.push(thisWeek)
