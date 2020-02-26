@@ -2,16 +2,16 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
 
-class Table extends React.Component {
+class WeekScoreTable extends React.Component {
   constructor(props) {
     super(props)
   }
 
   // 數值越大，分數越高
-  sortScoreboard(arr, num, to_sort) {
+  sortScoreboard(arr, num, toSort) {
     let newArray = arr.concat(num)
 
-    if(to_sort == "asc")
+    if(toSort == 'asc')
       newArray.sort((a,b) => parseFloat(a)-parseFloat(b))
     else
       newArray.sort((a,b) => parseFloat(b)-parseFloat(a))
@@ -21,48 +21,48 @@ class Table extends React.Component {
 
   renderTableData(week) {
     // 選擇要計算的 week 成績
-    let select_week_scoreboard = this.props.scoreboard.filter(x => x.week == week)
+    let selectWeekScoreboard = this.props.scoreboardArray.filter(x => x.week == week)
     // 比項
-    let league_stats = this.props.league_stats
+    let leagueStatsArray = this.props.leagueStatsArray
     // 複製成計分板
-    let scoreboard_value = JSON.parse(JSON.stringify(select_week_scoreboard))
+    let scoreboardValue = JSON.parse(JSON.stringify(selectWeekScoreboard))
     // 單項分數
-    let single_value = 0
+    let singleValue = 0
 
     // 算出各個項目的成績
     // 從每一隊的第一個比項開始算
-    for(let i = 0; i< league_stats.length; i++) {
-      let stat_name = league_stats[i].name
-      let sort_order  = league_stats[i].sort_order
-      let total_array = select_week_scoreboard.map(x => x[stat_name])
-      let total_value = 0
+    for(let i = 0; i< leagueStatsArray.length; i++) {
+      let statName = leagueStatsArray[i].name
+      let sortOrder  = leagueStatsArray[i].sort_order
+      let totalArray = selectWeekScoreboard.map(x => x[statName])
+      let totalValue = 0
 
       // x等於各隊數據
-      select_week_scoreboard.map(x => {
-        let c = scoreboard_value.filter( y => y.id == x.id)
+      selectWeekScoreboard.map(x => {
+        let c = scoreboardValue.filter( y => y.id == x.id)
 
         //取得分數
-        if(sort_order == 1)
-          single_value = x[stat_name] ? this.sortScoreboard(total_array, x[stat_name], "asc") : 0
+        if(sortOrder == 1)
+          singleValue = x[statName] ? this.sortScoreboard(totalArray, x[statName], 'asc') : 0
         else
-          single_value = x[stat_name] ? this.sortScoreboard(total_array, x[stat_name], "desc") : 0
+          singleValue = x[statName] ? this.sortScoreboard(totalArray, x[statName], 'desc') : 0
 
         // 尋找對應的隊伍計分板
-        c[0][stat_name] = single_value
+        c[0][statName] = singleValue
 
         // 加總到total_value
-        if (c && c[0]["total_value"]) {
-          c[0]["total_value"] = c[0]["total_value"] + single_value
+        if (c && c[0]['total_value']) {
+          c[0]['total_value'] = c[0]['total_value'] + singleValue
         }
         else{
-          c[0]["total_value"] = single_value
+          c[0]['total_value'] = singleValue
         }
       })
     }
 
-    return select_week_scoreboard.map((team, index) => {
+    return selectWeekScoreboard.map((team, index) => {
       // 從對應計分板尋找總分
-      let h = scoreboard_value.filter( y => y.id == team.id)
+      let h = scoreboardValue.filter( y => y.id == team.id)
 
       const cell = []
       cell.push(<td key="0" scope="col" >{team.name}</td>)
@@ -70,7 +70,7 @@ class Table extends React.Component {
       cell.push(<td key="2" scope="col" >{team.g}</td>)
 
       for(let i = 4; i < Object.keys(team).length; i++){
-          cell.push(<td key={i} scope="col" >{ Object.values(team)[i] ? Object.values(team)[i] : "-" }</td>)
+          cell.push(<td key={i} scope="col" >{ Object.values(team)[i] ? Object.values(team)[i] : '-' }</td>)
       }
 
       return(
@@ -89,14 +89,14 @@ class Table extends React.Component {
   }
 
   renderScoreboard(weekArray) {
-    const league_name = this.props.league_name
+    const leagueName = this.props.leagueName
     const selectWeek = this.props.selectWeek
 
-    const hidden = { "display": "none" }
+    const hidden = { 'display': 'none' }
 
     const totalTable = weekArray.map( week =>
       <div key={week} style={ week == selectWeek ? null : hidden }>
-        <h3>{league_name} week {week} 戰力表</h3>
+        <h3>{leagueName} week {week} 戰力表</h3>
         <div className="custom-table-width">
           <table className="table table-sm">
             <tbody className="thead-dark">
@@ -137,7 +137,7 @@ class Table extends React.Component {
 
   render() {
     // 過去三週的對戰表印出
-    let thisWeek = this.props.league_current_week
+    let thisWeek = this.props.leagueCurrentWeek
     let minWeek = thisWeek - 2
     let weekArray = []
     while(thisWeek >= minWeek && thisWeek > 0) {
@@ -163,5 +163,5 @@ class Table extends React.Component {
   }
 }
 
-export default Table;
+export default WeekScoreTable
 

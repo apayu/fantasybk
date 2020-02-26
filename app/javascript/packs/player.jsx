@@ -3,7 +3,7 @@ import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import PlayerLineChart from 'components/playerLineChart'
+import PlayerScoreLine from 'components/playerScoreLine'
 import GameLogTable from 'components/gameLogTable'
 import PlayerRadar from 'components/playerRadar'
 
@@ -228,7 +228,7 @@ class App extends React.Component {
             </Tab>
             <Tab eventKey="totalValue" title="數據走勢">
               <div style={chartStyle}>
-                <PlayerLineChart
+                <PlayerScoreLine
                   playerWeekValue = {this.state.playerWeekValue}
                   fetchInProgressByValue = {this.state.fetchInProgressByValue}
                 />

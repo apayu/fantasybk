@@ -2,10 +2,9 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
 import Chart from 'chart.js'
-import "chartjs-plugin-colorschemes"
+import 'chartjs-plugin-colorschemes'
 
-// LineChart
-class LineChart extends React.Component {
+class SeasonScoreLine extends React.Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
@@ -47,10 +46,10 @@ class LineChart extends React.Component {
   }
 
   // 數值越大，分數越高
-  sortScoreboard(arr, num, to_sort) {
+  sortScoreboard(arr, num, toSort) {
     let newArray = arr.concat(num)
 
-    if(to_sort == "asc")
+    if(toSort == 'asc')
       newArray.sort((a,b) => parseFloat(a)-parseFloat(b))
     else
       newArray.sort((a,b) => parseFloat(b)-parseFloat(a))
@@ -60,64 +59,64 @@ class LineChart extends React.Component {
 
   calculateValue() {
     let fetchInProgress = this.props.fetchInProgress
-    let league_start_week = parseInt(this.props.league_start_week)
-    let league_current_week = parseInt(this.props.league_current_week)
+    let leagueStartWeek = parseInt(this.props.leagueStartWeek)
+    let leagueCurrentWeek = parseInt(this.props.leagueCurrentWeek)
 
     if(!fetchInProgress){
       // 建立計分板
-      let scoreboard_value = JSON.parse(JSON.stringify(this.props.scoreboard))
+      let scoreboardValue = JSON.parse(JSON.stringify(this.props.scoreboardArray))
 
-      for(var week = league_start_week; week <= league_current_week; week++) {
+      for(var week = leagueStartWeek; week <= leagueCurrentWeek; week++) {
         // 選擇要計算的 week 成績
-        let select_week_scoreboard = this.props.scoreboard.filter(x => x.week == week)
+        let selectWeekScoreboard = this.props.scoreboardArray.filter(x => x.week == week)
         // 比項
-        let league_stats = this.props.league_stats
-        let single_value = 0
+        let leagueStatsArray = this.props.leagueStatsArray
+        let singleValue = 0
 
         // 算出各個項目的成績
         // 從每一隊的第一個比項開始算
-        for(let i = 0; i< league_stats.length; i++) {
-          let stat_name = league_stats[i].name
-          let sort_order  = league_stats[i].sort_order
-          let total_array = select_week_scoreboard.map(x => x[stat_name])
-          let total_value = 0
+        for(let i = 0; i< leagueStatsArray.length; i++) {
+          let statName = leagueStatsArray[i].name
+          let sortOrder  = leagueStatsArray[i].sort_order
+          let totalArray = selectWeekScoreboard.map(x => x[statName])
+          let totalValue = 0
 
           // x等於各隊數據
-          select_week_scoreboard.map(x => {
-            let c = scoreboard_value.filter( y => y.id == x.id && y.week == week)
+          selectWeekScoreboard.map(x => {
+            let c = scoreboardValue.filter( y => y.id == x.id && y.week == week)
 
             //取得分數
-            if(sort_order == 1)
-              single_value = x[stat_name] ? this.sortScoreboard(total_array, x[stat_name], "asc") : 0
+            if(sortOrder == 1)
+              singleValue = x[statName] ? this.sortScoreboard(totalArray, x[statName], 'asc') : 0
             else
-              single_value = x[stat_name] ? this.sortScoreboard(total_array, x[stat_name], "desc") : 0
+              singleValue = x[statName] ? this.sortScoreboard(totalArray, x[statName], 'desc') : 0
 
             // 尋找對應的隊伍計分板
-            c[0][stat_name] = single_value
+            c[0][statName] = singleValue
 
             // 加總到total_value
-            if (c && c[0]["total_value"]) {
-              c[0]["total_value"] = c[0]["total_value"] + single_value
+            if (c && c[0]['total_value']) {
+              c[0]['total_value'] = c[0]['total_value'] + singleValue
             }
             else{
-              c[0]["total_value"] = single_value
+              c[0]['total_value'] = singleValue
             }
           })
         }
       }
 
       // 餵資料
-      let totalTeamId = Object.values(scoreboard_value).map(item => item.id)
-      let totalWeek = Object.values(scoreboard_value).map(item => item.week)
+      let totalTeamId = Object.values(scoreboardValue).map(item => item.id)
+      let totalWeek = Object.values(scoreboardValue).map(item => item.week)
 
       // 設定週數
-      let labels = Array.from(Array(league_current_week-(league_start_week-1)),(e,i)=>i+league_start_week)
+      let labels = Array.from(Array(leagueCurrentWeek-(leagueStartWeek-1)),(e,i)=>i+leagueStartWeek)
       // 設定資料
       let dataSets = []
 
       let teamId = Array.from(new Set(totalTeamId))
       teamId.map(x => {
-        let totalTeamValue = scoreboard_value.filter( y => y.id == x)
+        let totalTeamValue = scoreboardValue.filter( y => y.id == x)
         let dataSet = {
           label: totalTeamValue[0].name,
           data: totalTeamValue.map(d => d.total_value),
@@ -132,8 +131,8 @@ class LineChart extends React.Component {
 
   render() {
     this.calculateValue()
-    return <canvas ref={this.canvasRef} />;
+    return <canvas ref={this.canvasRef} />
   }
 }
 
-export default LineChart;
+export default SeasonScoreLine

@@ -5,7 +5,7 @@ import Chart from 'chart.js'
 import "chartjs-plugin-colorschemes"
 
 // LineChart
-class PlayerLineChart extends React.Component {
+class PlayerScoreLine extends React.Component {
   constructor(props) {
     super(props)
     this.canvasRef = React.createRef()
@@ -76,4 +76,4 @@ class PlayerLineChart extends React.Component {
   }
 }
 
-export default PlayerLineChart
+export default PlayerScoreLine
