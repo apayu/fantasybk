@@ -94,7 +94,8 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def log
-    player_game_log = GameLog.where("player_id = ?", params[:player_id]).order(game_time: :desc).limit(10)
+    game_num = params[:game] || 10
+    player_game_log = GameLog.where("player_id = ?", params[:player_id]).order(game_time: :desc).limit(game_num)
     if player_game_log
       render json: { game_log: player_game_log }
     else
