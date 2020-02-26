@@ -96,7 +96,9 @@ class WeekScoreTable extends React.Component {
 
     const totalTable = weekArray.map( week =>
       <div key={week} style={ week == selectWeek ? null : hidden }>
-        <h4>{leagueName} week {week} 戰力表</h4>
+        <div className="mt-2">
+          <h4>{leagueName} week {week} 戰力表</h4>
+        </div>
         <div className="custom-table-width">
           <table className="table table-sm">
             <tbody className="thead-dark">
@@ -153,12 +155,22 @@ class WeekScoreTable extends React.Component {
         </div>
       )
     }
-    else{
-      return (
-        <div>
-          等待資料中
+    else {
+      // 資料處理中
+      const loadingStyle = {
+        width: '3rem',
+        height: '3rem'
+      }
+
+      const loadingPositon = {
+        height: '100px'
+      }
+      return(
+      <div className="row justify-content-center align-items-center" style={loadingPositon}>
+        <div className="spinner-border" style={loadingStyle} role="status">
+          <span className="sr-only">Loading...</span>
         </div>
-      )
+      </div>)
     }
   }
 }
