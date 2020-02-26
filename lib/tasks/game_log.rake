@@ -11,7 +11,7 @@ namespace :nba do
     # # 從幾月機號 - 幾月號號
     # d = Date.new(2020, 01, 13)
 
-    2.times do |day|
+    4.times do |day|
       api_game_log = NbaApi.get_day_game_log((d - day).strftime("%F"))
 
       GameLog.transaction do

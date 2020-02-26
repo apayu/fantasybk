@@ -211,8 +211,8 @@ class App extends React.Component {
         <div className="mt-3">
           <Tabs defaultActiveKey="gameLog" id="leagueTabs">
             <Tab eventKey="gameLog" title="逐場表現">
-              <div className="dropdown">
-                <button className="btn btn-info dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div className="dropdown mt-3">
+                <button className="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   {dropDownText}
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenu">
