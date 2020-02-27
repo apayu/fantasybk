@@ -100,24 +100,26 @@ class WeekScoreTable extends React.Component {
           <h4>{leagueName} week {week} 戰力表</h4>
         </div>
         <div className="custom-table-width">
-          <table className="table table-sm">
-            <tbody className="thead-dark">
+          <table className="table table-sm week-score-table">
+            <thead className="thead-dark">
               <tr>
-                <th>隊伍名稱</th>
-                <th>戰力值</th>
-                <th>出場數(GP)</th>
-                <th>FG%</th>
-                <th>FT%</th>
-                <th>3PTM</th>
-                <th>PTS</th>
-                <th>OREB</th>
-                <th>DREB</th>
-                <th>AST</th>
-                <th>ST</th>
-                <th>BLK</th>
-                <th>TO</th>
-                <th>PF</th>
+                <th scope="col">隊伍名稱</th>
+                <th scope="col">戰力值</th>
+                <th scope="col">出場數</th>
+                <th scope="col">FG%</th>
+                <th scope="col">FT%</th>
+                <th scope="col">3PTM</th>
+                <th scope="col">PTS</th>
+                <th scope="col">OREB</th>
+                <th scope="col">DREB</th>
+                <th scope="col">AST</th>
+                <th scope="col">ST</th>
+                <th scope="col">BLK</th>
+                <th scope="col">TO</th>
+                <th scope="col">PF</th>
               </tr>
+            </thead>
+            <tbody >
               {this.renderTableData(week)}
             </tbody>
           </table>

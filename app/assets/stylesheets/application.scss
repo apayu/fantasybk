@@ -40,7 +40,7 @@ $grid-gutter-width: 30px;
 
 table {
   th, tr {
-    font-size: 14px;
+    font-size: 13px;
   }
   th, td {
     width: 2em;
@@ -53,6 +53,13 @@ table {
   min-width: 1440px;     // 避免因寬度不足而字疊在一起（根據表格內容設定寬度）
   thead th:nth-child(2){
     width: 7em;
+  }
+}
+
+// 聯盟頁每週戰力
+.week-score-table {
+  thead th:nth-child(0){
+    width: 3em;
   }
 }
 //
