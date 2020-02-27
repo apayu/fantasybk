@@ -24,6 +24,11 @@ class App extends React.Component {
       leagueStatsArray: [],
       // 數據板
       scoreboardArray: [],
+      // 排序條件
+      sortTableConditons: {
+        head: 'total_value',
+        sort: 'desc'
+      },
       // 正在取得資料
       fetchInProgress: true,
       // 取得失敗
@@ -33,6 +38,7 @@ class App extends React.Component {
     }
 
     this.handleChangeWeek = this.handleChangeWeek.bind(this)
+    this.handleSortValue = this.handleSortValue.bind(this)
   }
 
   componentDidMount() {
@@ -63,6 +69,23 @@ class App extends React.Component {
     this.setState({selectWeek:event.target.value})
   }
 
+  // 每週戰力排序
+  handleSortValue(event) {
+    let sortTableConditons = this.state.sortTableConditons
+    const click = event.target.dataset.item
+
+    if(click == sortTableConditons.head) {
+      if(sortTableConditons.sort == 'desc') {
+        this.setState({sortTableConditons: {head: click, sort: 'asc'}})
+      }
+      else {
+        this.setState({sortTableConditons: {head: click, sort: 'desc'}})
+      }
+    }else {
+        this.setState({sortTableConditons: {head: click, sort: 'desc'}})
+    }
+  }
+
   render() {
     const chartStyle = {
       position: 'relative',
@@ -82,9 +105,11 @@ class App extends React.Component {
               leagueCurrentWeek = {this.state.leagueCurrentWeek}
               leagueStatsArray = {this.state.leagueStatsArray}
               scoreboardArray = {this.state.scoreboardArray}
+              sortTableConditons = {this.state.sortTableConditons}
               fetchInProgress = {this.state.fetchInProgress}
               fetchSuccess = {this.state.fetchSuccess}
               handleChangeWeek = {this.handleChangeWeek}
+              handleSortValue = {this.handleSortValue}
               selectWeek = {this.state.selectWeek}
             />
           </Tab>

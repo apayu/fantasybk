@@ -19,6 +19,16 @@ class WeekScoreTable extends React.Component {
     return newArray.indexOf(num) + 1
   }
 
+  // table 排序
+  sortTable(scoreboard, tableHead, toSort) {
+    if(toSort == 'asc')
+      scoreboard.sort((a, b) => parseFloat(a[tableHead]) - parseFloat(b[tableHead]))
+    else
+      scoreboard.sort((a, b) => parseFloat(b[tableHead]) - parseFloat(a[tableHead]))
+
+    return scoreboard
+  }
+
   renderTableData(week) {
     // 選擇要計算的 week 成績
     let selectWeekScoreboard = this.props.scoreboardArray.filter(x => x.week == week)
@@ -28,6 +38,8 @@ class WeekScoreTable extends React.Component {
     let scoreboardValue = JSON.parse(JSON.stringify(selectWeekScoreboard))
     // 單項分數
     let singleValue = 0
+    // 排序條件
+    const sortTableConditons = this.props.sortTableConditons
 
     // 算出各個項目的成績
     // 從每一隊的第一個比項開始算
@@ -60,17 +72,24 @@ class WeekScoreTable extends React.Component {
       })
     }
 
-    return selectWeekScoreboard.map((team, index) => {
-      // 從對應計分板尋找總分
-      let h = scoreboardValue.filter( y => y.id == team.id)
+
+    scoreboardValue = this.sortTable(scoreboardValue, sortTableConditons.head, sortTableConditons.sort)
+
+    return scoreboardValue.map((team, index) => {
+      const originScoreboard = selectWeekScoreboard.filter( y => y.id == team.id)[0]
+      const selectStyle = {
+        backgroundColor: '#f3f3f3'
+      }
 
       const cell = []
-      cell.push(<td key="0" scope="col" >{team.name}</td>)
-      cell.push(<td key="1" scope="col" >{h[0].total_value}</td>)
-      cell.push(<td key="2" scope="col" >{team.g}</td>)
+      cell.push(<td key='0' scope='col' >{team.name}</td>)
+      cell.push(<td style={sortTableConditons.head == 'total_value' ? selectStyle : {}} key='1'>{team.total_value}</td>)
+      cell.push(<td style={sortTableConditons.head == 'g' ? selectStyle : {}} key='2'>{team.g}</td>)
 
-      for(let i = 4; i < Object.keys(team).length; i++){
-          cell.push(<td key={i} scope="col" >{ Object.values(team)[i] ? Object.values(team)[i] : '-' }</td>)
+      for(let i = 4; i < Object.keys(originScoreboard).length; i++){
+        const tdName = Object.keys(originScoreboard)[i]
+        const tdValue = Object.values(originScoreboard)[i]
+        cell.push(<td style={sortTableConditons.head == tdName ? selectStyle : {}} key={i}>{ tdValue  || '-' }</td>)
       }
 
       return(
@@ -91,10 +110,22 @@ class WeekScoreTable extends React.Component {
   renderScoreboard(weekArray) {
     const leagueName = this.props.leagueName
     const selectWeek = this.props.selectWeek
-
     const hidden = { 'display': 'none' }
 
-    const totalTable = weekArray.map( week =>
+    const totalTable = weekArray.map( week => {
+    const leagueStatsArray = this.props.leagueStatsArray
+    const thArray = []
+
+    const mouse = {
+      cursor: 'pointer'
+    }
+
+    // 依照聯盟比項產生
+    leagueStatsArray.map( s => {
+      thArray.push(<th style={mouse} key={s.name} data-item={s.name} scope="col" onClick={this.props.handleSortValue.bind(this)}>{s.name}</th>)
+    })
+
+      return(
       <div key={week} style={ week == selectWeek ? null : hidden }>
         <div className="mt-2">
           <h4>{leagueName} week {week} 戰力表</h4>
@@ -104,19 +135,9 @@ class WeekScoreTable extends React.Component {
             <thead className="thead-dark">
               <tr>
                 <th scope="col">隊伍名稱</th>
-                <th scope="col">戰力值</th>
-                <th scope="col">出場數</th>
-                <th scope="col">FG%</th>
-                <th scope="col">FT%</th>
-                <th scope="col">3PTM</th>
-                <th scope="col">PTS</th>
-                <th scope="col">OREB</th>
-                <th scope="col">DREB</th>
-                <th scope="col">AST</th>
-                <th scope="col">ST</th>
-                <th scope="col">BLK</th>
-                <th scope="col">TO</th>
-                <th scope="col">PF</th>
+                <th style={mouse} data-item="total_value" scope="col" onClick={this.props.handleSortValue.bind(this)}>戰力值</th>
+                <th style={mouse} data-item="g" scope="col" onClick={this.props.handleSortValue.bind(this)}>出場數</th>
+                {thArray}
               </tr>
             </thead>
             <tbody >
@@ -124,8 +145,8 @@ class WeekScoreTable extends React.Component {
             </tbody>
           </table>
         </div>
-      </div>
-    )
+      </div>)
+    })
     return (
       <div>
         {totalTable}
