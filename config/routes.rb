@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root "players#index"
 
   get "/search" => "players#search"
+  get "/pages/about" => "pages#about"
 
   resources :players, param: :player_id do
     collection do

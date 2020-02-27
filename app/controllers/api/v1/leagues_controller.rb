@@ -16,7 +16,8 @@ class Api::V1::LeaguesController < ApplicationController
         token = new_token["access_token"]
       end
 
-      league = get_fantasy_league_setting(token)
+      league_id = current_user.league_id
+      league = get_fantasy_league_setting(token, league_id)
       league_name = league["fantasy_content"]["league"]["name"]
       league_num_teams = league["fantasy_content"]["league"]["num_teams"]
       league_scoring_type = league["fantasy_content"]["league"]["scoring_type"]
@@ -38,7 +39,7 @@ class Api::V1::LeaguesController < ApplicationController
         # user 目前有的socreboard
         post_scoreboard = user_scoreboard.post_scoreboard
         # 新的 socreboard
-        new_scoreboard = get_fantasy_all_matchup(token, league_stats, user_current_week, league_current_week)
+        new_scoreboard = get_fantasy_all_matchup(token, league_id, league_stats, user_current_week, league_current_week)
         # 新舊合併
         scoreboards = post_scoreboard + new_scoreboard
 
@@ -48,7 +49,7 @@ class Api::V1::LeaguesController < ApplicationController
           user_scoreboard.update(post_scoreboard: post_scoreboard, current_week: league_current_week)
         end
       else
-        scoreboards = get_fantasy_all_matchup(token, league_stats, league_start_week, league_current_week)
+        scoreboards = get_fantasy_all_matchup(token, league_id, league_stats, league_start_week, league_current_week)
         # 將非當週的scoreboard取出
         post_scoreboard = scoreboards.select { |s| s[:week] != league_current_week }
         Scoreboard.create(user_id: current_user.id, post_scoreboard: post_scoreboard, current_week: league_current_week)
@@ -70,13 +71,13 @@ class Api::V1::LeaguesController < ApplicationController
 
   private
 
-  def get_fantasy_league_setting(token)
-    Hash.from_xml(YahooApi.get_league_setting(token, 5448).gsub("\n", ""))
+  def get_fantasy_league_setting(token, league_id)
+    Hash.from_xml(YahooApi.get_league_setting(token, league_id).gsub("\n", ""))
   end
 
-  def get_fantasy_all_matchup(token, stats, start_week, current_week)
+  def get_fantasy_all_matchup(token, league_id, stats, start_week, current_week)
 
-    scoreboard_hash = Hash.from_xml(YahooApi.get_league_scoreboard(token, 5448, start_week.to_i, current_week.to_i).gsub("\n", ""))
+    scoreboard_hash = Hash.from_xml(YahooApi.get_league_scoreboard(token, league_id, start_week.to_i, current_week.to_i).gsub("\n", ""))
 
     scoreboard = []
 
