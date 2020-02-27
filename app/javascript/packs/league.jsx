@@ -26,6 +26,8 @@ class App extends React.Component {
       scoreboardArray: [],
       // 正在取得資料
       fetchInProgress: true,
+      // 取得失敗
+      fetchSuccess: true,
       // 選擇目前秀出的week成績
       selectWeek: '1'
     }
@@ -36,11 +38,10 @@ class App extends React.Component {
   componentDidMount() {
     const url = '/api/v1/leagues/index'
     fetch(url).then(response => {
-      if(response.ok) {
-        return response.json()
-      }
+      if(!response.ok) throw new Error(response.statusText)
+      return response.json()
     })
-    .then(response =>
+    .then(response => {
       this.setState({
         leagueName: response.leagueName,
         leagueNumTeams: response.league_num_teams,
@@ -49,7 +50,12 @@ class App extends React.Component {
         leagueStatsArray: response.league_stats,
         scoreboardArray: response.scoreboard,
         fetchInProgress: false,
-        selectWeek: response.league_current_week}))
+        selectWeek: response.league_current_week})
+    })
+    .catch((error) => {
+      this.setState({
+        fetchSuccess: false })
+    })
   }
 
   // 切換顯示week
@@ -77,6 +83,7 @@ class App extends React.Component {
               leagueStatsArray = {this.state.leagueStatsArray}
               scoreboardArray = {this.state.scoreboardArray}
               fetchInProgress = {this.state.fetchInProgress}
+              fetchSuccess = {this.state.fetchSuccess}
               handleChangeWeek = {this.handleChangeWeek}
               selectWeek = {this.state.selectWeek}
             />
@@ -91,6 +98,7 @@ class App extends React.Component {
                 leagueStatsArray = {this.state.leagueStatsArray}
                 scoreboardArray = {this.state.scoreboardArray}
                 fetchInProgress = {this.state.fetchInProgress}
+                fetchSuccess = {this.state.fetchSuccess}
               />
             </div>
           </Tab>
