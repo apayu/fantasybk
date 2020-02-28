@@ -78,11 +78,11 @@ class GameLogTable extends React.Component {
     const tableHeader = ['Date', 'Min', 'EFF', 'FGM', 'FGA', 'FG%',
       '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OR', 'DR', 'Reb', 'Ast', 'Stl', 'Blk', 'TO', 'PF', 'Pts']
     return(
-      <tr>{tableHeader.map(title => <th key={title}>{title}</th>)}</tr>
+      <tr>{tableHeader.map(title => <th key={title} scope="col">{title}</th>)}</tr>
     )
   }
 
-  renderTableDate() {
+  renderTableData() {
     const gameLog = this.props.gameLog
     // eff改變顏色最大小值
     const max = 50
@@ -100,7 +100,7 @@ class GameLogTable extends React.Component {
 
       let gameDate = new Date(log['game_time'])
 
-      cell.push(<td key='game_time'>{gameDate.getMonth()+1}/{gameDate.getDate()}</td>)
+      cell.push(<th key='game_time' scope="row">{gameDate.getMonth()+1}/{gameDate.getDate()}</th>)
       cell.push(<td key='min'>{log['min'] == "" ? '00:00' : log['min']}</td>)
       cell.push(<td key='eff' style={{backgroundColor: color}} >{eff}</td>)
       cell.push(<td key='fgm'>{log['fgm']}</td>)
@@ -136,9 +136,11 @@ class GameLogTable extends React.Component {
         <div className="mt-1">
           <div className="custom-table-width">
             <table className="table table-sm">
-              <tbody className="thead-dark">
+              <thead className="thead-dark">
                 {this.renderTableHeader()}
-                {this.renderTableDate()}
+              </thead>
+              <tbody>
+                {this.renderTableData()}
               </tbody>
             </table>
           </div>
