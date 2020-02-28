@@ -11,7 +11,7 @@ class Api::V1::TeamsController < ApplicationController
     schedules.each do |s|
       has_team = team_array.select { |t| t.has_value?(s.team.tricode) }
       if has_team.empty?
-        week_array = Array.new(26, 0)
+        week_array = Array.new(total_week, 0)
         week_array[0] += 1
         team_array << { tricode: s.team.tricode, game_week: week_array }
       else
@@ -21,6 +21,7 @@ class Api::V1::TeamsController < ApplicationController
     end
 
     render json: {
+      thisWeek: get_week(Time.now, start_week),
       teamSchedule: team_array
     }
   end
