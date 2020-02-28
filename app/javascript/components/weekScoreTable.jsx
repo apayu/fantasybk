@@ -82,7 +82,7 @@ class WeekScoreTable extends React.Component {
       }
 
       const cell = []
-      cell.push(<td key='0' scope='col' >{team.name}</td>)
+      cell.push(<th key='0' scope='col' >{team.name}</th>)
       cell.push(<td style={sortTableConditons.head == 'total_value' ? selectStyle : {}} key='1'>{team.total_value}</td>)
       cell.push(<td style={sortTableConditons.head == 'g' ? selectStyle : {}} key='2'>{team.g}</td>)
 
