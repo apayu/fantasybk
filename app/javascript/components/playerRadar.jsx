@@ -28,7 +28,7 @@ class PlayerRadar extends React.Component {
         data: {
             labels: labels,
             datasets: [{
-                label: '',
+                label: '球員',
                 backgroundColor: 'rgba(200,0,0,0.2)',
                 data: [0, 0, 0, 0, 0, 0]
             }]

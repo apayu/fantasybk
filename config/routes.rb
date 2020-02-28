@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "/search" => "players#search"
   get "/pages/about" => "pages#about"
   get "/teams/schedule" => "teams#schedule"
+  get "/players/compare" => "players#compare"
 
   resources :players, param: :player_id do
     collection do
@@ -23,6 +24,8 @@ Rails.application.routes.draw do
       get "players/value/:player_id", to: "players#value"
       get "players/log/:player_id", to: "players#log"
       get "players/info/:player_id", to: "players#info"
+      get "players/list", to: "players#list"
+      get "players/score/:player_id", to: "players#score"
       get "teams/schedule", to: "teams#schedule"
     end
   end

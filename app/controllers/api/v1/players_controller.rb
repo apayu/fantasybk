@@ -1,5 +1,14 @@
 class Api::V1::PlayersController < ApplicationController
 
+  def list
+    players = Player.select(:id, :name).all
+
+    render json: {
+      playerList: players
+    }
+  end
+
+  # send query include player_id to search player
   def info
     player = GameLog.where("player_id = ?", params[:player_id])
     league = GameLog.all
@@ -54,6 +63,15 @@ class Api::V1::PlayersController < ApplicationController
     end
   end
 
+  # get player total item score
+  def score
+    playerValue = ZScore.player_value_by_game(82, params[:player_id])
+    render json: {
+      playerValue: playerValue
+    }
+  end
+
+  # get player by week
   def value
     player = Player.find(params[:player_id])
 

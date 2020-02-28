@@ -33,6 +33,10 @@ class PlayersController < ApplicationController
     # 3.times { |index| @player << ZScore.player_value_by_game(game[index], params[:player_id]).to_a[0] }
   end
 
+  def compare
+
+  end
+
   def search
     if params[:search].blank?
       redirect_to root_path
