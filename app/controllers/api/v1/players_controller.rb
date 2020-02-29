@@ -3,7 +3,7 @@ class Api::V1::PlayersController < ApplicationController
   def list
 
     players = []
-    gamelog = GameLog.select("player_id").where("min <> ''").group("player_id").includes(:player)
+    gamelog = GameLog.select("player_id").where("min <> '' AND min <> '0'").group("player_id").includes(:player)
     gamelog.map do |g|
       players << {
         id: g.player_id,
