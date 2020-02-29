@@ -96,7 +96,8 @@ class ScheduleTable extends React.Component {
   }
 
   renderTableData() {
-    let teamSchedule = this.props.teamSchedule
+    let teamSchedule = JSON.parse(JSON.stringify(this.props.teamSchedule))
+
     // 排序條件
     const sortTableConditons = this.props.sortTableConditons
     const head = sortTableConditons.head
