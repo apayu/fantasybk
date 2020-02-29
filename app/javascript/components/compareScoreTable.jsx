@@ -143,7 +143,7 @@ class CompareScoreTable extends React.Component {
     return(
         <div className="mt-1">
           <div className="custom-table-width">
-            <table className="table table-sm">
+            <table className="table table-sm compare-score-table">
               <thead className="thead-dark">
                 {this.renderTableHeader()}
               </thead>

@@ -58,8 +58,15 @@ table {
 
 // 聯盟頁每週戰力
 .week-score-table {
-  thead th:nth-child(0){
+  thead th:nth-child(1){
     width: 3em;
+  }
+}
+
+// 比較頁數據比較
+.compare-score-table {
+  thead th:nth-child(1){
+    width: 7em;
   }
 }
 //
