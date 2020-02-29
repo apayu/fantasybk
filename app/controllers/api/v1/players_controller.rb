@@ -1,10 +1,18 @@
 class Api::V1::PlayersController < ApplicationController
 
   def list
-    players = Player.select(:id, :name).all
+
+    players = []
+    gamelog = GameLog.select("player_id").where("min <> ''").group("player_id").includes(:player)
+    gamelog.map do |g|
+      players << {
+        id: g.player_id,
+        name: g.player.name
+      }
+    end
 
     render json: {
-      playerList: players
+      playerList: players.sort_by { |hsh| hsh[:name] }
     }
   end
 
