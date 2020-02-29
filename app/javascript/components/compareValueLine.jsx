@@ -15,7 +15,7 @@ class CompareValueLine extends React.Component {
       options: {
         plugins: {
           colorschemes: {
-            scheme: 'brewer.SetTwo3'
+            scheme: 'brewer.Accent3'
           }
         },
         maintainAspectRatio: false,

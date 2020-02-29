@@ -15,7 +15,7 @@ class CompareRadar extends React.Component {
     const options = {
         plugins: {
           colorschemes: {
-            scheme: 'brewer.SetTwo3'
+            scheme: 'brewer.Accent3'
           }
         },
         scale: {
