@@ -117,10 +117,9 @@ class CompareScoreTable extends React.Component {
   renderTableHeader() {
     const playerA = this.props.playerScoreList.playerA
     const playerB = this.props.playerScoreList.playerB
-    const player = playerA.length > 0 ? playerA : playerB
 
     let cell = []
-    if(player.hasOwnProperty('player_id')){
+    if(playerA.hasOwnProperty('player_id') || playerB.hasOwnProperty('player_id')){
       cell.push(<th key="0" scope="col">姓名</th>)
       cell.push(<th key="1" scope="col">球隊</th>)
       cell.push(<th key="2" scope="col">位置</th>)
@@ -143,7 +142,8 @@ class CompareScoreTable extends React.Component {
   render(){
     return(
         <div className="mt-1">
-          <div className="custom-table-width">
+          <div><small>傳統9項 分別為 投籃命中率(FG%) 罰球命中率(FT%) 得分(PTS) 三分球命中數(3PTM) 籃板(REB) 助攻(AST) 抄截(ST) 火鍋(BLK) 失誤(TO)</small></div>
+          <div className="custom-table-width mt-1">
             <table className="table table-sm compare-score-table">
               <thead className="thead-dark">
                 {this.renderTableHeader()}

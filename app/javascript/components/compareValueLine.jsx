@@ -54,7 +54,6 @@ class CompareValueLine extends React.Component {
     const player = playerA.length > 0 ? playerA : playerB
     let dataSets = []
 
-    console.log(player)
     if(player.length > 0) {
       // 設定週數
       const labels = Object.values(player).map(item => item.week)
