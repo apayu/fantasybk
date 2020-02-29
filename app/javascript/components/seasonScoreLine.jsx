@@ -7,7 +7,7 @@ import 'chartjs-plugin-colorschemes'
 class SeasonScoreLine extends React.Component {
   constructor(props) {
     super(props);
-    this.canvasRef = React.createRef();
+    this.canvasRef = React.createRef()
   }
 
   renderChart(labels, dataSets) {

@@ -74,34 +74,6 @@ class CompareRadar extends React.Component {
       this.myRadarChart.data.datasets[1].data = [points, tpm, tot_reb, assists, steals, blocks]
       this.myRadarChart.update()
     }
-
-    // if(typeof playerScoreList !== 'undefined' && playerScoreList.length >0) {
-    //   playerScoreList.forEach((p,i) => {
-    //
-    //     let points = p.points_value
-    //     let tpm = p.three_point_value
-    //     let tot_reb = p.tot_reb_value
-    //     let assists = p.assists_value
-    //     let steals = p.steals_value
-    //     let blocks = p.blocks_value
-    //     this.myRadarChart.data.datasets.push({
-    //       label: p.name,
-    //       backgroundColor: 'rgba(200,0,0,0.2)',
-    //       data: [points, tpm, tot_reb, assists, steals, blocks]
-    //     })
-    //   })
-    // }
-    // const fetchInProgressByInfo = this.props.fetchInProgressByInfo
-    // const playerInfo = this.props.playerInfo
-    // const leagueInfo = this.props.leagueInfo
-    //
-    // const points = playerInfo.points/leagueInfo.points
-    // const tpm = playerInfo.tpm/leagueInfo.tpm
-    // const tot_reb = playerInfo.tot_reb/leagueInfo.tot_reb
-    // const assists = playerInfo.assists/leagueInfo.assists
-    // const steals = playerInfo.steals/leagueInfo.steals
-    // const blocks = playerInfo.blocks/leagueInfo.blocks
-    //
   }
 
   render() {

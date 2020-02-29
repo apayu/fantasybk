@@ -1,7 +1,11 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
 import CompareRadar from 'components/compareRadar'
+import CompareScoreTable from 'components/compareScoreTable'
+import CompareValueLine from 'components/compareValueLine'
 
 class App extends React.Component {
   constructor(props) {
@@ -11,6 +15,10 @@ class App extends React.Component {
       playerScoreList: {
         playerA:{},
         playerB:{}
+      },
+      playerWeekValue: {
+        playerA:[],
+        playerB:[]
       },
       fetchInProgressByList: true
     }
@@ -58,10 +66,32 @@ class App extends React.Component {
     })
   }
 
+  // 取得球員數據走勢
+  getPlayerValue(playerId, playerSign) {
+    const url = '/api/v1/players/value/' + playerId
+    fetch(url).then(response => {
+      if(response.ok) {
+        return response.json()
+      }
+    })
+    .then(response => {
+      let playerWeekValue = this.state.playerWeekValue
+      if(playerSign == 'a') {
+        playerWeekValue.playerA = response.playerWeekValue
+      }else {
+        playerWeekValue.playerB = response.playerWeekValue
+      }
+      this.setState({
+        playerWeekValue: playerWeekValue
+      })
+    })
+  }
+
   handleSelectPlayer(event) {
     const playerId = event.target.value
     const playerSign = event.target.dataset.player
     this.getPlayerScore(playerId, playerSign)
+    this.getPlayerValue(playerId, playerSign)
   }
 
   renderPlayerList(playerSign) {
@@ -82,6 +112,12 @@ class App extends React.Component {
     const playerB = this.state.playerScoreList.playerB
     const playerAName = playerA.hasOwnProperty('name') ? playerA.name : ''
     const playerBName = playerB.hasOwnProperty('name') ? playerB.name : ''
+    const chartStyle = {
+      position: 'relative',
+      margin: 'auto',
+      height: '40vh',
+      width: '80vw'
+    }
 
     return(
       <div>
@@ -91,10 +127,23 @@ class App extends React.Component {
           <div className="col-4">{this.renderPlayerList('b')}</div>
         </div>
         <div className="row m-2">
-          <div className="col"><h2>{playerAName} vs {playerBName}</h2></div>
+          <div className="col text-right"><h2>{playerAName}</h2></div>
+          <div className="col-1 text-center"><h2>vs</h2></div>
+          <div className="col text-left"><h2>{playerBName}</h2></div>
         </div>
-        <div className="row">
-          <div className="col">表格</div>
+        <div className=" row mt-3">
+          <div className="col">
+            <Tabs defaultActiveKey="compareScore" id="compareTabs">
+              <Tab eventKey="compareScore" title="數據比較">
+                <CompareScoreTable playerScoreList = {this.state.playerScoreList} />
+              </Tab>
+              <Tab eventKey="compareEff" title="近期表現">
+                <div style={chartStyle}>
+                  <CompareValueLine playerWeekValue = {this.state.playerWeekValue} />
+                </div>
+              </Tab>
+            </Tabs>
+          </div>
         </div>
       </div>
     )
