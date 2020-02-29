@@ -117,7 +117,8 @@ class CompareScoreTable extends React.Component {
   renderTableHeader() {
     const playerA = this.props.playerScoreList.playerA
     const playerB = this.props.playerScoreList.playerB
-    const player = playerA || playerB
+    const player = playerA.length > 0 ? playerA : playerB
+
     let cell = []
     if(player.hasOwnProperty('player_id')){
       cell.push(<th key="0" scope="col">姓名</th>)
