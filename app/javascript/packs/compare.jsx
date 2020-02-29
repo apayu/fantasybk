@@ -6,6 +6,7 @@ import Tab from 'react-bootstrap/Tab'
 import CompareRadar from 'components/compareRadar'
 import CompareScoreTable from 'components/compareScoreTable'
 import CompareValueLine from 'components/compareValueLine'
+import InputAutoComplate from 'components/inputAutoComplete'
 
 class App extends React.Component {
   constructor(props) {
@@ -20,7 +21,8 @@ class App extends React.Component {
         playerA:[],
         playerB:[]
       },
-      fetchInProgressByList: true
+      fetchInProgressByList: true,
+      value: ''
     }
     this.handleSelectPlayer = this.handleSelectPlayer.bind(this)
   }
@@ -118,11 +120,10 @@ class App extends React.Component {
       height: '40vh',
       width: '80vw'
     }
-
     return(
       <div>
         <div className="row">
-          <div className="col-4">{this.renderPlayerList('a')}</div>
+          <div className="col-4"><div><InputAutoComplate /></div><div>{this.renderPlayerList('a')}</div></div>
           <div className="col-4"><CompareRadar playerScoreList = {this.state.playerScoreList} /></div>
           <div className="col-4">{this.renderPlayerList('b')}</div>
         </div>
