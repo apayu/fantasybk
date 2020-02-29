@@ -52,25 +52,24 @@ class CompareValueLine extends React.Component {
       // 設定週數
       const labels = Object.values(player).map(item => item.week)
       this.myChart.data.labels = labels
-    }
+      if(playerA.length >0){
+        const name = Array.from(new Set(Object.values(playerA).map(item => item.name)))
 
-    if(playerA.length >0){
-      const name = Array.from(new Set(Object.values(playerA).map(item => item.name)))
+        this.myChart.data.datasets[0].label = name
+        this.myChart.data.datasets[0].data = Object.values(playerA).map(item => item.value)
+        this.myChart.data.datasets[0].fill = 'none'
+      }
 
-      this.myChart.data.datasets[0].label = name
-      this.myChart.data.datasets[0].data = Object.values(playerA).map(item => item.value)
-      this.myChart.data.datasets[0].fill = 'none'
+      if(playerB.length >0){
+        const name = Array.from(new Set(Object.values(playerB).map(item => item.name)))
+
+        this.myChart.data.datasets[1].label = name
+        this.myChart.data.datasets[1].data = Object.values(playerB).map(item => item.value)
+        this.myChart.data.datasets[1].fill = 'none'
+      }
       this.myChart.update()
     }
 
-    if(playerB.length >0){
-      const name = Array.from(new Set(Object.values(playerB).map(item => item.name)))
-
-      this.myChart.data.datasets[1].label = name
-      this.myChart.data.datasets[1].data = Object.values(playerB).map(item => item.value)
-      this.myChart.data.datasets[1].fill = 'none'
-      this.myChart.update()
-    }
   }
 
   render() {
