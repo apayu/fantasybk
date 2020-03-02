@@ -25,9 +25,9 @@ class YahooApi
       http_get_req(url, token)
     end
 
-    def get_player(token, league_id)
-      # url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/team/395.l.#{league_id}.t.1/players")
-      url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/league/395.l.#{league_id}/players;status=A")
+    # team key = game_id.l.league_id.t.teamd_id
+    def get_team_roster(token, team_key)
+      url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/teams;team_keys=#{team_key}/players")
       http_get_req(url, token)
     end
 

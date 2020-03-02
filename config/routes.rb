@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get "leagues/index", to: "leagues#index"
+      get "leagues/roster", to: "leagues#roster"
       get "players/value/:player_id", to: "players#value"
       get "players/log/:player_id", to: "players#log"
       get "players/info/:player_id", to: "players#info"
