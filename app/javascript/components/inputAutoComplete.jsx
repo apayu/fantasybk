@@ -1,193 +1,151 @@
-import React from 'react'
-import ReactDom from 'react-dom'
+import React, { Component, Fragment } from "react"
 import PropTypes from 'prop-types'
-import Autosuggest from 'react-autosuggest'
 
-const theme = {
-  container: {
-    position: 'relative'
-  },
-  input: {
-    width: 240,
-    height: 30,
-    padding: '10px 20px',
-    fontFamily: 'Helvetica, sans-serif',
-    fontWeight: 300,
-    fontSize: 16,
-    border: '1px solid #aaa',
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-  },
-  inputFocused: {
-    outline: 'none'
-  },
-  inputOpen: {
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0
-  },
-  suggestionsContainer: {
-    display: 'none'
-  },
-  suggestionsContainerOpen: {
-    display: 'block',
-    position: 'absolute',
-    top: 51,
-    width: 280,
-    border: '1px solid #aaa',
-    backgroundColor: '#fff',
-    fontFamily: 'Helvetica, sans-serif',
-    fontWeight: 300,
-    fontSize: 16,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-    zIndex: 2
-  },
-  suggestionsList: {
-    margin: 0,
-    padding: 0,
-    listStyleType: 'none',
-  },
-  suggestion: {
-    cursor: 'pointer',
-    padding: '10px 20px'
-  },
-  suggestionHighlighted: {
-    backgroundColor: '#ddd'
-  }
-};
-
-const languages = [
-  {
-    name: 'C',
-    year: 1972
-  },
-  {
-    name: 'C#',
-    year: 2000
-  },
-  {
-    name: 'C++',
-    year: 1983
-  },
-  {
-    name: 'Clojure',
-    year: 2007
-  },
-  {
-    name: 'Elm',
-    year: 2012
-  },
-  {
-    name: 'Go',
-    year: 2009
-  },
-  {
-    name: 'Haskell',
-    year: 1990
-  },
-  {
-    name: 'Java',
-    year: 1995
-  },
-  {
-    name: 'Javascript',
-    year: 1995
-  },
-  {
-    name: 'Perl',
-    year: 1987
-  },
-  {
-    name: 'PHP',
-    year: 1995
-  },
-  {
-    name: 'Python',
-    year: 1991
-  },
-  {
-    name: 'Ruby',
-    year: 1995
-  },
-  {
-    name: 'Scala',
-    year: 2003
-  }
-];
-// Teach Autosuggest how to calculate suggestions for any given input value.
-const getSuggestions = value => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-
-  return inputLength === 0 ? [] : languages.filter(lang =>
-    lang.name.toLowerCase().slice(0, inputLength) === inputValue
-  );
-}
-
-// When suggestion is clicked, Autosuggest needs to populate the input
-// based on the clicked suggestion. Teach Autosuggest how to calculate the
-// input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.name
-
-// Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-  <div>
-    {suggestion.name}
-  </div>
-)
 
 class InputAutoComplete extends React.Component {
+
+  static propTypes = {
+    suggestions: PropTypes.instanceOf(Array)
+  }
+
+  static defaultProps = {
+    suggestions: []
+  }
+
   constructor(props) {
     super(props)
+
     this.state = {
-      value: '',
-      suggestions: []
+      // The active selection's index
+      activeSuggestion: 0,
+      // The suggestions that match the user's input
+      filteredSuggestions: [],
+      // Whether or not the suggestion list is shown
+      showSuggestions: false,
+      // What the user has entered
+      userInput: ""
     }
   }
 
-  onChange = (event, { newValue }) => {
+    // Event fired when the input value is changed
+  onChange = e => {
+    const { suggestions } = this.props
+    const userInput = e.currentTarget.value
+
+    // // Filter our suggestions that don't contain the user's input
+    // const filteredSuggestions = suggestions.filter(
+    //   suggestion =>
+    //     suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1
+    // )
+    const filteredSuggestions = suggestions.filter(
+      suggestion =>
+        suggestion.name.toLowerCase().indexOf(userInput.toLowerCase()) > -1
+    )
+
+    // Update the user input and filtered suggestions, reset the active
+    // suggestion and make sure the suggestions are shown
     this.setState({
-      value: newValue
-    })
+      activeSuggestion: 0,
+      filteredSuggestions,
+      showSuggestions: true,
+      userInput: e.currentTarget.value
+    });
   }
 
-    // Autosuggest will call this function every time you need to update suggestions.
-  // You already implemented this logic above, so just use it.
-  onSuggestionsFetchRequested = ({ value }) => {
+  // Event fired when the user clicks on a suggestion
+  onClick = e => {
+    this.props.handleAutoCompleteClick(e.currentTarget.dataset.player, this.props.playerSign)
+    // Update the user input and reset the rest of the state
     this.setState({
-      suggestions: getSuggestions(value)
+      activeSuggestion: 0,
+      filteredSuggestions: [],
+      showSuggestions: false,
+      userInput: e.currentTarget.innerText
     });
   };
 
-  // Autosuggest will call this function every time you need to clear suggestions.
-  onSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: []
-    });
+  // Event fired when the user presses a key down
+  onKeyDown = e => {
+    const { activeSuggestion, filteredSuggestions } = this.state
+
+    // User pressed the enter key, update the input and close the
+    // suggestions
+    if (e.keyCode === 13) {
+      this.setState({
+        activeSuggestion: 0,
+        showSuggestions: false,
+        userInput: filteredSuggestions[activeSuggestion]
+      });
+    }
+    // User pressed the up arrow, decrement the index
+    else if (e.keyCode === 38) {
+      if (activeSuggestion === 0) {
+        return;
+      }
+
+      this.setState({ activeSuggestion: activeSuggestion - 1 });
+    }
+    // User pressed the down arrow, increment the index
+    else if (e.keyCode === 40) {
+      if (activeSuggestion - 1 === filteredSuggestions.length) {
+        return;
+      }
+
+      this.setState({ activeSuggestion: activeSuggestion + 1 });
+    }
   };
 
   render() {
-    const { value, suggestions } = this.state;
+    const {
+      onChange,
+      onClick,
+      onKeyDown,
+      state: {
+        activeSuggestion,
+        filteredSuggestions,
+        showSuggestions,
+        userInput
+      }
+    } = this;
 
-    // Autosuggest will pass through all these props to the input.
-    const inputProps = {
-      placeholder: 'Type a programming language',
-      value,
-      onChange: this.onChange
-    };
+    let suggestionsListComponent;
 
-    // Finally, render it!
+    if (showSuggestions && userInput) {
+      suggestionsListComponent = (
+        <ul className="suggestions">
+          {filteredSuggestions.map((suggestion, index) => {
+            let className;
+
+            // Flag the active suggestion with a class
+            if (index === activeSuggestion) {
+              className = "suggestion-active";
+            }
+
+            return (
+              <li
+                className={className}
+                key={suggestion.id}
+                data-player={suggestion.id}
+                onClick={onClick}
+              >
+                {suggestion.name}
+              </li>
+            );
+          })}
+        </ul>
+      )
+    }
+
     return (
-      <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
-        inputProps={inputProps}
-      />
+      <Fragment>
+        <input
+          type="text"
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          value={userInput}
+        />
+        {suggestionsListComponent}
+      </Fragment>
     );
   }
 }

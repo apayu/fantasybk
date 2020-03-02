@@ -28,6 +28,39 @@ body {
   padding-top: 56px;
 }
 
+// for autocomplete
+.no-suggestions {
+  color: #999;
+  padding: 0.5rem;
+}
+
+.suggestions {
+  border: 1px solid #999;
+  border-top-width: 0;
+  list-style: none;
+  margin-top: 0;
+  max-height: 143px;
+  overflow-y: auto;
+  padding-left: 0;
+  width: calc(300px + 1rem);
+  position: absolute;
+  background-color: #F5F5F5;
+}
+
+.suggestions li {
+  padding: 0.5rem;
+}
+
+.suggestions li:hover {
+  background-color: #D3D3D3;
+  color: #000000;
+  cursor: pointer;
+}
+
+.suggestions li:not(:last-of-type) {
+  border-bottom: 1px solid #999;
+}
+
 // for table
 $grid-gutter-width: 30px;
 

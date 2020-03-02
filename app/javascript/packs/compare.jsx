@@ -22,9 +22,11 @@ class App extends React.Component {
         playerB:[]
       },
       fetchInProgressByList: true,
-      value: ''
+      value: '',
+      reSetInput: false
     }
     this.handleSelectPlayer = this.handleSelectPlayer.bind(this)
+    this.handleAutoCompleteClick = this.handleAutoCompleteClick.bind(this)
   }
 
   componentDidMount() {
@@ -89,9 +91,16 @@ class App extends React.Component {
     })
   }
 
+  // 選擇球員
   handleSelectPlayer(event) {
     const playerId = event.target.value
     const playerSign = event.target.dataset.player
+    this.getPlayerScore(playerId, playerSign)
+    this.getPlayerValue(playerId, playerSign)
+  }
+
+  // 選擇球員autocomplete
+  handleAutoCompleteClick(playerId, playerSign) {
     this.getPlayerScore(playerId, playerSign)
     this.getPlayerValue(playerId, playerSign)
   }
@@ -110,22 +119,42 @@ class App extends React.Component {
   }
 
   render() {
-    const playerA = this.state.playerScoreList.playerA
-    const playerB = this.state.playerScoreList.playerB
+    const { playerA, playerB } = this.state.playerScoreList
     const playerAName = playerA.hasOwnProperty('name') ? playerA.name : ''
     const playerBName = playerB.hasOwnProperty('name') ? playerB.name : ''
+    // const playerList = Object.values(this.state.playerList).map(item => item.name)
+    const playerList = this.state.playerList
     const chartStyle = {
       position: 'relative',
       margin: 'auto',
       height: '40vh',
       width: '80vw'
     }
+
     return(
       <div>
         <div className="row">
-          <div className="col-4"><div><InputAutoComplate /></div><div>{this.renderPlayerList('a')}</div></div>
+          <div className="col-4">
+            <div>
+              <InputAutoComplate
+                handleAutoCompleteClick={this.handleAutoCompleteClick}
+                suggestions = {playerList}
+                playerSign = 'a'
+              />
+            </div>
+            <div>{this.renderPlayerList('a')}</div>
+          </div>
           <div className="col-4"><CompareRadar playerScoreList = {this.state.playerScoreList} /></div>
-          <div className="col-4">{this.renderPlayerList('b')}</div>
+          <div className="col-4">
+            <div>
+              <InputAutoComplate
+                handleAutoCompleteClick={this.handleAutoCompleteClick}
+                suggestions = {playerList}
+                playerSign = 'b'
+              />
+            </div>
+            <div>{this.renderPlayerList('b')}</div>
+          </div>
         </div>
         <div className="row m-2">
           <div className="col text-right"><h2>{playerAName}</h2></div>
