@@ -1,10 +1,11 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import PropTypes from 'prop-types'
-import WeekScoreTable from 'components/weekScoreTable'
-import SeasonScoreLine from 'components/seasonScoreLine'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
+import WeekScoreTable from 'components/weekScoreTable'
+import SeasonScoreLine from 'components/seasonScoreLine'
+import TeamPlayer from 'components/teamPlayer'
 
 // App
 class App extends React.Component {
@@ -126,6 +127,9 @@ class App extends React.Component {
                 fetchSuccess = {this.state.fetchSuccess}
               />
             </div>
+          </Tab>
+          <Tab eventKey="teamPlayer" title="隊伍分析">
+            <TeamPlayer />
           </Tab>
         </Tabs>
       </div>

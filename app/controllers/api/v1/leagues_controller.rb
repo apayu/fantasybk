@@ -88,7 +88,12 @@ class Api::V1::LeaguesController < ApplicationController
       user_filter = session[:search_conditions]
 
       league_id = current_user.league_id
-      team_key = params["team_id"].split(",").map{ |team_id, index| "395.l.#{league_id}.t.#{team_id}"}
+
+      # 尋找聯盟team id
+      league_team = Hash.from_xml(YahooApi.get_league_team(token, league_id).gsub("\n", ""))
+      team_id_list = league_team["fantasy_content"]["league"]["teams"]["team"].map { |t| t["team_id"] }
+
+      team_key = team_id_list.map{ |team_id, index| "395.l.#{league_id}.t.#{team_id}"}
       team_key = team_key.join(",")
       result = get_fantasy_team_roster(token, team_key)
 
@@ -107,9 +112,21 @@ class Api::V1::LeaguesController < ApplicationController
       result["fantasy_content"]["teams"]["team"].map do |t|
         player_list =  t["players"]["player"].map do |p|
           # 找出球員數據
-          p2 = new_players.select { |player_with_value| player_with_value["name"] == p["name"]["full"] }
+          p2 = new_players.select do |player_with_value|
+            player_a = player_with_value["name"].to_s + player_with_value["tricode"].to_s
+            player_b = p["name"]["full"].to_s + fix_team_name(p["editorial_team_abbr"].to_s)
+            player_a.to_s.downcase.gsub(/[^a-zA-Z]/,"") == player_b.to_s.downcase.gsub(/[^a-zA-Z]/,"")
+          end
+
           # 算出rank
-          rank = new_players.index { |player_with_value| player_with_value["name"] == p["name"]["full"] }
+          rank = new_players.index do |player_with_value|
+            player_a = player_with_value["name"].to_s + player_with_value["tricode"].to_s
+            player_b = p["name"]["full"].to_s + fix_team_name(p["editorial_team_abbr"].to_s)
+            player_a.to_s.downcase.gsub(/[^a-zA-Z]/,"") == player_b.to_s.downcase.gsub(/[^a-zA-Z]/,"")
+          end
+
+          byebug
+
           p2[0]["rank"] = rank
           if p["status"].to_s.downcase == "inj"
             p2[0]["inj"] = true
@@ -132,6 +149,23 @@ class Api::V1::LeaguesController < ApplicationController
   end
 
   private
+
+  def fix_team_name(team_name)
+    case team_name.downcase
+    when "sa"
+      "sas"
+    when "ny"
+      "nyk"
+    when "no"
+      "nop"
+    when "pho"
+      "phx"
+    when "gs"
+      "gsw"
+    else
+      team_name
+    end
+  end
 
   def get_rank_value(value, conditions)
     rank_value = 0

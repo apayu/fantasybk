@@ -24,7 +24,8 @@ class SessionsController < ApplicationController
     # @standings = Hash.from_xml(YahooApi.get_league_standings(@oauth["credentials"]["token"], 5448).gsub("\n", ""))
     # @scoreboard = Hash.from_xml(YahooApi.get_league_scoreboard(@oauth["credentials"]["token"], 5448, s.to_i, e.to_i).gsub("\n", ""))
     # @matchups = Hash.from_xml(YahooApi.get_team_matchups(@oauth["credentials"]["token"], 5448, 1).gsub("\n", ""))
+    # @team =  Hash.from_xml(YahooApi.get_league_team(@oauth["credentials"]["token"], 5448).gsub("\n", ""))
     #
-    # @player =  Hash.from_xml(YahooApi.get_team_roster(@oauth["credentials"]["token"], 5448, 1).gsub("\n", ""))
+    # # @player =  Hash.from_xml(YahooApi.get_team_roster(@oauth["credentials"]["token"], 5448, 1).gsub("\n", ""))
   end
 end

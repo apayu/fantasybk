@@ -10,6 +10,11 @@ class YahooApi
       http_get_req(url, token)
     end
 
+    def get_league_team(token, league_id)
+      url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/league/395.l.#{league_id}/teams")
+      http_get_req(url, token)
+    end
+
     def get_league_standings(token, league_id)
       url = URI.parse("https://fantasysports.yahooapis.com/fantasy/v2/league/395.l.#{league_id}/standings")
       http_get_req(url, token)
