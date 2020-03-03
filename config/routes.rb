@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :posts
+  # resources :posts
 
   # API routes
   namespace :api do
