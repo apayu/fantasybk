@@ -1,7 +1,7 @@
 class PlayersController < ApplicationController
 
   def index
-    @user_filter = { "conditions" => ["points", "three_point", "assists", "steals", "blocks", "field_goal", "free_throw", "off_reb", "def_reb", "turnovers", "p_fouls"], "game" => 82 }
+    @user_filter = { "conditions" => ["points_value", "three_point_value", "assists_value", "steals_value", "blocks_value", "field_goal_value", "free_throw_value", "off_reb_value", "def_reb_value", "turnovers_value", "p_fouls_value"], "game" => 82 }
 
     # rank value 條件
     if session[:search_conditions].nil?
@@ -21,7 +21,6 @@ class PlayersController < ApplicationController
   def conditions
     session[:search_conditions] = nil
     session[:search_conditions] = {"conditions" => params[:conditions], "game" => params[:game]}
-
     redirect_to root_path
   end
 
@@ -51,31 +50,7 @@ class PlayersController < ApplicationController
     rank_value = 0
 
     conditions.each do |condition|
-
-      case condition
-      when "points"
-        rank_value += value["points_value"].to_f
-      when "three_point"
-        rank_value += value["three_point_value"].to_f
-      when "assists"
-        rank_value += value["assists_value"].to_f
-      when "steals"
-        rank_value += value["steals_value"].to_f
-      when "blocks"
-        rank_value += value["blocks_value"].to_f
-      when "field_goal"
-        rank_value += value["field_goal_value"].to_f
-      when "free_throw"
-        rank_value += value["free_throw_value"].to_f
-      when "off_reb"
-        rank_value += value["off_reb_value"].to_f
-      when "def_reb"
-        rank_value += value["def_reb_value"].to_f
-      when "turnovers"
-        rank_value += value["turnovers_value"].to_f
-      when "p_fouls"
-        rank_value += value["p_fouls_value"].to_f
-      end
+      rank_value += value[condition].to_f
     end
 
     return rank_value

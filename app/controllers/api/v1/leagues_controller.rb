@@ -85,6 +85,9 @@ class Api::V1::LeaguesController < ApplicationController
         token = new_token["access_token"]
       end
 
+      # 比項設定
+      # todo
+      # 需要改成讀取使用者設定
       user_filter = session[:search_conditions]
 
       league_id = current_user.league_id
@@ -138,13 +141,17 @@ class Api::V1::LeaguesController < ApplicationController
 
         team_list << {
           teamName: t["name"],
+          teamId: t["team_id"],
           teamRoster: player_list
         }
       end
 
       render json: {
-                     teamRosters: team_list
-      }
+              leagueTeamInfo:{
+                teamRosters: team_list,
+                itemSetting: user_filter
+              }
+            }
     end
   end
 
@@ -171,31 +178,7 @@ class Api::V1::LeaguesController < ApplicationController
     rank_value = 0
 
     conditions.each do |condition|
-
-      case condition
-      when "points"
-        rank_value += value["points_value"].to_f
-      when "three_point"
-        rank_value += value["three_point_value"].to_f
-      when "assists"
-        rank_value += value["assists_value"].to_f
-      when "steals"
-        rank_value += value["steals_value"].to_f
-      when "blocks"
-        rank_value += value["blocks_value"].to_f
-      when "field_goal"
-        rank_value += value["field_goal_value"].to_f
-      when "free_throw"
-        rank_value += value["free_throw_value"].to_f
-      when "off_reb"
-        rank_value += value["off_reb_value"].to_f
-      when "def_reb"
-        rank_value += value["def_reb_value"].to_f
-      when "turnovers"
-        rank_value += value["turnovers_value"].to_f
-      when "p_fouls"
-        rank_value += value["p_fouls_value"].to_f
-      end
+      rank_value += value[condition].to_f
     end
 
     return rank_value

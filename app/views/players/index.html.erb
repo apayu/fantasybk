@@ -6,52 +6,56 @@
       </div>
       <div class="form-row">
         <div class="form-check form-check-inline">
-        <%= check_box_tag("conditions[]", "points", @user_filter["conditions"].include?("points"), class: "form-check-input") %>
-        <%= label_tag("points", "得分", class: "form-check-label") %>
+        <%= check_box_tag("conditions[]", "points_value", @user_filter["conditions"].include?("points_value"), class: "form-check-input") %>
+        <%= label_tag("points_value", "得分", class: "form-check-label") %>
         </div>
         <div class="form-check form-check-inline">
-          <%= check_box_tag("conditions[]", "three_point", @user_filter["conditions"].include?("three_point"), class: "form-check-input") %>
-          <%= label_tag("three_point", "三分", class: "form-check-label") %>
+          <%= check_box_tag("conditions[]", "three_point_value", @user_filter["conditions"].include?("three_point_value"), class: "form-check-input") %>
+          <%= label_tag("three_point_value", "三分", class: "form-check-label") %>
         </div>
         <div class="form-check form-check-inline">
-          <%= check_box_tag("conditions[]", "assists", @user_filter["conditions"].include?("assists"), class: "form-check-input") %>
-          <%= label_tag("assists", "助攻", class: "form-check-label") %>
+          <%= check_box_tag("conditions[]", "assists_value", @user_filter["conditions"].include?("assists_value"), class: "form-check-input") %>
+          <%= label_tag("assists_value", "助攻", class: "form-check-label") %>
         </div>
         <div class="form-check form-check-inline">
-          <%= check_box_tag("conditions[]", "steals", @user_filter["conditions"].include?("steals"), class: "form-check-input") %>
-          <%= label_tag("steals", "抄截", class: "form-check-label") %>
+          <%= check_box_tag("conditions[]", "steals_value", @user_filter["conditions"].include?("steals_value"), class: "form-check-input") %>
+          <%= label_tag("steals_value", "抄截", class: "form-check-label") %>
         </div>
         <div class="form-check form-check-inline">
-          <%= check_box_tag("conditions[]", "blocks", @user_filter["conditions"].include?("blocks"), class: "form-check-input") %>
-          <%= label_tag("blocks", "火鍋", class: "form-check-label") %>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-check form-check-inline">
-          <%= check_box_tag("conditions[]", "field_goal", @user_filter["conditions"].include?("field_goal"), class: "form-check-input") %>
-          <%= label_tag("field_goal", "命中率", class: "form-check-label") %>
-        </div>
-        <div class="form-check form-check-inline">
-          <%= check_box_tag("conditions[]", "free_throw", @user_filter["conditions"].include?("free_throw"), class: "form-check-input") %>
-          <%= label_tag("free_throw", "罰球率", class: "form-check-label") %>
-        </div>
-        <div class="form-check form-check-inline">
-          <%= check_box_tag("conditions[]", "off_reb", @user_filter["conditions"].include?("off_reb"), class: "form-check-input") %>
-          <%= label_tag("off_reb", "進攻籃板", class: "form-check-label") %>
-        </div>
-        <div class="form-check form-check-inline">
-          <%= check_box_tag("conditions[]", "def_reb", @user_filter["conditions"].include?("def_reb"), class: "form-check-input") %>
-          <%= label_tag("def_reb", "防守籃板", class: "form-check-label") %>
+          <%= check_box_tag("conditions[]", "blocks_value", @user_filter["conditions"].include?("blocks_value"), class: "form-check-input") %>
+          <%= label_tag("blocks_value", "火鍋", class: "form-check-label") %>
         </div>
       </div>
       <div class="form-row">
         <div class="form-check form-check-inline">
-          <%= check_box_tag("conditions[]", "turnovers", @user_filter["conditions"].include?("turnovers"), class: "form-check-input") %>
-          <%= label_tag("turnovers", "失誤", class: "form-check-label") %>
+          <%= check_box_tag("conditions[]", "field_goal_value", @user_filter["conditions"].include?("field_goal_value"), class: "form-check-input") %>
+          <%= label_tag("field_goal_value", "命中率", class: "form-check-label") %>
         </div>
         <div class="form-check form-check-inline">
-          <%= check_box_tag("conditions[]", "p_fouls", @user_filter["conditions"].include?("p_fouls"), class: "form-check-input") %>
-          <%= label_tag("p_fouls", "犯規", class: "form-check-label") %>
+          <%= check_box_tag("conditions[]", "free_throw_value", @user_filter["conditions"].include?("free_throw_value"), class: "form-check-input") %>
+          <%= label_tag("free_throw_value", "罰球率", class: "form-check-label") %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag("conditions[]", "tot_reb_value", @user_filter["conditions"].include?("tot_reb_value"), class: "form-check-input") %>
+          <%= label_tag("tot_reb_value", "籃板", class: "form-check-label") %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag("conditions[]", "off_reb_value", @user_filter["conditions"].include?("off_reb_value"), class: "form-check-input") %>
+          <%= label_tag("off_reb_value", "進攻籃板", class: "form-check-label") %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag("conditions[]", "def_reb_value", @user_filter["conditions"].include?("def_reb_value"), class: "form-check-input") %>
+          <%= label_tag("def_reb_value", "防守籃板", class: "form-check-label") %>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-check form-check-inline">
+          <%= check_box_tag("conditions[]", "turnovers_value", @user_filter["conditions"].include?("turnovers_value"), class: "form-check-input") %>
+          <%= label_tag("turnovers_value", "失誤", class: "form-check-label") %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag("conditions[]", "p_fouls_value", @user_filter["conditions"].include?("p_fouls_value"), class: "form-check-input") %>
+          <%= label_tag("p_fouls_value", "犯規", class: "form-check-label") %>
         </div>
       </div>
       <div class="form-row">
@@ -80,6 +84,7 @@
             <th scope="col">ft%V</th>
             <th scope="col">orV</th>
             <th scope="col">drV</th>
+            <th scope="col">rebV</th>
             <th scope="col">pfV</th>
             <th scope="col">toV</th>
             <th scope="col">p/g</th>
@@ -91,6 +96,7 @@
             <th scope="col">ft%</th>
             <th scope="col">or/g</th>
             <th scope="col">dr/g</th>
+            <th scope="col">reb/g</th>
             <th scope="col">pf/g</th>
             <th scope="col">to/g</th>
             <th scope="col">v</th>
@@ -114,6 +120,7 @@
               <td class="pa-value"><%= player["free_throw_value"].to_f.round(1) %></td>
               <td class="pa-value"><%= player["off_reb_value"].to_f.round(1) %></td>
               <td class="pa-value"><%= player["def_reb_value"].to_f.round(1) %></td>
+              <td class="pa-value"><%= player["tot_reb_value"].to_f.round(1) %></td>
               <td class="pa-value"><%= player["p_fouls_value"].to_f.round(1) %></td>
               <td class="pa-value"><%= player["turnovers_value"].to_f.round(1) %></td>
               <td><%= player["points_per_game"].to_f.round(1) %></td>
@@ -125,6 +132,7 @@
               <td><%= player["ftp"].to_f.round(2) %></td>
               <td><%= player["off_reb_per_game"].to_f.round(1) %></td>
               <td><%= player["def_reb_per_game"].to_f.round(1) %></td>
+              <td><%= player["tot_reb_per_game"].to_f.round(1) %></td>
               <td><%= player["p_fouls_per_game"].to_f.round(1) %></td>
               <td><%= player["turnovers_per_game"].to_f.round(1) %></td>
               <td><%= player["rank_value"].round(2) %></td>
