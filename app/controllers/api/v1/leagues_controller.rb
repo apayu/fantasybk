@@ -88,7 +88,9 @@ class Api::V1::LeaguesController < ApplicationController
       # 比項設定
       # todo
       # 需要改成讀取使用者設定
-      user_filter = session[:search_conditions]
+      # user_filter = session[:search_conditions]
+      user_filter = ["points_value", "three_point_value", "assists_value", "steals_value", "blocks_value", "field_goal_value", "free_throw_value", "off_reb_value", "def_reb_value", "turnovers_value", "p_fouls_value"]
+
 
       league_id = current_user.league_id
 
@@ -104,7 +106,7 @@ class Api::V1::LeaguesController < ApplicationController
 
       # 計算player value
       players.each do |p|
-        p["rank_value"] = get_rank_value(p, user_filter["conditions"])
+        p["rank_value"] = get_rank_value(p, user_filter)
       end
 
       # 排序
