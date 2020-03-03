@@ -43,8 +43,8 @@
         </ul>
       </div>
       <%= form_tag search_path, :method => "get", class: "form-inline mt-2 mt-md-0" do %>
-        <%= search_field_tag :search, params[:api_person_id], placeholder: "search...", class: "form-control mr-sm-2" %>
-        <%= button_tag "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
+        <%= search_field_tag :search, params[:api_person_id], placeholder: "球員名稱", class: "form-control mr-sm-2" %>
+        <%= button_tag "搜尋", class: "btn btn-outline-success my-2 my-sm-0" %>
       <% end %>
     </div>
   </nav>
