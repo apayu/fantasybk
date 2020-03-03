@@ -86,8 +86,11 @@ class TeamTable extends React.Component {
     const tableHeader = ['隊名', 'FG%', 'FT%', '3PTM', 'PTS', 'OREB', 'DREB', 'REB', 'AST', 'ST', 'BLK', 'TO', 'PF']
     return(
       <div className="mt-1">
-        <div className="custom-table-width">
-          <table className="table table-sm">
+        <div>
+          <h4>全聯盟比較</h4>
+        </div>
+        <div>
+          <table className="table table-sm league-team-table">
             <thead className="thead-dark">
               {this.renderTableHeader(tableHeader)}
             </thead>
@@ -124,10 +127,10 @@ class TeamTable extends React.Component {
     return(
        <div key={team.teamId} className="mt-1">
         <div>
-          {team.teamName}
+          <h4>隊名:{team.teamName}</h4>
         </div>
-        <div className="custom-table-width">
-          <table className="table table-sm">
+        <div>
+          <table className="table table-sm league-team-table">
             <thead className="thead-dark">
               {this.renderTableHeader(tableHeader)}
             </thead>
