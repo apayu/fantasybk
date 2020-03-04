@@ -43,6 +43,8 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'foreman'
+  gem 'capistrano-rails'
+  gem 'capistrano-passenger'
 end
 
 group :development do

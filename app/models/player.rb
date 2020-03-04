@@ -5,10 +5,10 @@ class Player < ApplicationRecord
   has_one :stat
   has_many :game_log
 
-  attr_accessor :rank_value
-
-  def initialize
-    @rank_value = 0
-  end
+  # attr_accessor :rank_value
+  #
+  # def initialize
+  #   @rank_value = 0
+  # end
 
 end

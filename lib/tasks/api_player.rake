@@ -21,7 +21,7 @@ namespace :nba_api do
       end
     end
 
-    puts Player.all.count
-    puts count
+    puts "共有: #{Player.all.count} 筆player"
+    puts "從api2更新：#{count} 筆player"
   end
 end

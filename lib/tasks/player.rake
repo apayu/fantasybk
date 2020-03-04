@@ -9,6 +9,7 @@ namespace :nba do
     Player.transaction do
 
       api_players.each do |player|
+
         # 透過api球員id尋找球員
         has_player = Player.find_by(api_person_id: player["personId"])
         # 透過api球隊id尋找球隊
@@ -17,7 +18,7 @@ namespace :nba do
 
         #有球員資料就更新，沒有就新增
         if player["isActive"] && has_player.nil?
-          Player.create(name: name, first_name: player["firstName"], last_name: player["lastName"], api2_team_id: team.api2_team_id, api_person_id: player["personId"], team_id: team.id, pos: player["pos"], inj: false)
+          Player.create(name: name, first_name: player["firstName"], last_name: player["lastName"], api2_team_id: team.api2_team_id, api_person_id: player["personId"], api2_person_id: 0, team_id: team.id, pos: player["pos"], inj: false)
 
           puts "create player name: " + name
         elsif player["isActive"]
