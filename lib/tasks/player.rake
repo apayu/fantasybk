@@ -10,9 +10,9 @@ namespace :nba do
 
       api_players.each do |player|
 
-        # 透過api球員id尋找球員
+        # 透過api_person_id尋找球員
         has_player = Player.find_by(api_person_id: player["personId"])
-        # 透過api球隊id尋找球隊
+        # 透過api_team_id尋找球隊
         team = Team.find_by(api_team_id: player["teamId"])
         name = "#{player["firstName"]} #{player["lastName"]}"
 

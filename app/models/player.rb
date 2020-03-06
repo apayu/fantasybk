@@ -1,6 +1,6 @@
 class Player < ApplicationRecord
 
-  belongs_to :team
+  belongs_to :team, optional: true
   has_one :value
   has_one :stat
   has_many :game_log
