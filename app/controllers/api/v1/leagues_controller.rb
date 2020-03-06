@@ -130,8 +130,6 @@ class Api::V1::LeaguesController < ApplicationController
             player_a.to_s.downcase.gsub(/[^a-zA-Z]/,"") == player_b.to_s.downcase.gsub(/[^a-zA-Z]/,"")
           end
 
-          byebug
-
           p2[0]["rank"] = rank
           if p["status"].to_s.downcase == "inj"
             p2[0]["inj"] = true
