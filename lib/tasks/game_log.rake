@@ -1,7 +1,7 @@
 require './lib/nba_api'
 desc "新增NBA game log"
 namespace :nba do
-  task :game_log => :environment do
+  task :game_log, [:days] => :environment do |task,args|
     # 依據日期尋找比賽
     # api_game_log = NbaApi.get_day_game_log(DateTime.yesterday.strftime("%F"))
 
@@ -11,7 +11,7 @@ namespace :nba do
     # # 從幾月機號 - 幾月號號
     # d = Date.new(2020, 01, 13)
 
-    4.times do |day|
+    args.days.to_i.times do |day|
       api_game_log = NbaApi.get_day_game_log((d - day).strftime("%F"))
 
       GameLog.transaction do
