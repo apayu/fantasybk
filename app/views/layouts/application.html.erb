@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Fantasybk</title>
+    <title>台灣Fantasy大聯盟</title>
+    <meta name="keywords" content="fantasy,basketball,籃球,數據,分析" />
+    <meta name="description" content="台灣 fantasy 籃球 數據分析" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-159934038-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
+      gtag('config', 'UA-159934038-1');
+    </script>
+    <%= favicon_link_tag asset_path("logo.png") %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= yield :head %>
