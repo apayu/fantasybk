@@ -123,20 +123,21 @@ class Api::V1::LeaguesController < ApplicationController
             player_a.to_s.downcase.gsub(/[^a-zA-Z]/,"") == player_b.to_s.downcase.gsub(/[^a-zA-Z]/,"")
           end
 
-          # 算出rank
-          rank = new_players.index do |player_with_value|
-            player_a = player_with_value["name"].to_s + player_with_value["tricode"].to_s
-            player_b = p["name"]["full"].to_s + fix_team_name(p["editorial_team_abbr"].to_s)
-            player_a.to_s.downcase.gsub(/[^a-zA-Z]/,"") == player_b.to_s.downcase.gsub(/[^a-zA-Z]/,"")
-          end
+          if !p2.empty?
+            # 算出rank
+            rank = new_players.index do |player_with_value|
+              player_a = player_with_value["name"].to_s + player_with_value["tricode"].to_s
+              player_b = p["name"]["full"].to_s + fix_team_name(p["editorial_team_abbr"].to_s)
+              player_a.to_s.downcase.gsub(/[^a-zA-Z]/,"") == player_b.to_s.downcase.gsub(/[^a-zA-Z]/,"")
+            end
 
-          byebug
-          p2[0]["rank"] = rank
-          if p["status"].to_s.downcase == "inj"
-            p2[0]["inj"] = true
-            p2[0]
-          else
-            p2[0]
+            p2[0]["rank"] = rank
+            if p["status"].to_s.downcase == "inj"
+              p2[0]["inj"] = true
+              p2[0]
+            else
+              p2[0]
+            end
           end
         end
 
