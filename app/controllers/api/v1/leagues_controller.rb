@@ -144,7 +144,7 @@ class Api::V1::LeaguesController < ApplicationController
         team_list << {
           teamName: t["name"],
           teamId: t["team_id"],
-          teamRoster: player_list
+          teamRoster: player_list.compact
         }
       end
 
