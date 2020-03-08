@@ -20,7 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 #
 set :output, "log/cron_log.log"
-
+env :PATH, ENV['PATH']
 every 1.day, at: ['4:00 pm', '7:00 pm'] do
-  rake "nba:game_log[15]"
+  rake "scraper:game_log"
 end
