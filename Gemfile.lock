@@ -115,6 +115,7 @@ GEM
     ffi (1.12.1-x64-mingw32)
     ffi (1.12.1-x86-mingw32)
     foreman (0.86.0)
+    fuzzy_match (2.1.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     hashie (3.6.0)
@@ -337,9 +338,11 @@ DEPENDENCIES
   factory_bot_rails
   faker
   foreman
+  fuzzy_match
   httparty
   jbuilder (~> 2.7)
   listen (>= 3.0.5, < 3.2)
+  nokogiri
   omniauth-yahoo_auth
   pg
   puma

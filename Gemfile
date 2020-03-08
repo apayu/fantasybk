@@ -31,6 +31,8 @@ gem 'devise'
 gem 'simple_form'
 gem 'omniauth-yahoo_auth'
 gem 'rails-i18n'
+gem 'nokogiri'
+gem 'fuzzy_match'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
