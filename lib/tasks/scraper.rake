@@ -3,30 +3,32 @@ require './lib/scraper'
 desc 'nba reference scraper'
 namespace :scraper do
   task :game_log => :environment do
-    year = 2020
-    month = 3
-    day = 5
-    total_game_box = Scraper.new("boxscores/?month=#{month}&day=#{day}&year=#{year}")
-    game_summary_array = total_game_box.scrape.css("div.game_summary")
 
-    # total game summary
-    game_summary_array.each do |game_summary|
-      game_link = game_summary.css("table.teams > tbody > tr > td.gamelink > a").attr("href").value
-      visit_team_name = game_summary.css("table.teams > tbody > tr:first-child > td:first-child > a").attr("href").value.split("/")[2]
-      home_team_name = game_summary.css("table.teams > tbody > tr:last-child > td:first-child > a").attr("href").value.split("/")[2]
+    start_date = Date.today
+    end_date = start_date - 3
+    (end_date..start_date).each do |game_date|
+      total_game_box = Scraper.new("boxscores/?month=#{game_date.month}&day=#{game_date.day}&year=#{game_date.year}")
+      game_summary_array = total_game_box.scrape.css("div.game_summary")
 
-      game_box = Scraper.new(game_link)
+      # total game summary
+      game_summary_array.each do |game_summary|
+        game_link = game_summary.css("table.teams > tbody > tr > td.gamelink > a").attr("href").value
+        visit_team_name = game_summary.css("table.teams > tbody > tr:first-child > td:first-child > a").attr("href").value.split("/")[2]
+        home_team_name = game_summary.css("table.teams > tbody > tr:last-child > td:first-child > a").attr("href").value.split("/")[2]
 
-      #  tr:not(:nth-child(6n)) is only find player <tr>
-      visit_team_box = game_box.scrape.css("table#box-#{visit_team_name}-game-basic > tbody > tr:not(:nth-child(6n))")
-      home_team_box = game_box.scrape.css("table#box-#{home_team_name}-game-basic > tbody > tr:not(:nth-child(6n))")
-      versus = {
-        home: fix_team_name(home_team_name),
-        visit: fix_team_name(visit_team_name)
-      }
+        game_box = Scraper.new(game_link)
 
-      handle_player_state(visit_team_name, visit_team_box, Date.new(year,month,day), versus)
-      handle_player_state(home_team_name, home_team_box, Date.new(year,month,day), versus)
+        #  tr:not(:nth-child(6n)) is only find player <tr>
+        visit_team_box = game_box.scrape.css("table#box-#{visit_team_name}-game-basic > tbody > tr:not(:nth-child(6n))")
+        home_team_box = game_box.scrape.css("table#box-#{home_team_name}-game-basic > tbody > tr:not(:nth-child(6n))")
+        versus = {
+          home: fix_team_name(home_team_name),
+          visit: fix_team_name(visit_team_name)
+        }
+
+        handle_player_state(visit_team_name, visit_team_box, game_date, versus)
+        handle_player_state(home_team_name, home_team_box, game_date, versus)
+      end
     end
   end
 
