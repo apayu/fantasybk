@@ -1,0 +1,22 @@
+<div>
+會員人數: <%= @user_count %>
+</div>
+<div>
+今日Eff報告:
+</div>
+<table style="width:100%">
+  <tr>
+    <th>球隊</th>
+    <th>球員名稱</th>
+    <th>當天EFF</th>
+  </tr>
+  <%  %>
+
+  <% @player_eff_array.sort_by { |hsh| hsh[:eff] }.reverse.each do |player| %>
+    <tr>
+      <th><%= player[:team] %></th>
+      <th><%= player[:name] %></th>
+      <th><%= player[:eff]  %></th>
+    </tr>
+  <% end %>
+</table>

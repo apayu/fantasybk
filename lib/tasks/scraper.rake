@@ -30,6 +30,8 @@ namespace :scraper do
         handle_player_state(home_team_name, home_team_box, game_date, versus)
       end
     end
+
+    ContactMailer.sent_daily_info.deliver_now
   end
 
   def fix_team_name(team_name)
