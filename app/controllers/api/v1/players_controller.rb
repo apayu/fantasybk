@@ -105,6 +105,7 @@ class Api::V1::PlayersController < ApplicationController
           "value": get_rank_value(ZScore.player_value_by_week(82, week_start, week_end, params[:player_id]).to_a[0], conditions),
           "league_value": get_rank_value(ZScore.league_value_by_week(82, week_start, week_end).to_a[0], conditions)
         }
+
         current_week += 7
         week += 1
       end

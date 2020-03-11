@@ -184,9 +184,9 @@ league_impact AS(
   WITH player_percentage AS(
     SELECT
       ROW_NUMBER() OVER(
-      PARTITION BY api2_person_id
+      PARTITION BY player_id
       ORDER BY game_time DESC)
-      row_num, api2_person_id, fgm, fga, ftm, fta, tpm, tpa FROM game_logs
+      row_num, player_id, fgm, fga, ftm, fta, tpm, tpa FROM game_logs
     WHERE min <> '' and (game_time + (-6 * interval '1 hour')) >= #{ActiveRecord::Base::connection.quote(week_start)} AND (game_time + (-6 * interval '1 hour')) < #{ActiveRecord::Base::connection.quote(week_end)})
   SELECT
     (CAST(SUM(fgm) AS FLOAT)/NULLIF(CAST(SUM(fga) AS FLOAT), 0) - (SELECT league_fgp FROM league_avg_percentage)) * AVG(fga) AS fg_impact,
@@ -194,7 +194,7 @@ league_impact AS(
 	(CAST(SUM(tpm) AS FLOAT)/NULLIF(CAST(SUM(tpa) AS FLOAT), 0) - (SELECT league_tpp FROM league_avg_percentage)) * AVG(tpa) AS tp_impact
   FROM player_percentage
   WHERE row_num <= #{ActiveRecord::Base::connection.quote(game)}
-  GROUP BY api2_person_id)
+  GROUP BY player_id)
 SELECT
   player_id, name, pos, inj, tricode, g, min,
   points, fgp, ftp, tpm,  off_reb, def_reb, tot_reb, assists, steals, blocks, turnovers, p_fouls,
@@ -227,7 +227,7 @@ league_avg_percentage AS(
   WITH game_log_by_player AS(
     SELECT
       ROW_NUMBER() OVER(
-      PARTITION BY api2_person_id
+      PARTITION BY player_id
       ORDER BY game_time DESC)
       row_num, fgm, fga, ftm, fta, tpm, tpa FROM game_logs
     WHERE min <> '' and (game_time + (-6 * interval '1 hour')) >= #{ActiveRecord::Base::connection.quote(week_start)} AND (game_time + (-6 * interval '1 hour')) < #{ActiveRecord::Base::connection.quote(week_end)})
@@ -240,17 +240,17 @@ league_avg AS(
     WITH each_player AS (
       SELECT
         ROW_NUMBER() OVER(
-        PARTITION BY api2_person_id
+        PARTITION BY player_id
         ORDER BY game_time DESC)
-        row_num, api2_person_id, points, tpm, assists, steals, blocks, off_reb, def_reb, tot_reb, p_fouls, turnovers
+        row_num, player_id, points, tpm, assists, steals, blocks, off_reb, def_reb, tot_reb, p_fouls, turnovers
       FROM game_logs
       WHERE min <> '' and (game_time + (-6 * interval '1 hour')) >= #{ActiveRecord::Base::connection.quote(week_start)} AND (game_time + (-6 * interval '1 hour')) < #{ActiveRecord::Base::connection.quote(week_end)}
-      ORDER BY api2_person_id)
+      ORDER BY player_id)
     SELECT
       SUM(points) AS points, SUM(tpm) AS tpm, SUM(assists) AS assists, SUM(steals) AS steals, SUM(blocks) AS blocks, SUM(off_reb) AS off_reb, SUM(def_reb) AS def_reb,  SUM(tot_reb) AS tot_reb, SUM(p_fouls) AS p_fouls, SUM(turnovers) AS turnovers
     FROM each_player
     WHERE row_num <= #{ActiveRecord::Base::connection.quote(game)}
-    GROUP BY api2_person_id)
+    GROUP BY player_id)
   SELECT
     AVG(points) AS points_avg, AVG(tpm) AS tpm_avg, AVG(assists) AS assists_avg, AVG(steals) AS steals_avg, AVG(blocks) AS blocks_avg, AVG(off_reb) AS        off_reb_avg, AVG(def_reb) AS def_reb_avg, AVG(tot_reb) AS tot_reb_avg, AVG(p_fouls) AS p_fouls_avg, AVG(turnovers) AS turnovers_avg
   FROM player_sum),
@@ -259,17 +259,17 @@ league_std AS (
     WITH each_player AS (
       SELECT
         ROW_NUMBER() OVER(
-        PARTITION BY api2_person_id
+        PARTITION BY player_id
         ORDER BY game_time DESC)
-        row_num, api2_person_id, points, tpm, assists, steals, blocks, off_reb, def_reb, tot_reb, p_fouls, turnovers
+        row_num, player_id, points, tpm, assists, steals, blocks, off_reb, def_reb, tot_reb, p_fouls, turnovers
       FROM game_logs
       WHERE min <> '' and (game_time + (-6 * interval '1 hour')) >= #{ActiveRecord::Base::connection.quote(week_start)} AND (game_time + (-6 * interval '1 hour')) < #{ActiveRecord::Base::connection.quote(week_end)}
-      ORDER BY api2_person_id)
+      ORDER BY player_id)
     SELECT
       SUM(points) AS points, SUM(tpm) AS tpm, SUM(assists) AS assists, SUM(steals) AS steals, SUM(blocks) AS blocks, SUM(off_reb) AS off_reb, SUM(def_reb) AS def_reb,  SUM(tot_reb) AS tot_reb, SUM(p_fouls) AS p_fouls, SUM(turnovers) AS turnovers
     FROM each_player
     WHERE row_num <= #{ActiveRecord::Base::connection.quote(game)}
-    GROUP BY api2_person_id)
+    GROUP BY player_id)
   SELECT
     STDDEV_POP(points) AS points_std, STDDEV_POP(tpm) AS tpm_std, STDDEV_POP(assists) AS assists_std, STDDEV_POP(steals) AS steals_std, STDDEV_POP(blocks) AS blocks_std, STDDEV_POP(off_reb) AS off_reb_std, STDDEV_POP(def_reb) AS def_reb_std, STDDEV_POP(tot_reb) AS tot_reb_std, STDDEV_POP(p_fouls) AS p_fouls_std, STDDEV_POP(turnovers) AS turnovers_std
   FROM player_sum),
@@ -277,9 +277,9 @@ league_std AS (
   WITH player_percentage AS(
     SELECT
       ROW_NUMBER() OVER(
-      PARTITION BY api2_person_id
+      PARTITION BY player_id
       ORDER BY game_time DESC)
-      row_num, api2_person_id, fgm, fga, ftm, fta, tpm, tpa FROM game_logs
+      row_num, player_id, fgm, fga, ftm, fta, tpm, tpa FROM game_logs
     WHERE min <> '' and (game_time + (-6 * interval '1 hour')) >= #{ActiveRecord::Base::connection.quote(week_start)} AND (game_time + (-6 * interval '1 hour')) < #{ActiveRecord::Base::connection.quote(week_end)})
   SELECT
     (CAST(SUM(fgm) AS FLOAT)/NULLIF(CAST(SUM(fga) AS FLOAT), 0) - (SELECT league_fgp FROM league_avg_percentage)) * AVG(fga) AS fg_impact,
@@ -287,7 +287,7 @@ league_std AS (
 	(CAST(SUM(tpm) AS FLOAT)/NULLIF(CAST(SUM(tpa) AS FLOAT), 0) - (SELECT league_tpp FROM league_avg_percentage)) * AVG(tpa) AS tp_impact
   FROM player_percentage
   WHERE row_num <= #{ActiveRecord::Base::connection.quote(game)}
-  GROUP BY api2_person_id)
+  GROUP BY player_id)
 SELECT
   ((SELECT points_avg FROM league_avg)/ points_std) AS league_points_value,
   ((SELECT tpm_avg FROM league_avg)/ tpm_std) AS league_tpm_value,
