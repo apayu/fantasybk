@@ -4,8 +4,11 @@ desc 'nba reference scraper'
 namespace :scraper do
   task :game_log => :environment do
 
+    check_update_player
+
     start_date = Date.today
     end_date = start_date - 3
+
     (end_date..start_date).each do |game_date|
       total_game_box = Scraper.new("boxscores/?month=#{game_date.month}&day=#{game_date.day}&year=#{game_date.year}")
       game_summary_array = total_game_box.scrape.css("div.game_summary")
@@ -64,6 +67,47 @@ namespace :scraper do
       name_array.pop
     end
     name_array.join.gsub(/[^a-zA-Z]/,"")
+  end
+
+  def check_update_player
+    # get new player from api
+    api_players = Nba.all_players
+    players = Player.all
+
+    api_players.each do |player|
+      has_player = Player.find_by(api_person_id: player["personId"])
+      team = Team.find_by(api_team_id: player["teamId"])
+
+      api2_team_id = team.nil? ? nil : team.api2_team_id
+      team_id = team.nil? ? nil : team.id
+
+      name = "#{player["firstName"]} #{player["lastName"]}"
+
+      if has_player.nil?
+        Player.create(
+          name: name,
+          first_name: player["firstName"],
+          last_name: player["lastName"],
+          api2_team_id: api2_team_id,
+          api_person_id: player["personId"],
+          api2_person_id: 0,
+          team_id: team_id,
+          pos: player["pos"],
+          inj: false)
+        puts "create player name: " + name
+      else
+        has_player.update(
+          name: name,
+          first_name: player["firstName"],
+          last_name: player["lastName"],
+          api2_team_id: api2_team_id,
+          api_person_id: player["personId"],
+          team_id: team_id,
+          pos: player["pos"],
+          inj: false)
+        puts "update player name: " + name
+      end
+    end
   end
 
   def handle_player_state(team_name, game_box, game_time, versus)
